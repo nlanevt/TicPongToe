@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="manaspc.ttf">
+            <string>ManaspaceReg</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Game View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController storyboardIdentifier="gameVC" id="BV1-FR-VrT" customClass="GameViewController" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="3se-qz-xqx" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-aa-bPw">
+                                <rect key="frame" x="31" y="179" width="314" height="212"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="safeArea" id="fbd-5L-pNZ"/>
+                                <connections>
+                                    <segue destination="pS6-eI-uXl" kind="embed" id="KdW-Ct-4ac"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eLf-uQ-BjD">
+                        <barButtonItem key="leftBarButtonItem" title="Quit" id="9aO-1t-PJQ">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="PauseView" destination="0CD-aa-bPw" id="Pbo-i3-sVS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12" y="31.934032983508249"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kiP-80-3PH">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="15d-a6-Qxy" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LBe-ii-eMv">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kah-ot-ka5" kind="relationship" relationship="rootViewController" id="idT-Nf-qWk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r1V-mr-YcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1490" y="33"/>
+        </scene>
+        <!--MenuVC-->
+        <scene sceneID="4OJ-2A-5dk">
+            <objects>
+                <viewController storyboardIdentifier="MenuVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kah-ot-ka5" customClass="MenuVC" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" id="7wj-ju-MeN" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A">
+                                <rect key="frame" x="0.0" y="304" width="375" height="28"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
+                                <state key="normal" title="Play Duel"/>
+                                <connections>
+                                    <action selector="Duel:" destination="kah-ot-ka5" eventType="touchUpInside" id="dUj-sm-YLK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc">
+                                <rect key="frame" x="0.0" y="255" width="375" height="28"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
+                                <state key="normal" title="Play High Score"/>
+                                <connections>
+                                    <action selector="High_Score:" destination="kah-ot-ka5" eventType="touchUpInside" id="TeB-LC-khh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIC PONG TOE!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HP6-K9-QHY">
+                                <rect key="frame" x="0.0" y="188" width="375" height="32"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIG-Oh-cBn">
+                                <rect key="frame" x="40" y="157" width="295" height="342"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="c48-rK-Vcm" kind="embed" id="8ol-yZ-Iz2"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="4Jj-Sa-Ppt"/>
+                            <constraint firstItem="HP6-K9-QHY" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="168" id="ARf-OF-5F1"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="CSg-B0-NIi"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="D9f-TF-KPf"/>
+                            <constraint firstItem="jIG-Oh-cBn" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="137" id="T72-K6-Qgc"/>
+                            <constraint firstItem="HP6-K9-QHY" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="TWC-2n-Zdb"/>
+                            <constraint firstItem="HP6-K9-QHY" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="VDc-T4-wOY"/>
+                            <constraint firstItem="jIG-Oh-cBn" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" constant="40" id="Yf2-3S-OeM"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="Ylv-6X-WFz"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="b5e-Bg-0sf"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="hRJ-EC-ySe"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="hic-m2-ftP"/>
+                            <constraint firstItem="8di-Xp-PQW" firstAttribute="bottom" secondItem="jIG-Oh-cBn" secondAttribute="bottom" constant="168" id="lzJ-jp-hUX"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="vZ8-oH-ipK"/>
+                            <constraint firstItem="8di-Xp-PQW" firstAttribute="trailing" secondItem="jIG-Oh-cBn" secondAttribute="trailing" constant="40" id="yDj-bA-Awp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
+                    <connections>
+                        <outlet property="IAPView" destination="jIG-Oh-cBn" id="3ty-yK-otR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-A0-Z3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-740" y="31.934032983508249"/>
+        </scene>
+        <!--MenuVC-->
+        <scene sceneID="WKb-oH-92d">
+            <objects>
+                <viewController id="pS6-eI-uXl" customClass="MenuVC" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wGn-jN-ARB">
+                        <rect key="frame" x="0.0" y="0.0" width="314" height="212"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HsZ-X7-9Qz" userLabel="ContinueGameButton">
+                                <rect key="frame" x="52" y="127" width="211" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
+                                <state key="normal" title="Continue">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="ContinueGame:" destination="pS6-eI-uXl" eventType="touchUpInside" id="ldG-LG-VaF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E08-lm-SVS" userLabel="QuitGameButton">
+                                <rect key="frame" x="52" y="59" width="211" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
+                                <state key="normal" title="Quit Game">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="QuitGame:" destination="pS6-eI-uXl" eventType="touchUpInside" id="hlT-eF-eYI"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tte-mg-6S9" userLabel="GameOverLabel">
+                                <rect key="frame" x="8" y="0.0" width="298" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="48"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR SCORE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAH-04-moT" userLabel="YourScoreLabel">
+                                <rect key="frame" x="66" y="70" width="183" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5KD-4H-08t" userLabel="ScoreLabel">
+                                <rect key="frame" x="66" y="104" width="183" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8r-FJ-bXN" userLabel="ReturnHomeHighScoreButton">
+                                <rect key="frame" x="16" y="162" width="282" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
+                                <state key="normal" title="Return Home">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="ReturnHomeHighScore:" destination="pS6-eI-uXl" eventType="touchUpInside" id="oDt-zc-Z5m"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmg-kg-sRw" userLabel="ReturnHomeDuelButton">
+                                <rect key="frame" x="16" y="91" width="282" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
+                                <state key="normal" title="Return Home">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="ReturnHomeDuel:" destination="pS6-eI-uXl" eventType="touchUpInside" id="uSU-8w-uO6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lXR-Sy-8h1"/>
+                    </view>
+                    <connections>
+                        <outlet property="ContinueGameButton" destination="HsZ-X7-9Qz" id="G0y-MW-XeQ"/>
+                        <outlet property="GameOverLabel" destination="Tte-mg-6S9" id="0pd-zE-D5V"/>
+                        <outlet property="QuitGameButton" destination="E08-lm-SVS" id="wp7-vs-jmh"/>
+                        <outlet property="ReturnHomeDuelButton" destination="bmg-kg-sRw" id="lI4-vP-jME"/>
+                        <outlet property="ReturnHomeHighScoreButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
+                        <outlet property="ScoreLabel" destination="5KD-4H-08t" id="np8-Xo-wqd"/>
+                        <outlet property="YourScoreLabel" destination="VAH-04-moT" id="a6w-P7-7f3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yZL-6E-A2c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="788.79999999999995" y="-250.9745127436282"/>
+        </scene>
+        <!--IAPViewController-->
+        <scene sceneID="vtJ-38-ypi">
+            <objects>
+                <viewController id="c48-rK-Vcm" userLabel="IAPViewController" customClass="IAPViewController" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vd2-k9-Cah">
+                        <rect key="frame" x="0.0" y="0.0" width="295" height="342"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Information Text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRc-l0-a5J">
+                                <rect key="frame" x="16" y="96" width="263" height="49"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tda-hK-TTI">
+                                <rect key="frame" x="44" y="170" width="208" height="29"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="17"/>
+                                <state key="normal" title="Continue">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="ContinueButton:" destination="c48-rK-Vcm" eventType="touchUpInside" id="vDB-K4-Ppt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8z-N6-6Wf">
+                                <rect key="frame" x="44" y="207" width="208" height="30"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="17"/>
+                                <state key="normal" title="Purchase">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="PurchaseButton:" destination="c48-rK-Vcm" eventType="touchUpInside" id="Gv4-ow-EwP"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="K7T-Qc-cQo">
+                                <rect key="frame" x="129" y="102" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="tda-hK-TTI" secondAttribute="trailing" constant="43" id="Arz-Sn-Ys0"/>
+                            <constraint firstItem="K7T-Qc-cQo" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="129" id="LxD-gd-jvA"/>
+                            <constraint firstItem="BRc-l0-a5J" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="16" id="OMx-By-sof"/>
+                            <constraint firstItem="tda-hK-TTI" firstAttribute="top" secondItem="BRc-l0-a5J" secondAttribute="bottom" constant="25" id="ZSS-gm-i7O"/>
+                            <constraint firstItem="tda-hK-TTI" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="44" id="drU-3o-khp"/>
+                            <constraint firstItem="s8z-N6-6Wf" firstAttribute="top" secondItem="tda-hK-TTI" secondAttribute="bottom" constant="8" id="eT8-VB-SC4"/>
+                            <constraint firstItem="K7T-Qc-cQo" firstAttribute="top" secondItem="QH2-D3-biy" secondAttribute="top" constant="102" id="gp4-vM-uW9"/>
+                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="BRc-l0-a5J" secondAttribute="trailing" constant="16" id="oUK-g9-kgd"/>
+                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="K7T-Qc-cQo" secondAttribute="trailing" constant="129" id="rQK-Pg-HYV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="QH2-D3-biy"/>
+                    </view>
+                    <connections>
+                        <outlet property="ContinueButtonOutlet" destination="tda-hK-TTI" id="rpI-p8-naK"/>
+                        <outlet property="InformationText" destination="BRc-l0-a5J" id="TQD-dx-RSH"/>
+                        <outlet property="NetworkActivityMonitor" destination="K7T-Qc-cQo" id="LCz-Hc-7rr"/>
+                        <outlet property="PurchaseButtonOutlet" destination="s8z-N6-6Wf" id="UDZ-Xk-e5l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gDf-C1-YYD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-741.60000000000002" y="562.21889055472263"/>
+        </scene>
+    </scenes>
+</document>
