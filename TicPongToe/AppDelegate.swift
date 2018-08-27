@@ -18,30 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // see notes below for the meaning of Atomic / Non-Atomic
-        setupIAP();
+
         return true
-    }
-    
-    func setupIAP() {
-        
-        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
-            
-            for purchase in purchases {
-                switch purchase.transaction.transactionState {
-                case .purchased, .restored:
-                    let downloads = purchase.transaction.downloads
-                    if !downloads.isEmpty {
-                        SwiftyStoreKit.start(downloads)
-                    } else if purchase.needsFinishTransaction {
-                        // Deliver content from server, then:
-                        SwiftyStoreKit.finishTransaction(purchase.transaction)
-                    }
-                    print("\(purchase.transaction.transactionState.debugDescription): \(purchase.productId)")
-                case .failed, .purchasing, .deferred:
-                    break // do nothing
-                }
-            }
-        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

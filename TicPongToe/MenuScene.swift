@@ -25,13 +25,16 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView)
     {
         super.didMove(to: view);
+        
         HighScoreLabel = self.childNode(withName: "HighScoreLabel") as! SKLabelNode;
         GamesWonLabel = self.childNode(withName: "GamesWonLabel") as! SKLabelNode;
         menuFrame = self.childNode(withName: "MenuFrame") as! SKSpriteNode
-        menuAnimationAFrames = buildAnimation(textureAtlasName: "MenuAnimationA");
-        menuAnimationBFrames = buildAnimation(textureAtlasName: "MenuAnimationB");
-        menuAnimationCFrames = buildAnimation(textureAtlasName: "MenuAnimationC");
-        menuAnimationDFrames = buildAnimation(textureAtlasName: "MenuAnimationD");
+        
+        menuAnimationAFrames = (AnimationFramesManager?.getMenuAnimationAFrames())!
+        menuAnimationBFrames = (AnimationFramesManager?.getMenuAnimationBFrames())!
+        menuAnimationCFrames = (AnimationFramesManager?.getMenuAnimationCFrames())!
+        menuAnimationDFrames = (AnimationFramesManager?.getMenuAnimationDFrames())!
+        
         updateLabels();
         
         
@@ -64,19 +67,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     public func setGamesWonLabel(score: Int64)
     {
         GamesWonLabel.text = "\(score)";
-    }
-    
-    private func buildAnimation(textureAtlasName: String) -> [SKTexture]
-    {
-        let atlas = SKTextureAtlas(named: textureAtlasName);
-        var frames: [SKTexture] = [];
-        let numImages = atlas.textureNames.count
-        for i in 1...numImages {
-            let name = "\(textureAtlasName)\(i)"
-            frames.append(atlas.textureNamed(name))
-        }
-        
-        return frames;
     }
     
     private func animateBackground(frames: [SKTexture])

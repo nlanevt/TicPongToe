@@ -41,6 +41,8 @@ class AI {
     private var offset1:CGFloat = 150;
     private var offset2:CGFloat = 250;
     
+    private var intensity:CGFloat = 0.03;
+    
     func setPaddleValues(b: SKSpriteNode, e: SKSpriteNode)
     {
         ball = b;
@@ -130,10 +132,20 @@ class AI {
                 chase = chase_method.center;
                 break;
             }
+            
+            rand = Int(arc4random_uniform(3));
+            if (rand == 1)
+            {
+                intensity = 0.03
+            }
+            else
+            {
+                intensity = 0.05
+            }
         }
         else
         {
-            rand = Int(arc4random_uniform(5))
+            rand = Int(arc4random_uniform(5));
             switch rand {
             case 0:
                 chase = chase_method.center;
@@ -154,6 +166,20 @@ class AI {
                 chase = chase_method.center;
                 break;
             }
+            
+            rand = Int(arc4random_uniform(5));
+            if (rand == 1)
+            {
+                intensity = 0.03
+            }
+            else if (rand == 2)
+            {
+                intensity = 0.03
+            }
+            else
+            {
+                intensity = 0.06
+            }
         }
     }
     
@@ -168,7 +194,7 @@ class AI {
             }
             else
             {
-                speed = Double(0.03 + (0.07)*(offset/offset1));
+                speed = Double(intensity + (0.07)*(offset/offset1));
                 switch chase {
                 case .center:
                     chaseCenter();

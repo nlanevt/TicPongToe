@@ -93,14 +93,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jIG-Oh-cBn">
-                                <rect key="frame" x="40" y="157" width="295" height="342"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <segue destination="c48-rK-Vcm" kind="embed" id="8ol-yZ-Iz2"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,24 +101,17 @@
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="168" id="ARf-OF-5F1"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="CSg-B0-NIi"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="D9f-TF-KPf"/>
-                            <constraint firstItem="jIG-Oh-cBn" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="137" id="T72-K6-Qgc"/>
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="TWC-2n-Zdb"/>
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="VDc-T4-wOY"/>
-                            <constraint firstItem="jIG-Oh-cBn" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" constant="40" id="Yf2-3S-OeM"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="Ylv-6X-WFz"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="b5e-Bg-0sf"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="hRJ-EC-ySe"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="hic-m2-ftP"/>
-                            <constraint firstItem="8di-Xp-PQW" firstAttribute="bottom" secondItem="jIG-Oh-cBn" secondAttribute="bottom" constant="168" id="lzJ-jp-hUX"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="vZ8-oH-ipK"/>
-                            <constraint firstItem="8di-Xp-PQW" firstAttribute="trailing" secondItem="jIG-Oh-cBn" secondAttribute="trailing" constant="40" id="yDj-bA-Awp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                     </view>
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
-                    <connections>
-                        <outlet property="IAPView" destination="jIG-Oh-cBn" id="3ty-yK-otR"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-A0-Z3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -221,68 +206,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZL-6E-A2c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="788.79999999999995" y="-250.9745127436282"/>
-        </scene>
-        <!--IAPViewController-->
-        <scene sceneID="vtJ-38-ypi">
-            <objects>
-                <viewController id="c48-rK-Vcm" userLabel="IAPViewController" customClass="IAPViewController" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Vd2-k9-Cah">
-                        <rect key="frame" x="0.0" y="0.0" width="295" height="342"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Information Text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRc-l0-a5J">
-                                <rect key="frame" x="16" y="96" width="263" height="49"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tda-hK-TTI">
-                                <rect key="frame" x="44" y="170" width="208" height="29"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="17"/>
-                                <state key="normal" title="Continue">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="ContinueButton:" destination="c48-rK-Vcm" eventType="touchUpInside" id="vDB-K4-Ppt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8z-N6-6Wf">
-                                <rect key="frame" x="44" y="207" width="208" height="30"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="17"/>
-                                <state key="normal" title="Purchase">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="PurchaseButton:" destination="c48-rK-Vcm" eventType="touchUpInside" id="Gv4-ow-EwP"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="K7T-Qc-cQo">
-                                <rect key="frame" x="129" y="102" width="37" height="37"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="tda-hK-TTI" secondAttribute="trailing" constant="43" id="Arz-Sn-Ys0"/>
-                            <constraint firstItem="K7T-Qc-cQo" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="129" id="LxD-gd-jvA"/>
-                            <constraint firstItem="BRc-l0-a5J" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="16" id="OMx-By-sof"/>
-                            <constraint firstItem="tda-hK-TTI" firstAttribute="top" secondItem="BRc-l0-a5J" secondAttribute="bottom" constant="25" id="ZSS-gm-i7O"/>
-                            <constraint firstItem="tda-hK-TTI" firstAttribute="leading" secondItem="QH2-D3-biy" secondAttribute="leading" constant="44" id="drU-3o-khp"/>
-                            <constraint firstItem="s8z-N6-6Wf" firstAttribute="top" secondItem="tda-hK-TTI" secondAttribute="bottom" constant="8" id="eT8-VB-SC4"/>
-                            <constraint firstItem="K7T-Qc-cQo" firstAttribute="top" secondItem="QH2-D3-biy" secondAttribute="top" constant="102" id="gp4-vM-uW9"/>
-                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="BRc-l0-a5J" secondAttribute="trailing" constant="16" id="oUK-g9-kgd"/>
-                            <constraint firstItem="QH2-D3-biy" firstAttribute="trailing" secondItem="K7T-Qc-cQo" secondAttribute="trailing" constant="129" id="rQK-Pg-HYV"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="QH2-D3-biy"/>
-                    </view>
-                    <connections>
-                        <outlet property="ContinueButtonOutlet" destination="tda-hK-TTI" id="rpI-p8-naK"/>
-                        <outlet property="InformationText" destination="BRc-l0-a5J" id="TQD-dx-RSH"/>
-                        <outlet property="NetworkActivityMonitor" destination="K7T-Qc-cQo" id="LCz-Hc-7rr"/>
-                        <outlet property="PurchaseButtonOutlet" destination="s8z-N6-6Wf" id="UDZ-Xk-e5l"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gDf-C1-YYD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-741.60000000000002" y="562.21889055472263"/>
         </scene>
     </scenes>
 </document>

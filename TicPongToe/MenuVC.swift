@@ -14,13 +14,12 @@ import CoreData
 var player:NSManagedObject? = nil;
 var players:[NSManagedObject] = [];
 var MenuViewControl:MenuVC? = nil;
+var AnimationFramesManager:AnimationFramesHelper? = nil;
 
 var HighScore:Int64 = 0;
 var NumberOfGamesWon:Int64 = 0;
 var NumberOfGamesPlayed:Int64 = 0;
 var isPurchased = false;
-
-var IAPFullGameID = "iap_full_game_purchase";
 
 enum gameType {
     case duel
@@ -37,6 +36,7 @@ class MenuVC : UIViewController {
         {
             MenuViewControl = self;
             loadScores(); // Get the scores from CORE Data
+            AnimationFramesManager = AnimationFramesHelper();
             if let view = self.view as! SKView? {
                 // Load the SKScene from 'GameScene.sks'
                 if let scene = SKScene(fileNamed: "MenuScene") {
@@ -45,7 +45,6 @@ class MenuVC : UIViewController {
                     scene.scaleMode = .aspectFit
                     
                     menuScene = scene as? MenuScene;
-                    IAPView.isHidden = true;
                     // Present the scene
                     view.presentScene(scene)
                     
@@ -72,21 +71,14 @@ class MenuVC : UIViewController {
     @IBOutlet weak var ReturnHomeHighScoreButton: UIButton!
     @IBOutlet weak var ReturnHomeDuelButton: UIButton!
     
-    @IBOutlet weak var IAPView: UIView!
-    
     @IBAction func Duel(_ sender: Any) {
-        //IncreaseNumberOfGamesPlayed()
-        //checkAndDisplayIAP()
-        IAPView.isHidden = false;
-        IAPController?.NetworkActivityMonitor.startAnimating();
-        IAPController?.InformationText.text = "Hello World!";
-        //moveToGame(game : .duel);
+        IncreaseNumberOfGamesPlayed()
+        moveToGame(game : .duel);
     }
     
     @IBAction func High_Score(_ sender: Any) {
-        checkAndDisplayIAP()
-        //IncreaseNumberOfGamesPlayed()
-        //moveToGame(game : .high_score);
+        IncreaseNumberOfGamesPlayed()
+        moveToGame(game : .high_score);
     }
     
     @IBAction func ContinueGame(_ sender: Any) {
@@ -188,6 +180,7 @@ class MenuVC : UIViewController {
             HighScore = (player?.value(forKeyPath: "high_score") as? Int64)!;
             NumberOfGamesWon = (player?.value(forKeyPath: "games_won") as? Int64)!;
             NumberOfGamesPlayed = (player?.value(forKeyPath: "games_played") as? Int64)!;
+            isPurchased = (player?.value(forKeyPath: "is_purchased") as? Bool)!;
             deleteCoreData();
             save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased)
             loadScores();
@@ -198,9 +191,9 @@ class MenuVC : UIViewController {
             HighScore = (player?.value(forKeyPath: "high_score") as? Int64)!;
             NumberOfGamesWon = (player?.value(forKeyPath: "games_won") as? Int64)!;
             NumberOfGamesPlayed = (player?.value(forKeyPath: "games_played") as? Int64)!;
+            isPurchased = (player?.value(forKeyPath: "is_purchased") as? Bool)!;
         }
         
-        print("HighScore: \(HighScore), NumberOfGamesWon: \(NumberOfGamesWon), NumberOfGamesPlayed: \(NumberOfGamesPlayed), isPurchased: \(isPurchased)")
     }
     
     
@@ -265,46 +258,6 @@ class MenuVC : UIViewController {
         save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased)
     }
     
-    private func checkAndDisplayIAP()
-    {
-        if (NumberOfGamesPlayed > 1 && isPurchased == false)
-        {
-            ControlIAPView(show: true);
-            IAPController?.FetchAndValidateReciept();
-        }
-    }
     
-    func ControlIAPView(show: Bool)
-    {
-        if (show == true)
-        {
-            IAPView.isHidden = false;
-            IAPView.alpha = 0.0;
-            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.tag = 101;
-            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-            blurEffectView.alpha = 0.0;
-            self.view?.insertSubview(blurEffectView, at: 3)
-            NSLayoutConstraint.activate([
-                blurEffectView.heightAnchor.constraint(equalTo: (self.view?.heightAnchor)!),
-                blurEffectView.widthAnchor.constraint(equalTo: (self.view?.widthAnchor)!),
-                ])
-            UIView.animate(withDuration: 0.25, animations: {
-                blurEffectView.alpha = 1.0;
-                self.IAPView.alpha = 1.0
-            })
-        }
-        else
-        {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.view?.viewWithTag(101)?.alpha = 0.0;
-                self.IAPView.alpha = 0.0;
-            }) { _ in
-                self.view?.viewWithTag(101)?.removeFromSuperview();
-            }
-            IAPView.isHidden = true;
-        }
-    }
     
 }
