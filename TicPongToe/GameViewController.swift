@@ -35,6 +35,12 @@ class GameViewController: UIViewController {
             name: NSNotification.Name.UIApplicationDidEnterBackground,
             object: nil)
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationWillResignActive(notification:)),
+            name: NSNotification.Name.UIApplicationWillResignActive,
+            object: nil)
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -125,18 +131,42 @@ class GameViewController: UIViewController {
     //override func applicationD
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         gameScene?.isPaused = gameScenePaused;
+        //MenuViewControl?.interstitial = MenuViewControl?.createAndLoadInterstitial();
         
-        if (!gameScenePaused) // if the game is not in pause mode when entering the application
+        if (!gameScenePaused && !(gameScene?.game_over)!) // if the game is not in pause mode when entering the application and the game is not over
         {
             gameScene?.runTimer();
+            
+        }
+        else if ((gameScene?.game_over)!) // if the game is over reanimate the buttons
+        {
+            if (currentGameType == gameType.high_score)
+            {
+                MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeHighScoreButton, delay: 0.2);
+            }
+            else
+            {
+                MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeDuelButton, delay: 0.2);
+            }
         }
     }
     
     @objc func applicationDidEnterBackground(notification: NSNotification) {
-        if (!gameScenePaused) // if game is in pause mode when existing the application
+        if (!gameScenePaused && !(gameScene?.game_over)!) // if game is not in pause mode when exiting the application
         {
             gameScene?.stopTimer();
+            self.pauseGame(pause: true)
         }
     }
+    
+    @objc func applicationWillResignActive(notification: NSNotification) {
+        if (!gameScenePaused && !(gameScene?.game_over)!) // if game is not in pause mode when exiting the application
+        {
+            gameScene?.stopTimer();
+            
+            self.pauseGame(pause: true)
+        }
+    }
+    
  
 }

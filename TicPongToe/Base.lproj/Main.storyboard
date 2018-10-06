@@ -93,6 +93,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6">
+                                <rect key="frame" x="0.0" y="353" width="375" height="28"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
+                                <state key="normal" title="Leaderboard"/>
+                                <connections>
+                                    <action selector="CheckLeaderboard:" destination="kah-ot-ka5" eventType="touchUpInside" id="NbW-er-fAo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -100,18 +108,24 @@
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="4Jj-Sa-Ppt"/>
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="168" id="ARf-OF-5F1"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="CSg-B0-NIi"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="21" id="D9f-TF-KPf"/>
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="TWC-2n-Zdb"/>
                             <constraint firstItem="HP6-K9-QHY" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="VDc-T4-wOY"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="21" id="Ww7-vG-nd6"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="Ylv-6X-WFz"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="b5e-Bg-0sf"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="hRJ-EC-ySe"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="HP6-K9-QHY" secondAttribute="bottom" constant="35" id="hic-m2-ftP"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="vZ8-oH-ipK"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" id="xvk-QD-lpe"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="trailing" secondItem="8di-Xp-PQW" secondAttribute="trailing" id="ybU-xR-AJk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                     </view>
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
+                    <connections>
+                        <outlet property="DuelButton" destination="uvX-Ur-s4A" id="hCj-Gs-t2U"/>
+                        <outlet property="HighScoreButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
+                        <outlet property="LeaderboardButton" destination="e77-KA-Tc6" id="vVm-id-6aa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-A0-Z3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

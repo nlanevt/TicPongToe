@@ -16,47 +16,58 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     private var HighScoreLabel = SKLabelNode();
     private var GamesWonLabel = SKLabelNode();
     private var menuFrame = SKSpriteNode();
-    private var menuAnimationAFrames:[SKTexture] = [];
-    private var menuAnimationBFrames:[SKTexture] = [];
-    private var menuAnimationCFrames:[SKTexture] = [];
-    private var menuAnimationDFrames:[SKTexture] = [];
-    
+    private var menuAnimationTop:SKSpriteNode? = nil;
+    private var menuAnimationFrame:SKSpriteNode? = nil;
+    private var running = false;
+    private var scroller : InfiniteScrollingBackground?
     
     override func didMove(to view: SKView)
     {
         super.didMove(to: view);
-        
+        self.backgroundColor = SKColor.black;
+
         HighScoreLabel = self.childNode(withName: "HighScoreLabel") as! SKLabelNode;
         GamesWonLabel = self.childNode(withName: "GamesWonLabel") as! SKLabelNode;
-        menuFrame = self.childNode(withName: "MenuFrame") as! SKSpriteNode
+        menuFrame = self.childNode(withName: "MenuFrame") as! SKSpriteNode;
         
-        menuAnimationAFrames = (AnimationFramesManager?.getMenuAnimationAFrames())!
-        menuAnimationBFrames = (AnimationFramesManager?.getMenuAnimationBFrames())!
-        menuAnimationCFrames = (AnimationFramesManager?.getMenuAnimationCFrames())!
-        menuAnimationDFrames = (AnimationFramesManager?.getMenuAnimationDFrames())!
+        menuAnimationTop = SKSpriteNode(imageNamed: "MenuAnimationTopYellow");
+        menuAnimationFrame = SKSpriteNode(imageNamed: "MenuAnimationFrameYellow");
+        
+        menuAnimationTop?.position = CGPoint(x: 0, y: 0);
+        menuAnimationTop?.zPosition = 4;
+        menuAnimationTop?.alpha = 0.0;
+        
+        menuAnimationFrame?.position = CGPoint(x: 0, y: 0);
+        menuAnimationFrame?.zPosition = 4;
+        menuAnimationFrame?.alpha = 0.0;
+        
+        self.addChild(menuAnimationTop!);
+        self.addChild(menuAnimationFrame!);
+        
+        
+        startMenuAnimations()
         
         updateLabels();
         
+        //----Initiating Starry Background Animation------------
+        let images = [UIImage(named: "BackgroundStarAnimationA")!, UIImage(named: "BackgroundStarAnimationA")!]
+        
+        // Initializing InfiniteScrollingBackground's Instance:
+        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 18)
+        scroller?.scroll()
+        scroller?.zPosition = -3
         
         self.physicsWorld.contactDelegate = self;
         let border = SKPhysicsBody(edgeLoopFrom: self.frame);
         border.friction = 0;
         border.restitution = 1;
         self.physicsBody = border;
-        
-        animateBackground(frames: menuAnimationAFrames);
-        animateBackground(frames: menuAnimationBFrames);
-        animateBackground(frames: menuAnimationCFrames);
-        animateBackground(frames: menuAnimationDFrames);
-        
-        self.backgroundColor = SKColor.black;
     }
     
     public func updateLabels()
     {
         HighScoreLabel.text = "\(HighScore)";
         GamesWonLabel.text = "\(NumberOfGamesWon)";
-       
     }
     
     public func setHighScoreLabel(score: Int64)
@@ -69,12 +80,38 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         GamesWonLabel.text = "\(score)";
     }
     
-    private func animateBackground(frames: [SKTexture])
+    // Unused here but useful to show you how to animate something.
+    private func animateBackground(frames: [SKTexture])->SKSpriteNode
     {
         let frameNode = SKSpriteNode(texture: frames[0], size: frames[0].size());
         frameNode.position = menuFrame.position;
         frameNode.zPosition = menuFrame.zPosition;
         self.addChild(frameNode);
         frameNode.run(SKAction.repeatForever(SKAction.animate(with: frames, timePerFrame: 0.025)));
+        return frameNode;
+    }
+    
+    private func animateBackground(node: SKSpriteNode)
+    {
+        let menuAnimationFramesAction = SKAction.sequence([
+            SKAction.wait(forDuration: TimeInterval(Int(arc4random_uniform(6)))),
+            SKAction.fadeIn(withDuration: 3.0),
+            SKAction.fadeOut(withDuration: 3.0)]);
+        node.run(menuAnimationFramesAction,
+                                      completion: {
+                                        self.animateBackground(node: node);
+        })
+    }
+    
+    public func stopMenuAnimations()
+    {
+        running = false;
+    }
+    
+    public func startMenuAnimations()
+    {
+        running = true;
+        animateBackground(node: menuAnimationFrame!);
+        animateBackground(node: menuAnimationTop!);
     }
 }

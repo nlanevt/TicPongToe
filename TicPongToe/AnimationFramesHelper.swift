@@ -12,10 +12,6 @@ import GameplayKit
 import UIKit
 
 class AnimationFramesHelper {
-    private var menuAnimationAFrames:[SKTexture] = [];
-    private var menuAnimationBFrames:[SKTexture] = [];
-    private var menuAnimationCFrames:[SKTexture] = [];
-    private var menuAnimationDFrames:[SKTexture] = [];
     private var paddleDeathFrames: [SKTexture] = [];
     private var paddle96ShrinkFrames: [SKTexture] = [];
     private var paddle72ShrinkFrames: [SKTexture] = [];
@@ -29,13 +25,12 @@ class AnimationFramesHelper {
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
     private var paddleGrowthFrames:[SKTexture] = [];
+    private var sceneHeight:CGFloat = 0.0;
+    private var backgroundNodeA1:SKSpriteNode? = nil;
+    private var backgroundNodeA2:SKSpriteNode? = nil;
     
     init()
     {
-        menuAnimationAFrames = buildAnimation(textureAtlasName: "MenuAnimationA");
-        menuAnimationBFrames = buildAnimation(textureAtlasName: "MenuAnimationB");
-        menuAnimationCFrames = buildAnimation(textureAtlasName: "MenuAnimationC");
-        menuAnimationDFrames = buildAnimation(textureAtlasName: "MenuAnimationD");
         paddleDeathFrames = buildAnimation(textureAtlasName: "Paddle96Death");
         paddle96ShrinkFrames = buildAnimation(textureAtlasName: "Paddle96Shrink");
         paddle72ShrinkFrames = buildAnimation(textureAtlasName: "Paddle72Shrink");
@@ -54,26 +49,6 @@ class AnimationFramesHelper {
     public func getPaddleGrowthFrames() -> [SKTexture]
     {
         return paddleGrowthFrames;
-    }
-    
-    public func getMenuAnimationAFrames() -> [SKTexture]
-    {
-        return menuAnimationAFrames;
-    }
-    
-    public func getMenuAnimationBFrames() -> [SKTexture]
-    {
-        return menuAnimationBFrames;
-    }
-    
-    public func getMenuAnimationCFrames() -> [SKTexture]
-    {
-        return menuAnimationCFrames;
-    }
-    
-    public func getMenuAnimationDFrames() -> [SKTexture]
-    {
-        return menuAnimationDFrames;
     }
     
     public func getPaddleDeathFrames() -> [SKTexture]

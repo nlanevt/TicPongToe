@@ -34,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_score_animation = SKLabelNode();
     private var enemy_score = SKLabelNode();
     private var player_won = false;
-    private var game_over = false;
+    public var game_over = false;
     
     private var square1 = SKSpriteNode();
     private var square2 = SKSpriteNode();
@@ -130,6 +130,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var gameFrame = SKSpriteNode();
     
+    private var scroller : InfiniteScrollingBackground?
+    
     override func didMove(to view: SKView)
     {
         super.didMove(to: view)
@@ -209,6 +211,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ai.setFrameSize(view_size: self.frame.size);
         
         MenuViewControl?.setUpPauseView();
+        
+        //----Initiating Starry Background Animation------------
+        let images = [UIImage(named: "BackgroundStarAnimationA")!, UIImage(named: "BackgroundStarAnimationA")!]
+        
+        // Initializing InfiniteScrollingBackground's Instance:
+        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 18)
+        scroller?.scroll()
+        scroller?.zPosition = -3
         
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
@@ -351,6 +361,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 HighScore = score;
             }
             MenuViewControl?.ScoreLabel.text = "\(score)";
+            MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
         }
         else
         {
@@ -572,37 +583,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.applyPhysicsBodyToPaddle(paddle: paddle);
                 }
             })
-            
         })
     }
     
     private func animateHitWall(contact_point: CGPoint)
     {
-        let hitWallNode = SKSpriteNode(texture: hitWallFrames[0], size: hitWallFrames[0].size());
+        if (contact_point.y < main.position.y || contact_point.y > enemy.position.y) {return}
         
-        hitWallNode.zPosition = 0.0;
-        hitWallNode.position.y = contact_point.y;
+        var hitWallNode:SKSpriteNode? = SKSpriteNode(texture: hitWallFrames[0], size: hitWallFrames[0].size());
+        
+        hitWallNode?.zPosition = 0.0;
+        hitWallNode?.position.y = contact_point.y;
         if (contact_point.x > 0) {
-            hitWallNode.position.x = contact_point.x - 2
+            hitWallNode?.position.x = contact_point.x - 2
         }
         else {
-            hitWallNode.position.x = contact_point.x + 2;
+            hitWallNode?.position.x = contact_point.x + 2;
         }
         
         if (ballspeed >= 47)
         {
             let hitWallSparkNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
-            hitWallSparkNode.position = hitWallNode.position;
-            hitWallSparkNode.zPosition = hitWallNode.zPosition;
+            hitWallSparkNode.position = (hitWallNode?.position)!;
+            hitWallSparkNode.zPosition = (hitWallNode?.zPosition)!;
             self.addChild(hitWallSparkNode);
             hitWallSparkNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
                 hitWallSparkNode.removeFromParent();
             })
         }
         
-        self.addChild(hitWallNode);
-        hitWallNode.run(SKAction.animate(with: hitWallFrames, timePerFrame: 0.01), completion: {
-            hitWallNode.removeFromParent();
+        self.addChild(hitWallNode!);
+        hitWallNode?.run(SKAction.animate(with: hitWallFrames, timePerFrame: 0.01), completion: {
+            hitWallNode?.removeFromParent();
+            hitWallNode = nil;
         })
     }
     
@@ -618,7 +631,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitPaddleNode.removeFromParent();
         })
     }
-    
     
     // This method does the paddle shrink animation
     private func shrinkPaddle(paddle: SKSpriteNode)
@@ -1002,38 +1014,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ai.move();
                 
                 // Check to see if ball went past the paddles
-                if ball.position.y <= main.position.y - 70
-                {
+                if ball.position.y <= main.position.y - 70 {
                     addScore(playerWhoWon: enemy, type: 0);
                 }
-                else if ball.position.y >= enemy.position.y + 10
-                {
+                else if ball.position.y >= enemy.position.y + 10 {
                     addScore(playerWhoWon: main, type: 0);
                 }
                 
                 // Manage Tic Tac Toe board
-                if (players_turn == false && board_hits < 9)
-                {
+                if (players_turn == false && board_hits < 9) {
                     enemySetBoard();
                 }
-                else if (board_hits == 9)
-                {
+                else if (board_hits == 9) {
                     endTicTacToeGame(isTimeOut: false);
                 }
                 
-                if (seconds == 0)
-                {
+                if (seconds == 0) {
                     endTicTacToeGame(isTimeOut: true);
                 }
                 
-                if (!self.frame.contains(ball.position))
-                {
-                    if (ball.position.y < 0)
-                    {
+                if (!self.frame.contains(ball.position)) {
+                    if (ball.position.y < 0) {
                         self.startBall(down: true)
                     }
-                    else
-                    {
+                    else {
                         self.startBall(down: false)
                     }
                 }
@@ -1084,6 +1088,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact)
     {
+        // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             updatePaddleSpeeds();
             let paddle = contact.bodyA.node as! SKSpriteNode
@@ -1114,11 +1119,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
             ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
             animateHitPaddle(contact_point: contactPoint);
+             //updateBallImageDirection();
         }
+        // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
+            //print("Hit Wall: \(contact.contactPoint), \(ball.zRotation)");
+            //updateBallImageDirection();
         }
+    }
+    
+    /*
+    *  Not used yet. But will be used for fireball animation
+    */
+    private func updateBallImageDirection()
+    {
+        ball.run(SKAction.rotate(byAngle: CGFloat(atan2((ball.physicsBody?.velocity.dy)!, (ball.physicsBody?.velocity.dx)!)), duration:0));
     }
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
