@@ -11,6 +11,8 @@
 		97097E6C2118E4B7005CB2EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97097E6B2118E4B7005CB2EA /* LaunchScreen.storyboard */; };
 		97097E77211904F6005CB2EA /* LaunchScreenImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 97097E76211904F5005CB2EA /* LaunchScreenImage.png */; };
 		9709A6982151E656005027AF /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9709A6972151E656005027AF /* GameKit.framework */; };
+		9726327321699C7D00C88A38 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9726327221699C7D00C88A38 /* Ball.swift */; };
+		97263275216AEF1D00C88A38 /* VectorRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97263274216AEF1D00C88A38 /* VectorRotation.swift */; };
 		976C64AC215DC46F00B4C322 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 976C64AB215DC46F00B4C322 /* Podfile */; };
 		978AD0822118BD6F0017173D /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 978AD0802118BA990017173D /* ARCADECLASSIC.TTF */; };
 		978AD0832118BD720017173D /* manaspc.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 978AD0812118BAAE0017173D /* manaspc.ttf */; };
@@ -52,6 +54,8 @@
 		97097E6B2118E4B7005CB2EA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97097E76211904F5005CB2EA /* LaunchScreenImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchScreenImage.png; path = ../LaunchScreenImage.png; sourceTree = "<group>"; };
 		9709A6972151E656005027AF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		9726327221699C7D00C88A38 /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
+		97263274216AEF1D00C88A38 /* VectorRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorRotation.swift; sourceTree = "<group>"; };
 		976C64AB215DC46F00B4C322 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		978AD0802118BA990017173D /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
 		978AD0812118BAAE0017173D /* manaspc.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = manaspc.ttf; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */,
+				97263274216AEF1D00C88A38 /* VectorRotation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -174,6 +179,7 @@
 				97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */,
 				97097E6B2118E4B7005CB2EA /* LaunchScreen.storyboard */,
 				97911261212F6FFB00B697AB /* AnimationFramesHelper.swift */,
+				9726327221699C7D00C88A38 /* Ball.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -367,11 +373,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9726327321699C7D00C88A38 /* Ball.swift in Sources */,
 				97F15CFE203B96520034C113 /* GameScene.swift in Sources */,
 				97911262212F6FFB00B697AB /* AnimationFramesHelper.swift in Sources */,
 				97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */,
 				97F15D00203B96520034C113 /* GameViewController.swift in Sources */,
 				97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */,
+				97263275216AEF1D00C88A38 /* VectorRotation.swift in Sources */,
 				97DC2C6021127E000027A71F /* MenuScene.swift in Sources */,
 				97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */,
 				9798EC2B2159D51400099502 /* InfiniteScrollingBackground.swift in Sources */,

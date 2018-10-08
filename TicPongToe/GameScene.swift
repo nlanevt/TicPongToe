@@ -9,11 +9,11 @@
 import SpriteKit
 import GameplayKit
 import UIKit
-import AudioToolbox
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     public var viewController: GameViewController!
     
+    private var ballManager = Ball();
     private var ball = SKSpriteNode();
     private var enemy = SKSpriteNode();
     private var main = SKSpriteNode();
@@ -112,6 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
     private var paddleGrowthFrames:[SKTexture] = [];
+    private var fireBallFrames:[SKTexture] = [];
     
     var ai = AI();
     
@@ -150,9 +151,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy_score_animation = self.childNode(withName: "enemy_score_animation") as! SKLabelNode;
         enemy_score_animation.alpha = 0.0;
         enemy_score_animation.fontColor = UIColor.yellow;
+        
         ball = self.childNode(withName: "ball") as! SKSpriteNode
+        //ballManager.setUp(ball: &ball)
+        
         ball.physicsBody?.usesPreciseCollisionDetection = true
         ball.physicsBody?.categoryBitMask = 2
+        fireBallFrames = (AnimationFramesManager?.getFireBallFrames())!;
         
         enemy = self.childNode(withName: "enemy") as! SKSpriteNode
         applyPhysicsBodyToPaddle(paddle: enemy);
@@ -304,6 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // This function animates and times ball properly whenever it starts
+    // Ball
     private func startBall(down: Bool)
     {
         if (game_over) {return} // don't restart the ball if the game is over. Let it bounce around.
@@ -1118,24 +1124,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ballspeed = return_speed;
             ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
             ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
+            
+            if (ballspeed <= 50)
+            {
+                animateFireBall(ball_type: 0)
+            }
+            else
+            {
+                animateFireBall(ball_type: 1);
+            }
+            
             animateHitPaddle(contact_point: contactPoint);
-             //updateBallImageDirection();
         }
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
             //print("Hit Wall: \(contact.contactPoint), \(ball.zRotation)");
-            //updateBallImageDirection();
         }
     }
     
-    /*
-    *  Not used yet. But will be used for fireball animation
-    */
-    private func updateBallImageDirection()
+    // Ball
+    private var angle_offset = CGFloat(Double.pi / 2);
+    
+    override func didSimulatePhysics() {
+        // Ball.ordinateBall();
+        if let body = ball.physicsBody {
+            if (body.velocity.speed() > 0.01) {
+                ball.zRotation = body.velocity.angle() - angle_offset;
+            }
+        }
+    }
+    
+    // Ball
+    private func animateFireBall(ball_type: Int)
     {
-        ball.run(SKAction.rotate(byAngle: CGFloat(atan2((ball.physicsBody?.velocity.dy)!, (ball.physicsBody?.velocity.dx)!)), duration:0));
+        if (ball_type == 0) {
+            ball.removeAllChildren();
+        }
+        else if (ball_type == 1) {
+            let fireball = SKSpriteNode(imageNamed: "FireBall1");
+            fireball.size = CGSize(width: 30, height: 35);
+            fireball.zPosition = 0.5;
+            fireball.run(SKAction.repeatForever(SKAction.animate(with: fireBallFrames, timePerFrame: 0.1)))
+            ball.addChild(fireball);
+        }
+        
     }
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
@@ -1192,7 +1226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func pauseGame()
     {
-        if (self.isPaused == false) {
+        if (self.isPaused == false && self.game_over == false) {
             pauseButton.run(SKAction.sequence([SKAction.setTexture(pauseButtonAnimationTexture), SKAction.wait(forDuration: 0.25)]), completion: {
                 GameViewControl?.pauseGame(pause: true)
                 self.pauseButton.texture = self.pauseButtonTexture;
