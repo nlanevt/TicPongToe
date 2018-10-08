@@ -241,7 +241,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         // If there are no records in Core Data for the player yet, create one.
         if (players.isEmpty)
         {
-            
             HighScore = 0;
             NumberOfGamesWon = 0;
             NumberOfGamesPlayed = 0;
@@ -539,7 +538,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910");
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
         interstitial.delegate = self
         interstitial.load(request);
         

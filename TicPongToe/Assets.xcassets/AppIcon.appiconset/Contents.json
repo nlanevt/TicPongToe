@@ -15,37 +15,37 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Icon18_58X58.png",
+      "filename" : "icon58-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Icon19_87X87.png",
+      "filename" : "icon87.jpg",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Icon20_80X80.png",
+      "filename" : "icon80-1.jpg",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Icon16_120X120-1.png",
+      "filename" : "icon120-1.jpg",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Icon16_120X120.png",
+      "filename" : "icon120.jpg",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Icon21_180X180.png",
+      "filename" : "icon180.jpg",
       "scale" : "3x"
     },
     {
@@ -57,7 +57,7 @@
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "Icon7_40X40-1.png",
+      "filename" : "icon40-1.jpg",
       "scale" : "2x"
     },
     {
@@ -69,43 +69,43 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Icon18_58X58-1.png",
+      "filename" : "icon58.jpg",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Icon22_40X40.png",
+      "filename" : "icon40.jpg",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Icon20_80X80-1.png",
+      "filename" : "icon80.jpg",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Icon14_76X76.png",
+      "filename" : "icon76.jpg",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Icon13_152X152.png",
+      "filename" : "icon152.jpg",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "Icon15_167X167.png",
+      "filename" : "icon167.jpg",
       "scale" : "2x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "AppleStoreIcon2.jpg",
+      "filename" : "AppleStoreIcon.jpg",
       "scale" : "1x"
     }
   ],

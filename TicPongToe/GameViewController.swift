@@ -131,7 +131,6 @@ class GameViewController: UIViewController {
     //override func applicationD
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         gameScene?.isPaused = gameScenePaused;
-        //MenuViewControl?.interstitial = MenuViewControl?.createAndLoadInterstitial();
         
         if (!gameScenePaused && !(gameScene?.game_over)!) // if the game is not in pause mode when entering the application and the game is not over
         {

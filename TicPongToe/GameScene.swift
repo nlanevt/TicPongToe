@@ -13,7 +13,7 @@ import UIKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     public var viewController: GameViewController!
     
-    private var ballManager = Ball();
+    private var ballmanager = Ball();
     private var ball = SKSpriteNode();
     private var enemy = SKSpriteNode();
     private var main = SKSpriteNode();
@@ -90,14 +90,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_previous_position = CGFloat.init(0);
     private var paddle_width = CGFloat.init(96);
     private var paddle_size_decrement:CGFloat = 24;
-    private var bounceAnglePivot = CGFloat.pi / 2;
-    private var maximumBounceAngle = (5*CGFloat.pi) / 6;
-    private var minimumBounceAngle = CGFloat.pi / 6;
-    private var bounceAngle:CGFloat = 0.0;
-    private var balldx:CGFloat = 0.0;
-    private var balldy:CGFloat = 0.0;
-    private var ballspeed:CGFloat = 40.0;
-    private var ball_start_position:CGPoint = CGPoint(x: 0, y: 30);
     
     private var paddleDeathFrames: [SKTexture] = [];
     private var paddle96ShrinkFrames: [SKTexture] = [];
@@ -112,7 +104,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
     private var paddleGrowthFrames:[SKTexture] = [];
-    private var fireBallFrames:[SKTexture] = [];
     
     var ai = AI();
     
@@ -153,11 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy_score_animation.fontColor = UIColor.yellow;
         
         ball = self.childNode(withName: "ball") as! SKSpriteNode
-        //ballManager.setUp(ball: &ball)
-        
-        ball.physicsBody?.usesPreciseCollisionDetection = true
-        ball.physicsBody?.categoryBitMask = 2
-        fireBallFrames = (AnimationFramesManager?.getFireBallFrames())!;
+        ballmanager.setUp(ball: &ball);
         
         enemy = self.childNode(withName: "enemy") as! SKSpriteNode
         applyPhysicsBodyToPaddle(paddle: enemy);
@@ -312,32 +299,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Ball
     private func startBall(down: Bool)
     {
-        if (game_over) {return} // don't restart the ball if the game is over. Let it bounce around.
-        
-        ball.isHidden = true;
-        ball.position = ball_start_position
-        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
-        var impulse = 40.0;
-        if (down == true)
-        {
-            impulse = -impulse;
-            ai.enemy_hit_ball = true;
-        }
-        else
-        {
-            ai.enemy_hit_ball = false;
-        }
-        
-        
-        let waitAction = SKAction.wait(forDuration: 0.25);
-        let unHideAction = SKAction.unhide();
-        let setBallTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Ball"));
-        let ballGrowAction = SKAction.animate(with: ballStartFrames, timePerFrame: 0.01)
-        let startBallSequence = SKAction.sequence([waitAction, unHideAction, ballGrowAction, setBallTextureAction, waitAction]);
-        
-        ball.run(startBallSequence, completion: {
-            self.ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse))
-        })
+        if (game_over) {return};
+        ai.enemy_hit_ball = down;
+        ballmanager.startBall(down: true);
     }
     
     private func endGame()
@@ -607,7 +571,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitWallNode?.position.x = contact_point.x + 2;
         }
         
-        if (ballspeed >= 47)
+        if (ballmanager.ballspeed >= 47)
         {
             let hitWallSparkNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
             hitWallSparkNode.position = (hitWallNode?.position)!;
@@ -1006,7 +970,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let location = touch.location(in: self)
                 if location.y <= main_paddle_move_boundary
                 {
-                    main.run(SKAction.moveTo(x: location.x, duration: 0.0))
+                    main.run(SKAction.moveTo(x: location.x, duration: 0.01))
                 }
             }
         }
@@ -1097,96 +1061,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             updatePaddleSpeeds();
-            let paddle = contact.bodyA.node as! SKSpriteNode
-            let contactPoint = contact.contactPoint
-            let offset = paddle.position.x - contactPoint.x;
-            var return_speed = ballspeed;
-            var dy_reflection:CGFloat = 1.0;
-            
-            if (return_speed < 40.0) {return_speed = 40.0}
             
             if (contact.bodyA.node?.name == "main")
             {
-                return_speed = getBallReturnSpeed(paddle_speed: main_paddle_speed)
-                bounceAngle = bounceAnglePivot + ((CGFloat.pi/3)*(2/(main.size.width))*offset);
+                ballmanager.bounceBall(contact, paddle: main, paddle_speed: main_paddle_speed)
             }
             else
             {
-                return_speed = getBallReturnSpeed(paddle_speed: enemy_paddle_speed)
-                bounceAngle = bounceAnglePivot + ((CGFloat.pi/3)*(2/(enemy.size.width))*offset);
-                dy_reflection = -1.0;
+                ballmanager.bounceBall(contact, paddle: enemy, paddle_speed: enemy_paddle_speed)
             }
             
-            if (bounceAngle > maximumBounceAngle) {bounceAngle = maximumBounceAngle}
-            else if (bounceAngle < minimumBounceAngle) {bounceAngle = minimumBounceAngle}
-            balldy = dy_reflection*return_speed*sin(bounceAngle);
-            balldx = return_speed*cos(bounceAngle);
-            ballspeed = return_speed;
-            ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
-            ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
-            
-            if (ballspeed <= 50)
-            {
-                animateFireBall(ball_type: 0)
-            }
-            else
-            {
-                animateFireBall(ball_type: 1);
-            }
-            
-            animateHitPaddle(contact_point: contactPoint);
+            animateHitPaddle(contact_point: contact.contactPoint);
         }
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
-            //print("Hit Wall: \(contact.contactPoint), \(ball.zRotation)");
         }
     }
-    
-    // Ball
-    private var angle_offset = CGFloat(Double.pi / 2);
     
     override func didSimulatePhysics() {
-        // Ball.ordinateBall();
-        if let body = ball.physicsBody {
-            if (body.velocity.speed() > 0.01) {
-                ball.zRotation = body.velocity.angle() - angle_offset;
-            }
-        }
-    }
-    
-    // Ball
-    private func animateFireBall(ball_type: Int)
-    {
-        if (ball_type == 0) {
-            ball.removeAllChildren();
-        }
-        else if (ball_type == 1) {
-            let fireball = SKSpriteNode(imageNamed: "FireBall1");
-            fireball.size = CGSize(width: 30, height: 35);
-            fireball.zPosition = 0.5;
-            fireball.run(SKAction.repeatForever(SKAction.animate(with: fireBallFrames, timePerFrame: 0.1)))
-            ball.addChild(fireball);
-        }
-        
-    }
-    
-    private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
-    {
-        var return_speed = ballspeed;
-        if (abs(paddle_speed) >= 0.15)
-        {
-            return_speed = return_speed + 20 * abs(paddle_speed);
-            if (return_speed > 60.0) {return_speed = 60.0}
-        }
-        else
-        {
-            return_speed = return_speed - 3 * (1 - abs(paddle_speed));
-            if (return_speed < 40.0) {return_speed = 40.0}
-        }
-        
-        return return_speed;
+        ballmanager.ordinateBall();
     }
     
     private func PaddleHitAnimate(paddle: SKSpriteNode, collision_position: CGPoint, return_speed: CGFloat)
