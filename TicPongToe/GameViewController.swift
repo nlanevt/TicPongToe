@@ -141,11 +141,14 @@ class GameViewController: UIViewController {
         {
             if (currentGameType == gameType.high_score)
             {
-                MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeHighScoreButton, delay: 0.2);
+                //MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeHighScoreButton, delay: 0.2);
+                MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
             }
             else
             {
-                MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeDuelButton, delay: 0.2);
+                //MenuViewControl?.animateButtonFloat(button: MenuViewControl?.ReturnHomeDuelButton, delay: 0.2);
+                MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
+
             }
         }
     }

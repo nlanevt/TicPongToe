@@ -21,6 +21,7 @@
 		97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ABC7DD208D2BD600B12608 /* MenuVC.swift */; };
 		97BAB39920B4FB2400499B93 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BAB39820B4FB2400499B93 /* AI.swift */; };
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
+		97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D29FD02184E18D00982FB8 /* FloatingButton.swift */; };
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
 		97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */; };
@@ -64,6 +65,7 @@
 		97ABC7DD208D2BD600B12608 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		97BAB39820B4FB2400499B93 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
+		97D29FD02184E18D00982FB8 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		97DC2C6221163FB10027A71F /* TicPongToe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TicPongToe.xcdatamodel; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				97097E6B2118E4B7005CB2EA /* LaunchScreen.storyboard */,
 				97911261212F6FFB00B697AB /* AnimationFramesHelper.swift */,
 				9726327221699C7D00C88A38 /* Ball.swift */,
+				97D29FD02184E18D00982FB8 /* FloatingButton.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -271,7 +274,7 @@
 				TargetAttributes = {
 					97F15CF3203B96520034C113 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -376,6 +379,7 @@
 				9726327321699C7D00C88A38 /* Ball.swift in Sources */,
 				97F15CFE203B96520034C113 /* GameScene.swift in Sources */,
 				97911262212F6FFB00B697AB /* AnimationFramesHelper.swift in Sources */,
+				97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */,
 				97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */,
 				97F15D00203B96520034C113 /* GameViewController.swift in Sources */,
 				97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */,
@@ -542,16 +546,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Lane (A2NY5YXLRN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aa72f4cf-0191-405d-980f-7b700e52c745";
-				PROVISIONING_PROFILE_SPECIFIER = "TIC PONG TOE! App Store Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -563,16 +567,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Lane (A2NY5YXLRN)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aa72f4cf-0191-405d-980f-7b700e52c745";
-				PROVISIONING_PROFILE_SPECIFIER = "TIC PONG TOE! App Store Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

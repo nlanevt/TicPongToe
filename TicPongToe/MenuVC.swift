@@ -94,11 +94,16 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
             MenuViewControl?.HighScoreButton = self.HighScoreButton;
             MenuViewControl?.DuelButton = self.DuelButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
-            HighScoreButtonPosition = self.HighScoreButton.frame.origin;
-            DuelButtonPosition = self.DuelButton.frame.origin;
-            LeaderboardButtonPosition = self.LeaderboardButton.frame.origin;
-            MenuViewControl?.AnimateButtons();
+            //HighScoreButtonPosition = self.HighScoreButton.frame.origin;
+            //DuelButtonPosition = self.DuelButton.frame.origin;
+            //LeaderboardButtonPosition = self.LeaderboardButton.frame.origin;
+            //MenuViewControl?.AnimateButtons();
             homescreen = true;
+            
+            MenuViewControl?.HighScoreButton.setDelay(delay: 0.0);
+            MenuViewControl?.DuelButton.setDelay(delay: 0.25);
+            MenuViewControl?.LeaderboardButton.setDelay(delay: 0.5);
+            
         }
         
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
@@ -120,12 +125,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     @IBOutlet weak var ContinueGameButton: UIButton!
     @IBOutlet weak var QuitGameButton: UIButton!
 
-    @IBOutlet weak var ReturnHomeHighScoreButton: UIButton!
-    @IBOutlet weak var ReturnHomeDuelButton: UIButton!
+    @IBOutlet weak var ReturnHomeHighScoreButton: FloatingButton!
+    @IBOutlet weak var ReturnHomeDuelButton: FloatingButton!
     
-    @IBOutlet weak var HighScoreButton: UIButton!
-    @IBOutlet weak var DuelButton: UIButton!
-    @IBOutlet weak var LeaderboardButton: UIButton!
+    @IBOutlet weak var HighScoreButton: FloatingButton!
+    @IBOutlet weak var DuelButton: FloatingButton!
+    @IBOutlet weak var LeaderboardButton: FloatingButton!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -340,7 +345,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     
         MenuViewControl?.updateMenuSceneLabels();
         menuScene?.startMenuAnimations();
-        MenuViewControl?.AnimateButtons();
+        //MenuViewControl?.AnimateButtons();
+    
         MenuViewControl?.showAd(); // needs to occur after MenuViewControl?.AnimateButtons(); otherwise there will be an issue where 'running' boolean will be set to true, causing the animations to run when they shouldn't, freezing the buttons after dismissing the ad.
     }
     
@@ -395,11 +401,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         self.LeaderboardButton.frame.origin = LeaderboardButtonPosition!;
     }
     
-    private func AnimateButtons()
+    /*private func AnimateButtons()
     {
         //print("Running Home Screen Animations");
         running = true; // Should only be the MenuViewControl calling this.
-        self.repositionButtons();
+        //self.repositionButtons();
+        /*let high_score_position = self.HighScoreButton.center.y;
         UIView.animate(withDuration: 1.0, delay: 0,
                        options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
                        animations: {
@@ -407,12 +414,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
                             self.HighScoreButton.center.y += 9;
                         }
         }, completion: {(complete: Bool) in
-            self.HighScoreButton.frame.origin = HighScoreButtonPosition!;
+            //self.HighScoreButton.frame.origin = HighScoreButtonPosition!;
+            self.HighScoreButton.center.y = high_score_position;
             self.running = false;
-            //print("Hello World High Score button completion: \(self.HighScoreButton.frame.origin)");
-            return;
-        })
+            print("Hello World High Score button completion: \(self.HighScoreButton.frame.origin)");
+            //return;
+        })*/
         
+        let duel_position = self.DuelButton.center.y;
         UIView.animate(withDuration: 1.0, delay: 0.3,
                        options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
                        animations: {
@@ -422,12 +431,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
                         }
                         
         }, completion: {(complete: Bool) in
-            self.DuelButton.frame.origin = DuelButtonPosition!;
+            //self.DuelButton.frame.origin = DuelButtonPosition!;
+            self.DuelButton.center.y = duel_position;
             self.running = false;
-            //print("Hello World Duel button completion: \(self.DuelButton.frame.origin)");
-            return;
+            print("Hello World Duel button completion: \(self.DuelButton.frame.origin)");
+            //return;
         })
         
+        let leaderboard_position = self.LeaderboardButton.center.y;
         UIView.animate(withDuration: 1.0, delay: 0.5,
                        options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
                        animations: {
@@ -437,12 +448,13 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
                         }
                         
         }, completion: {(complete: Bool) in
-            self.LeaderboardButton.frame.origin = LeaderboardButtonPosition!;
+            //self.LeaderboardButton.frame.origin = LeaderboardButtonPosition!;
+            self.LeaderboardButton.center.y = leaderboard_position;
             self.running = false;
-            //print("Hello World Leaderboard Button completion: \(self.LeaderboardButton.frame.origin)");
-            return;
+            print("Hello World Leaderboard Button completion: \(self.LeaderboardButton.frame.origin)");
+            //return;
         })
-    }
+    }*/
     
     public func animateButtonFloat(button: UIButton?, delay: Double)
     {
@@ -497,8 +509,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
                 MenuViewControl?.request = GADRequest();
                 MenuViewControl?.interstitial.load(request);
             }
-            
-            MenuViewControl?.AnimateButtons();
         }
     }
     
@@ -538,7 +548,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910");
         interstitial.delegate = self
         interstitial.load(request);
         
@@ -549,6 +559,13 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         interstitial = createAndLoadInterstitial();
         
         // Needed in the event that ad is still open when the user exists the app then re-enters it. The animation buttons still need to be run.
-        if (MenuViewControl?.running == false && homescreen == true) {MenuViewControl?.AnimateButtons()}
+        //if (MenuViewControl?.running == false && homescreen == true) {MenuViewControl?.AnimateButtons()}
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        MenuViewControl?.HighScoreButton.AnimateButton();
+        MenuViewControl?.DuelButton.AnimateButton();
+        MenuViewControl?.LeaderboardButton.AnimateButton();
     }
 }
