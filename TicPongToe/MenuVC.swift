@@ -33,7 +33,7 @@ var ReturnHomeDuelButtonPosition:CGPoint? = nil;
 var homescreen = false;
 
 var ad_counter = 0;
-var ad_trigger = 2;
+var ad_trigger = 1;
 
 enum gameType {
     case duel
@@ -94,16 +94,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
             MenuViewControl?.HighScoreButton = self.HighScoreButton;
             MenuViewControl?.DuelButton = self.DuelButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
-            //HighScoreButtonPosition = self.HighScoreButton.frame.origin;
-            //DuelButtonPosition = self.DuelButton.frame.origin;
-            //LeaderboardButtonPosition = self.LeaderboardButton.frame.origin;
-            //MenuViewControl?.AnimateButtons();
+            
             homescreen = true;
             
             MenuViewControl?.HighScoreButton.setDelay(delay: 0.0);
             MenuViewControl?.DuelButton.setDelay(delay: 0.25);
             MenuViewControl?.LeaderboardButton.setDelay(delay: 0.5);
-            
         }
         
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
@@ -114,8 +110,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         MenuViewControl?.ReturnHomeHighScoreButton = self.ReturnHomeHighScoreButton;
         MenuViewControl?.ReturnHomeDuelButton = self.ReturnHomeDuelButton;
-        
-        //print("Menu View Control ViewDidLoad");
     }
     
     @IBOutlet weak var YourScoreLabel: UILabel!
@@ -202,7 +196,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
             ScoreLabel.isHidden = false;
             GameOverLabel.isHidden = false;
             ReturnHomeHighScoreButton.isHidden = false;
-            self.animateButtonFloat(button: ReturnHomeHighScoreButton, delay: 0.2)
+            MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
             ReturnHomeDuelButton.isHidden = true;
             ContinueGameButton.isHidden = true;
             QuitGameButton.isHidden = true;
@@ -213,7 +207,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
             GameOverLabel.isHidden = false;
             ReturnHomeHighScoreButton.isHidden = true;
             ReturnHomeDuelButton.isHidden = false;
-            self.animateButtonFloat(button: ReturnHomeDuelButton, delay: 0.2)
+            MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
             YourScoreLabel.isHidden = true;
             ScoreLabel.isHidden = true;
             ContinueGameButton.isHidden = true;
@@ -345,7 +339,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     
         MenuViewControl?.updateMenuSceneLabels();
         menuScene?.startMenuAnimations();
-        //MenuViewControl?.AnimateButtons();
     
         MenuViewControl?.showAd(); // needs to occur after MenuViewControl?.AnimateButtons(); otherwise there will be an issue where 'running' boolean will be set to true, causing the animations to run when they shouldn't, freezing the buttons after dismissing the ad.
     }
@@ -387,117 +380,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     // Delegate to dismiss the GC controller
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
-    }
-    
-    public func repositionButtons()
-    {
-        // If Button Positions have already been documented, then don't set them again. Can cause problems.
-        if (HighScoreButtonPosition == nil ||
-            DuelButtonPosition == nil ||
-            LeaderboardButtonPosition == nil) {return}
-        
-        self.HighScoreButton.frame.origin = HighScoreButtonPosition!;
-        self.DuelButton.frame.origin = DuelButtonPosition!;
-        self.LeaderboardButton.frame.origin = LeaderboardButtonPosition!;
-    }
-    
-    /*private func AnimateButtons()
-    {
-        //print("Running Home Screen Animations");
-        running = true; // Should only be the MenuViewControl calling this.
-        //self.repositionButtons();
-        /*let high_score_position = self.HighScoreButton.center.y;
-        UIView.animate(withDuration: 1.0, delay: 0,
-                       options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
-                       animations: {
-                        if (self.HighScoreButton != nil) {
-                            self.HighScoreButton.center.y += 9;
-                        }
-        }, completion: {(complete: Bool) in
-            //self.HighScoreButton.frame.origin = HighScoreButtonPosition!;
-            self.HighScoreButton.center.y = high_score_position;
-            self.running = false;
-            print("Hello World High Score button completion: \(self.HighScoreButton.frame.origin)");
-            //return;
-        })*/
-        
-        let duel_position = self.DuelButton.center.y;
-        UIView.animate(withDuration: 1.0, delay: 0.3,
-                       options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
-                       animations: {
-                        if (self.DuelButton != nil)
-                        {
-                            self.DuelButton.center.y += 9;
-                        }
-                        
-        }, completion: {(complete: Bool) in
-            //self.DuelButton.frame.origin = DuelButtonPosition!;
-            self.DuelButton.center.y = duel_position;
-            self.running = false;
-            print("Hello World Duel button completion: \(self.DuelButton.frame.origin)");
-            //return;
-        })
-        
-        let leaderboard_position = self.LeaderboardButton.center.y;
-        UIView.animate(withDuration: 1.0, delay: 0.5,
-                       options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
-                       animations: {
-                        if (self.LeaderboardButton != nil)
-                        {
-                            self.LeaderboardButton.center.y += 9;
-                        }
-                        
-        }, completion: {(complete: Bool) in
-            //self.LeaderboardButton.frame.origin = LeaderboardButtonPosition!;
-            self.LeaderboardButton.center.y = leaderboard_position;
-            self.running = false;
-            print("Hello World Leaderboard Button completion: \(self.LeaderboardButton.frame.origin)");
-            //return;
-        })
-    }*/
-    
-    public func animateButtonFloat(button: UIButton?, delay: Double)
-    {
-        if (ReturnHomeHighScoreButtonPosition == nil && button == self.ReturnHomeHighScoreButton)
-        {
-            ReturnHomeHighScoreButtonPosition = button?.frame.origin;
-        }
-        else if (ReturnHomeDuelButtonPosition == nil && button == ReturnHomeDuelButton)
-        {
-            ReturnHomeDuelButtonPosition = button?.frame.origin;
-        }
-        
-        
-        UIView.animate(withDuration: 1.0, delay: delay,
-                       options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
-                       animations: {
-                        if (button != nil)
-                        {
-                            button?.center.y += 7;
-                        }
-                        
-        }, completion: {(complete: Bool) in
-            if (button == self.ReturnHomeHighScoreButton) {
-                button?.frame.origin = ReturnHomeHighScoreButtonPosition!;
-            }
-            else {
-                button?.frame.origin = ReturnHomeDuelButtonPosition!;
-            }
-            return;
-        })
-    }
-    
-    private func animateLabelFlash(label: UILabel?, delay: Double)
-    {
-        UIView.animate(withDuration: 1.5, delay: delay,
-                       options: [.repeat, .autoreverse, .curveEaseOut, .curveEaseIn, .allowUserInteraction],
-                       animations: {
-                        if (label != nil)
-                        {
-                            
-                        }
-                        
-        }, completion: nil)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
@@ -559,7 +441,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         interstitial = createAndLoadInterstitial();
         
         // Needed in the event that ad is still open when the user exists the app then re-enters it. The animation buttons still need to be run.
-        //if (MenuViewControl?.running == false && homescreen == true) {MenuViewControl?.AnimateButtons()}
     }
     
     override func viewWillAppear(_ animated: Bool) {

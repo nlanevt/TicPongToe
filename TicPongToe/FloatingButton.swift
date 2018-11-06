@@ -24,6 +24,7 @@ class FloatingButton: UIButton {
             object: nil)
         
         original_position = self.center.y;
+        //AnimateButton();
     }
     
     public func AnimateButton() {
@@ -42,6 +43,7 @@ class FloatingButton: UIButton {
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         AnimateButton();
+        
     }
 
     public func setFloatingValue(value: CGFloat) {

@@ -28,7 +28,7 @@ class Ball  {
     private var balldy:CGFloat = 0.0;
     private var ball_start_position:CGPoint = CGPoint(x: 0, y: 30);
     private var ballStartSpeed:CGFloat = 40.0;
-    private var ball = SKSpriteNode();
+    public var ball = SKSpriteNode();
     private var angle_offset = CGFloat(Double.pi / 2);
     
     public func setUp(ball: inout SKSpriteNode)

@@ -18,6 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy = SKSpriteNode();
     private var main = SKSpriteNode();
     private var paddle_physics_height:CGFloat = 15.0;
+    private var main_boundary_position:CGFloat = -194;
+    private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
     
@@ -445,12 +447,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 setScore(playerWhoWon: main, amount: 100, type: 0)
                 startBall(down: true)
                 animatePaddleDeath(paddle: enemy);
+                // Score Explosion Animation
             }
             else if playerWhoWon == enemy
             {
                 setScore(playerWhoWon: enemy, amount: 0, type: 0)
                 startBall(down: false)
                 animatePaddleDeath(paddle: main);
+                // Score Explosion ANimation
             }
         }
         else if (type == 1) // tic tac toe score
@@ -553,6 +557,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.applyPhysicsBodyToPaddle(paddle: paddle);
                 }
             })
+        })
+    }
+    
+    private func animateScoreExplosion() {
+        var scoreExplosionFrames:[SKTexture] = [];
+        
+        var explosion_position:CGFloat = 0.0;
+        var explosion_zRotation:CGFloat = 0.0;
+        if (ballmanager.ball.position.y <= main.position.y) {
+            scoreExplosionFrames = (AnimationFramesManager?.scoreExplosionAFrames)!;
+        
+            explosion_position = main_boundary_position + (scoreExplosionFrames[0].size().height / 2);
+            
+        }
+        else if (ballmanager.ball.position.y >= enemy.position.y) {
+            scoreExplosionFrames = (AnimationFramesManager?.scoreExplosionBFrames)!;
+            explosion_zRotation = CGFloat.pi;
+            explosion_position = enemy_boundary_position - (scoreExplosionFrames[0].size().height / 2);
+        }
+        else {
+            return;
+        }
+        
+        //scoreExplosionFrames = AnimationFramesManager?.getScoreExplosionAFrames();
+        
+        var explosionNode:SKSpriteNode? = SKSpriteNode(texture: scoreExplosionFrames[0], size: scoreExplosionFrames[0].size());
+        explosionNode?.zPosition = 0.0;
+        explosionNode?.position.x = ballmanager.ball.position.x;
+        explosionNode?.zRotation = explosion_zRotation;
+        explosionNode?.position.y = explosion_position;
+        
+
+        
+        self.addChild(explosionNode!);
+        explosionNode?.run(SKAction.animate(with: scoreExplosionFrames, timePerFrame: 0.05), completion: {
+            explosionNode?.removeFromParent();
+            explosionNode = nil;
         })
     }
     
@@ -984,12 +1025,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ai.move();
                 
                 // Check to see if ball went past the paddles
-                if ball.position.y <= main.position.y - 70 {
+                if (ball.position.y < main_boundary_position) {
+                    
+                    
+                    if (ball.position.y <= main.position.y - 70) {
+                        animateScoreExplosion();
+                        addScore(playerWhoWon: enemy, type: 0)}
+                    
+                }
+                else if (ball.position.y >= enemy_boundary_position) {
+                    if (ball.position.y >= enemy.position.y + 20) {
+                        animateScoreExplosion();
+                        addScore(playerWhoWon: main, type: 0)}
+                }
+                
+                /*if ball.position.y <= main.position.y - 70 {
                     addScore(playerWhoWon: enemy, type: 0);
                 }
                 else if ball.position.y >= enemy.position.y + 10 {
                     addScore(playerWhoWon: main, type: 0);
-                }
+                }*/
                 
                 // Manage Tic Tac Toe board
                 if (players_turn == false && board_hits < 9) {

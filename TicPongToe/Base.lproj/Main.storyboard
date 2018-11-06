@@ -72,9 +72,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="140" y="293" width="96" height="37"/>
+                                <rect key="frame" x="140" y="291" width="96" height="37"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="BMw-Zl-KsP"/>
+                                    <constraint firstAttribute="height" constant="37" id="WSs-dh-1El"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
                                 <state key="normal" title="Play Duel"/>
@@ -86,7 +86,7 @@
                                 <rect key="frame" x="8" y="117" width="359" height="65"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="95" y="245" width="184" height="40"/>
+                                <rect key="frame" x="95" y="245" width="178" height="38"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
                                 <state key="normal" title="Play High Score" backgroundImage="HighScoreButtonBorder"/>
                                 <connections>
@@ -94,9 +94,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="129" y="338" width="118" height="46"/>
+                                <rect key="frame" x="129" y="336" width="118" height="46"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="46" id="3Zb-ty-v4O"/>
+                                    <constraint firstAttribute="height" constant="46" id="RwG-Q6-vF4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
                                 <state key="normal" title="Leaderboard"/>
@@ -108,15 +108,15 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" constant="-3.5" id="4KG-Xv-bU2"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="97" id="6TQ-T3-Qbd"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" constant="8" id="9y7-oR-99G"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="8" symbolic="YES" id="A4B-5k-PKG"/>
                             <constraint firstItem="8di-Xp-PQW" firstAttribute="trailing" secondItem="Fg3-wy-OBD" secondAttribute="trailing" constant="8" id="BEi-4h-tfC"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" id="PH0-7a-qwJ"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="e77-KA-Tc6" secondAttribute="centerX" id="fcX-RQ-HU5"/>
-                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="8" symbolic="YES" id="h11-mu-T2f"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="8" symbolic="YES" id="jUp-12-7Fn"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" id="sGt-5E-tfr"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="63" id="zNh-wd-L57"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="e77-KA-Tc6" secondAttribute="centerX" id="NO9-5t-mP3"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="8" symbolic="YES" id="Qjd-ag-9sV"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" id="dFb-GS-lUU"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="63" id="up0-Jo-lwY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                     </view>
@@ -223,7 +223,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="HighScoreButtonBorder" width="184" height="40"/>
+        <image name="HighScoreButtonBorder" width="178" height="38"/>
         <image name="TicPongToeTitleImage" width="302" height="65"/>
     </resources>
 </document>

@@ -27,6 +27,9 @@ class AnimationFramesHelper {
     private var paddleGrowthFrames:[SKTexture] = [];
     private var fireBallAFrames:[SKTexture] = [];
     private var fireBallBFrames:[SKTexture] = [];
+    public var scoreExplosionAFrames:[SKTexture] = [];
+    public var scoreExplosionBFrames:[SKTexture] = [];
+
     
     private var sceneHeight:CGFloat = 0.0;
     private var backgroundNodeA1:SKSpriteNode? = nil;
@@ -49,7 +52,13 @@ class AnimationFramesHelper {
         paddleGrowthFrames = buildAnimation(textureAtlasName: "PaddleGrowth").reversed();
         fireBallAFrames = buildAnimation(textureAtlasName: "FireBallA");
         fireBallBFrames = buildAnimation(textureAtlasName: "FireBallB");
-
+        scoreExplosionAFrames = buildAnimation(textureAtlasName: "ScoreExplosionA");
+        scoreExplosionBFrames = buildAnimation(textureAtlasName: "ScoreExplosionB");
+    }
+    
+    public func getScoreExplosionAFrames() -> [SKTexture]
+    {
+        return scoreExplosionAFrames;
     }
     
     public func getFireBallBFrames() -> [SKTexture]
