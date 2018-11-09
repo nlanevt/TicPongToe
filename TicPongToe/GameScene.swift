@@ -22,13 +22,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
+    private var level: Int64 = 1;
     
     private var score_increase_array:[Int64] = [250, 500, 1000, 2000, 5000, 10000]
     private var score_increase_iterator = 0;
     
     public var life = 7;
-    public var player_score_counter = 0;
-    public var enemy_score_counter = 0;
+    public var player_score_counter:Int64 = 0;
+    public var enemy_score_counter:Int64 = 0;
     
     private var high_score = SKLabelNode();
     private var player_score_animation = SKLabelNode();
@@ -201,8 +202,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddleGrowthFrames = (AnimationFramesManager?.getPaddleGrowthFrames())!;
         
         // Switch game types. Currently we are just using easy, medium and hard as types.
-        ai.setPaddleValues(b: ball, e: enemy)
+        ai.setPaddleValues(ball: ball, ai: enemy);
         ai.setFrameSize(view_size: self.frame.size);
+        ai.setLevel(level: level);
         
         MenuViewControl?.setUpPauseView();
         
@@ -254,6 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func startGame()
     {
+        level = 1;
         score = 0;
         life = 7;
         tictactoeboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -292,9 +295,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy_score_animation.text = "\(enemy_score_counter)";
         }
         
+        //Add animation for starting at Level 1
         startBall(down: false)
         ai.setNewChaseMethod();
         runTimer();
+    }
+    
+    private func increaseLevel() {
+        level = level + 1;
+        ai.setLevel(level: level);
+        print("Game Level: \(level)")
     }
     
     // This function animates and times ball properly whenever it starts
@@ -326,7 +336,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             animatePaddleRemoval(paddle: enemy)
         }
 
-        if (currentGameType == gameType.high_score)
+        // Deactivated below to ensure no new scores get saved
+        /*if (currentGameType == gameType.high_score)
         {
             if (score > HighScore)
             {
@@ -346,7 +357,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 MenuViewControl?.GameOverLabel.text = "YOU LOSE";
             }
-        }
+        }*/
+        
         MenuViewControl?.deleteCoreData(); // Remove any current core data.
         MenuViewControl?.save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased) // Save new info to Core Data
         MenuViewControl?.loadScores();
@@ -376,8 +388,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.high_score.fontColor = UIColor.white;
                     self.growLife();
                 });
+                
+                if (type == 0) {
+                    if (ai.decreaseLife() == true) {
+                        increaseLevel();
+                    }
+                }
             }
-            else
+            else if (type == 0) // Enemy scored a pong score, not a tic-tac-toe score (which shouldn't take away the players life). Only a Pong score does that.
             {
                 life = life - 1; // remove life from player
                 
@@ -396,16 +414,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             high_score.text = "\(score)";
             
-            
         }
-        else if (type == 0) // i.e. its a pong score, not a tic tac toe score
+        else if (type == 0) // i.e. It is Duel and its a pong score, not a tic tac toe score
         {
             if (playerWhoWon == main)
             {
                 player_score_counter = player_score_counter + 1
                 player_score.text = "\(player_score_counter)";
                 player_score_animation.text = "\(player_score_counter)";
-                
                 
                 player_score_animation.alpha = 1.0;
                 player_score_animation.run(SKAction.fadeOut(withDuration: 1.0));

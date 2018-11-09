@@ -72,7 +72,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="140" y="291" width="96" height="37"/>
+                                <rect key="frame" x="140" y="281" width="96" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="37" id="WSs-dh-1El"/>
                                 </constraints>
@@ -86,15 +86,15 @@
                                 <rect key="frame" x="8" y="117" width="359" height="65"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="95" y="245" width="178" height="38"/>
+                                <rect key="frame" x="104" y="245" width="160" height="28"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="16"/>
-                                <state key="normal" title="Play High Score" backgroundImage="HighScoreButtonBorder"/>
+                                <state key="normal" title="Play High Score"/>
                                 <connections>
                                     <action selector="High_Score:" destination="kah-ot-ka5" eventType="touchUpInside" id="TeB-LC-khh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="129" y="336" width="118" height="46"/>
+                                <rect key="frame" x="129" y="326" width="118" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="RwG-Q6-vF4"/>
                                 </constraints>
@@ -223,7 +223,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="HighScoreButtonBorder" width="178" height="38"/>
         <image name="TicPongToeTitleImage" width="302" height="65"/>
     </resources>
 </document>

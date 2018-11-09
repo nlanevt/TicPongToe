@@ -19,10 +19,11 @@ enum chase_method {
 }
 
 class AI {
+    private var level:Int64 = 0;
     private var speed = 0.0;
     private var lives = 0;
     private var difficulty = 0;
-    private var high_score = 0;
+    private var high_score:Int64 = 0;
     private var enemy_score = 0;
     private var player_score = 0;
     private var ball:SKSpriteNode?
@@ -42,11 +43,13 @@ class AI {
     private var offset2:CGFloat = 250;
     
     private var intensity:CGFloat = 0.03;
+    private var ai_lives = 3;
+    private var ai_lives_amount = 3;
     
-    func setPaddleValues(b: SKSpriteNode, e: SKSpriteNode)
+    func setPaddleValues(ball: SKSpriteNode, ai: SKSpriteNode)
     {
-        ball = b;
-        ai = e;
+        self.ball = ball;
+        self.ai = ai;
     }
     
     func setFrameSize(view_size: CGSize)
@@ -62,6 +65,22 @@ class AI {
     
     func getSpeed() -> Double {
         return speed;
+    }
+    
+    public func decreaseLife() -> Bool{
+        var result = false;
+        ai_lives = ai_lives - 1;
+        if (ai_lives <= 0) {
+            result = true
+            if (ai_lives_amount < 21) {ai_lives_amount = ai_lives_amount + 1}
+            ai_lives = ai_lives_amount;
+        }
+        
+        return result;
+    }
+    
+    public func setLevel(level: Int64) {
+        self.level = level;
     }
     
     // Determine what position on the board the AI will choose
@@ -132,16 +151,6 @@ class AI {
                 chase = chase_method.center;
                 break;
             }
-            
-            rand = Int(arc4random_uniform(3));
-            if (rand == 1)
-            {
-                intensity = 0.03
-            }
-            else
-            {
-                intensity = 0.05
-            }
         }
         else
         {
@@ -167,23 +176,68 @@ class AI {
                 break;
             }
             
-            rand = Int(arc4random_uniform(5));
-            if (rand == 1)
-            {
-                intensity = 0.03
-            }
-            else if (rand == 2)
-            {
-                intensity = 0.03
-            }
-            else
-            {
-                intensity = 0.06
-            }
         }
+        self.setDifficulty();
     }
     
-    func move()
+    private func setDifficulty() {
+        let rand = Int(arc4random_uniform(5));
+
+        if (currentGameType == gameType.high_score) {
+            if (level <= 3) {
+                if (rand < 3) {intensity = 0.07}
+                else {intensity = 0.08}
+            }
+            else if (level <= 6) {
+                if (rand < 3) {intensity = 0.06}
+                else {intensity = 0.07}
+            }
+            else if (level <= 9) {
+                if (rand == 0) {intensity = 0.05}
+                else {intensity = 0.06}
+            }
+            else if (level <= 12) {
+                if (rand < 3) {intensity = 0.5}
+                else {intensity =  0.6}
+            }
+            else if (level <= 15) {
+                if (rand == 0) {intensity = 0.3}
+                else if (rand < 3) {intensity = 0.5}
+                else {intensity = 0.6}
+            }
+            else if (level <= 18){
+                if (rand == 0) {intensity = 0.3}
+                else if (rand < 3) {intensity = 0.4}
+                else {intensity = 0.5}
+            }
+            else if (level <= 21) {
+                
+            }
+            else if (level <= 24) {
+                
+            }
+            else if (level <= 27) {
+                
+            }
+            else if (level <= 30) {
+                
+            }
+            else {
+                if (rand == 0) {intensity = 0.5}
+                else {intensity = 0.3}
+            }
+        }
+        else {
+            if (rand == 0) {intensity = 0.03}
+            else if (rand < 3) {intensity = 0.04}
+            else {intensity = 0.05}
+        }
+        
+        print("AI Level: \(level), Intensity: \(intensity), lives: \(ai_lives)");
+
+    }
+    
+    public func move()
     {
         let offset = (ai?.position.y)! - (ball?.position.y)!;
         if (offset < offset1 && !enemy_hit_ball)
@@ -253,7 +307,7 @@ class AI {
     
     /*
      * Currently not in use.
-    */
+     */
     private func fastBallHit(offset: CGFloat)
     {
         var position:CGFloat = 0.0
