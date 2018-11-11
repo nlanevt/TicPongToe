@@ -185,46 +185,49 @@ class AI {
 
         if (currentGameType == gameType.high_score) {
             if (level <= 3) {
+                intensity = 0.08;
+            }
+            else if (level <= 6) {
                 if (rand < 3) {intensity = 0.07}
                 else {intensity = 0.08}
             }
-            else if (level <= 6) {
-                if (rand < 3) {intensity = 0.06}
-                else {intensity = 0.07}
-            }
             else if (level <= 9) {
-                if (rand == 0) {intensity = 0.05}
-                else {intensity = 0.06}
+                intensity = 0.07;
             }
             else if (level <= 12) {
-                if (rand < 3) {intensity = 0.5}
-                else {intensity =  0.6}
+                if (rand == 0) {intensity = 0.5}
+                else if (rand < 3) {intensity = 0.6}
+                else {intensity = 0.7}
             }
             else if (level <= 15) {
-                if (rand == 0) {intensity = 0.3}
-                else if (rand < 3) {intensity = 0.5}
+                if (rand < 3) {intensity = 0.5}
                 else {intensity = 0.6}
             }
             else if (level <= 18){
                 if (rand == 0) {intensity = 0.3}
+                else if (rand < 3) {intensity = 0.5}
+                else {intensity = 0.55}
+                
+            }
+            else if (level <= 21) {
+                if (rand == 0) {intensity = 0.3}
                 else if (rand < 3) {intensity = 0.4}
                 else {intensity = 0.5}
             }
-            else if (level <= 21) {
-                
-            }
             else if (level <= 24) {
-                
+                if (rand < 2) {intensity = 0.3}
+                else {intensity = 0.4}
             }
             else if (level <= 27) {
-                
+                if (rand < 2) {intensity = 0.3}
+                else {intensity = 0.4}
             }
             else if (level <= 30) {
-                
+                if (rand < 3) {intensity = 0.3}
+                else {intensity = 0.4}
             }
             else {
-                if (rand == 0) {intensity = 0.5}
-                else {intensity = 0.3}
+                intensity = 0.3;
             }
         }
         else {

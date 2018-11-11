@@ -22,6 +22,7 @@
 		97BAB39920B4FB2400499B93 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BAB39820B4FB2400499B93 /* AI.swift */; };
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
 		97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D29FD02184E18D00982FB8 /* FloatingButton.swift */; };
+		97D60F7221954638007B4CF8 /* AnimatedMaskLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D60F7121954638007B4CF8 /* AnimatedMaskLabel.swift */; };
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
 		97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */; };
@@ -66,6 +67,7 @@
 		97BAB39820B4FB2400499B93 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
 		97D29FD02184E18D00982FB8 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		97D60F7121954638007B4CF8 /* AnimatedMaskLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedMaskLabel.swift; sourceTree = "<group>"; };
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		97DC2C6221163FB10027A71F /* TicPongToe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TicPongToe.xcdatamodel; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				97911261212F6FFB00B697AB /* AnimationFramesHelper.swift */,
 				9726327221699C7D00C88A38 /* Ball.swift */,
 				97D29FD02184E18D00982FB8 /* FloatingButton.swift */,
+				97D60F7121954638007B4CF8 /* AnimatedMaskLabel.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				9798EC2B2159D51400099502 /* InfiniteScrollingBackground.swift in Sources */,
 				97BAB39920B4FB2400499B93 /* AI.swift in Sources */,
 				97F15CF8203B96520034C113 /* AppDelegate.swift in Sources */,
+				97D60F7221954638007B4CF8 /* AnimatedMaskLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

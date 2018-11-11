@@ -89,6 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var main_previous_position = CGFloat.init(0);
     private var main_paddle_move_boundary:CGFloat = -175;
     
+    private var enemy_is_dead = false; // Used when paddle is complete deleted and user scores.
     private var enemy_paddle_speed = CGFloat.init(0);
     private var enemy_previous_position = CGFloat.init(0);
     private var paddle_width = CGFloat.init(96);
@@ -304,7 +305,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func increaseLevel() {
         level = level + 1;
         ai.setLevel(level: level);
+        //scroller?.speed = (scroller?.speed)! + 2;
         print("Game Level: \(level)")
+        
     }
     
     // This function animates and times ball properly whenever it starts
@@ -460,17 +463,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             if playerWhoWon == main
             {
-                setScore(playerWhoWon: main, amount: 100, type: 0)
+                var score_counter = calculateScore()
+                setScore(playerWhoWon: main, amount: score_counter, type: 0)
                 startBall(down: true)
                 animatePaddleDeath(paddle: enemy);
-                // Score Explosion Animation
             }
             else if playerWhoWon == enemy
             {
                 setScore(playerWhoWon: enemy, amount: 0, type: 0)
                 startBall(down: false)
                 animatePaddleDeath(paddle: main);
-                // Score Explosion ANimation
             }
         }
         else if (type == 1) // tic tac toe score
@@ -487,12 +489,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Get extra points for completely removing the enemy paddle
                 if (enemy.size.width == 0)
                 {
-                    setScore(playerWhoWon: main, amount: 100, type: 1)
+                    setScore(playerWhoWon: main, amount: 0, type: 1)
                     animatePaddleDeath(paddle: enemy);
                 }
                 else
                 {
-                    setScore(playerWhoWon: main, amount: 25, type: 1)
+                    setScore(playerWhoWon: main, amount: 0, type: 1)
                 }
             }
             else if playerWhoWon == enemy
@@ -518,6 +520,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ai.setNewChaseMethod();
         
         // Score needs to be animated properly when changed.
+    }
+    
+    private func calculateScore() -> Int64 {
+        var score_counter:Int64 = 100;
+        if (enemy.size.width == 72) {
+            score_counter = score_counter + 25;
+        }
+        else if (enemy.size.width == 48) {
+            score_counter = score_counter + 50;
+        }
+        else if (enemy.size.width == 24) {
+            score_counter = score_counter + 100;
+        }
+        else if (enemy_is_dead == true) {
+            score_counter = score_counter + 200;
+        }
+        
+        if (ballmanager.ballspeed >= 50) {
+            score_counter = score_counter + Int64(ballmanager.ballspeed);
+        }
+        
+        return score_counter;
     }
     
     /*
@@ -559,6 +583,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let growthAction = SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01)
         let deathAction = SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025);
         paddle.size.width = 256;
+        if (paddle == enemy) {enemy_is_dead = true}
         paddle.run(deathAction, completion: {
             paddle.size.width = self.paddle_width;
             paddle.run(growthAction, completion: {
@@ -572,6 +597,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     paddle.size.width = self.paddle_width
                     self.applyPhysicsBodyToPaddle(paddle: paddle);
                 }
+                if (paddle == self.enemy) {self.enemy_is_dead = false}
             })
         })
     }
@@ -595,8 +621,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else {
             return;
         }
-        
-        //scoreExplosionFrames = AnimationFramesManager?.getScoreExplosionAFrames();
         
         var explosionNode:SKSpriteNode? = SKSpriteNode(texture: scoreExplosionFrames[0], size: scoreExplosionFrames[0].size());
         explosionNode?.zPosition = 0.0;
