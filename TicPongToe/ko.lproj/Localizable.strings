@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  TicPongToe
+
+  Created by Nathan Lane on 11/12/18.
+  Copyright © 2018 Nathan Lane. All rights reserved.
+*/
+"Play High Score" = "최고점수 도전";
+"Play Duel" = "1:1 대결";
+"Leaderboard" = "점수판";
+"HIGH SCORE" = "최고점수";
+"GAMES WON" = "이긴 게임";
+"YOU WON!" = "YOU WON!";
+"YOU LOSE" = "YOU LOSE";
+"GAME OVER" = "GAME OVER";
+"YOUR SCORE" = "현재점수";
+"Return Home" = "홈으로";
+"Quit Game" = "그만하기";
+"Continue" = "계속하기";
+"fontName" = "RixVideoGame";
+"fontSize1" = "30";
+"fontSize2" = "24";
+"fontSize3" = "36";

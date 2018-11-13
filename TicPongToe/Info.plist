@@ -24,6 +24,7 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>RixVideoGame Bold.ttf</string>
 		<string>ARCADECLASSIC.TTF</string>
 		<string>manaspc.ttf</string>
 	</array>

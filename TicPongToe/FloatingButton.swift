@@ -14,9 +14,15 @@ class FloatingButton: UIButton {
     private var original_position:CGFloat = 0.0;
     private var delay:CGFloat = 0.0;
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        //AnimateButton();
+        //print ("Button initiated: \(floating_value)");
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        print("Awake from Nib");
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationDidBecomeActive(notification:)),
@@ -28,6 +34,8 @@ class FloatingButton: UIButton {
     }
     
     public func AnimateButton() {
+        
+        //print("Animating: \(self.titleLabel?.text)");
         UIView.animate(withDuration: 1.0, delay: TimeInterval(delay),
                        options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
                        animations: {
@@ -43,7 +51,6 @@ class FloatingButton: UIButton {
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         AnimateButton();
-        
     }
 
     public func setFloatingValue(value: CGFloat) {

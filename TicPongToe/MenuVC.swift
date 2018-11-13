@@ -54,6 +54,20 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     public var interstitial: GADInterstitial!
     public var request: GADRequest!
     
+    @IBOutlet weak var YourScoreLabel: UILabel!
+    @IBOutlet weak var ScoreLabel: UILabel!
+    @IBOutlet weak var GameOverLabel: UILabel!
+    
+    @IBOutlet weak var ContinueGameButton: UIButton!
+    @IBOutlet weak var QuitGameButton: UIButton!
+
+    @IBOutlet weak var ReturnHomeHighScoreButton: FloatingButton!
+    @IBOutlet weak var ReturnHomeDuelButton: FloatingButton!
+    
+    @IBOutlet weak var HighScoreButton: FloatingButton!
+    @IBOutlet weak var DuelButton: FloatingButton!
+    @IBOutlet weak var LeaderboardButton: FloatingButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -110,21 +124,40 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         MenuViewControl?.ReturnHomeHighScoreButton = self.ReturnHomeHighScoreButton;
         MenuViewControl?.ReturnHomeDuelButton = self.ReturnHomeDuelButton;
+        
+        if (MenuViewControl?.YourScoreLabel != nil) {
+            MenuViewControl?.YourScoreLabel.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.QuitGameButton != nil) {
+            MenuViewControl?.QuitGameButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.ContinueGameButton != nil) {
+            MenuViewControl?.ContinueGameButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.ReturnHomeHighScoreButton != nil) {
+            MenuViewControl?.ReturnHomeHighScoreButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.ReturnHomeDuelButton != nil) {
+            MenuViewControl?.ReturnHomeDuelButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.HighScoreButton != nil) {
+            MenuViewControl?.HighScoreButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.DuelButton != nil) {
+            MenuViewControl?.DuelButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
+        if (MenuViewControl?.LeaderboardButton != nil) {
+            MenuViewControl?.LeaderboardButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
+        }
+        
     }
-    
-    @IBOutlet weak var YourScoreLabel: UILabel!
-    @IBOutlet weak var ScoreLabel: UILabel!
-    @IBOutlet weak var GameOverLabel: UILabel!
-    
-    @IBOutlet weak var ContinueGameButton: UIButton!
-    @IBOutlet weak var QuitGameButton: UIButton!
-
-    @IBOutlet weak var ReturnHomeHighScoreButton: FloatingButton!
-    @IBOutlet weak var ReturnHomeDuelButton: FloatingButton!
-    
-    @IBOutlet weak var HighScoreButton: FloatingButton!
-    @IBOutlet weak var DuelButton: FloatingButton!
-    @IBOutlet weak var LeaderboardButton: FloatingButton!
     
     override var prefersStatusBarHidden: Bool {
         return true

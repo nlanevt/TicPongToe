@@ -13,6 +13,8 @@ import UIKit
 
 class MenuScene: SKScene, SKPhysicsContactDelegate {
     
+    private var HighScoreDisplayLabel = SKLabelNode();
+    private var GamesWonDisplayLabel = SKLabelNode();
     private var HighScoreLabel = SKLabelNode();
     private var GamesWonLabel = SKLabelNode();
     private var menuFrame = SKSpriteNode();
@@ -26,8 +28,19 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         super.didMove(to: view);
         self.backgroundColor = SKColor.black;
 
+        HighScoreDisplayLabel = self.childNode(withName: "HighScoreDisplayLabel") as! SKLabelNode;
+        HighScoreDisplayLabel.text = String.localizedStringWithFormat(NSLocalizedString("HIGH SCORE", comment: "Your top score so far."));
+        HighScoreDisplayLabel.fontName = String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font"));
+        HighScoreDisplayLabel.fontSize = CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize2", comment: "The localized font size")) as NSString).floatValue);
         HighScoreLabel = self.childNode(withName: "HighScoreLabel") as! SKLabelNode;
+        
+        
+        GamesWonDisplayLabel = self.childNode(withName: "GamesWonDisplayLabel") as! SKLabelNode;
+        GamesWonDisplayLabel.text = String.localizedStringWithFormat(NSLocalizedString("GAMES WON", comment: "Your top score so far."));
+        GamesWonDisplayLabel.fontName = String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font"));
+        GamesWonDisplayLabel.fontSize = CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize2", comment: "The localized font size")) as NSString).floatValue);
         GamesWonLabel = self.childNode(withName: "GamesWonLabel") as! SKLabelNode;
+        
         menuFrame = self.childNode(withName: "MenuFrame") as! SKSpriteNode;
         
         menuAnimationTop = SKSpriteNode(imageNamed: "MenuAnimationTopYellow");

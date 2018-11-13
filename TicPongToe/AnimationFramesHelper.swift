@@ -29,6 +29,7 @@ class AnimationFramesHelper {
     private var fireBallBFrames:[SKTexture] = [];
     public var scoreExplosionAFrames:[SKTexture] = [];
     public var scoreExplosionBFrames:[SKTexture] = [];
+    public var hitWallBFrames:[SKTexture] = [];
 
     
     private var sceneHeight:CGFloat = 0.0;
@@ -48,6 +49,7 @@ class AnimationFramesHelper {
         lifeShrinkFrames = buildAnimation(textureAtlasName: "LifeShrink");
         lifeGrowFrames = lifeShrinkFrames.reversed();
         hitWallFrames = buildAnimation(textureAtlasName: "HitWallAnimation");
+        hitWallBFrames = buildAnimation(textureAtlasName: "HitWallAnimationB");
         hitPaddleFrames = buildAnimation(textureAtlasName: "HitPaddleAnimation");
         paddleGrowthFrames = buildAnimation(textureAtlasName: "PaddleGrowth").reversed();
         fireBallAFrames = buildAnimation(textureAtlasName: "FireBallA");

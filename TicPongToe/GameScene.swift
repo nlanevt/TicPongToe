@@ -305,8 +305,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func increaseLevel() {
         level = level + 1;
         ai.setLevel(level: level);
-        //scroller?.speed = (scroller?.speed)! + 2;
-        print("Game Level: \(level)")
+        var newTransitionSpeed = (scroller?.transitionSpeed)!;
+        
+        if (level < 50) {
+            scroller?.speed = (scroller?.speed)! + 0.5;
+        }
+        
+        
+        
+        print("Game Level: \(level), scroller speed: \(scroller?.transitionSpeed)")
         
     }
     
@@ -582,11 +589,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         let growthAction = SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01)
         let deathAction = SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025);
+        let setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle96"));
         paddle.size.width = 256;
         if (paddle == enemy) {enemy_is_dead = true}
         paddle.run(deathAction, completion: {
             paddle.size.width = self.paddle_width;
-            paddle.run(growthAction, completion: {
+            paddle.run(SKAction.sequence([growthAction, setFinalPaddleTextureAction]), completion: {
                 if (self.game_over)
                 {
                     paddle.isHidden = true;
@@ -652,7 +660,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitWallNode?.position.x = contact_point.x + 2;
         }
         
-        if (ballmanager.ballspeed >= 47)
+        if (ballmanager.ballspeed >= 45 && ballmanager.ballspeed < 50)
         {
             let hitWallSparkNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
             hitWallSparkNode.position = (hitWallNode?.position)!;
@@ -661,6 +669,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitWallSparkNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
                 hitWallSparkNode.removeFromParent();
             })
+        }
+        else {
+            var hitWallBNode = SKSpriteNode(texture: AnimationFramesManager?.hitWallBFrames[0], size: (AnimationFramesManager?.hitWallBFrames[0].size())!);
+            hitWallBNode.zPosition = 0.0;
+            hitWallBNode.position.y = contact_point.y;
+            if (contact_point.x > 0) {
+                hitWallBNode.position.x = contact_point.x - 2 - ((AnimationFramesManager?.hitWallBFrames[0].size().width)! / 2);
+                hitWallBNode.zRotation = CGFloat.pi;
+            }
+            else {
+                hitWallBNode.position.x = contact_point.x + 2 + ((AnimationFramesManager?.hitWallBFrames[0].size().width)! / 2);
+            }
+            
+            self.addChild(hitWallBNode);
+            hitWallBNode.run(SKAction.animate(with: (AnimationFramesManager?.hitWallBFrames)!, timePerFrame: 0.025), completion: {
+                hitWallBNode.removeFromParent();
+            })
+            
+            return;
         }
         
         self.addChild(hitWallNode!);
