@@ -34,6 +34,7 @@
 		97F15D00203B96520034C113 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CFF203B96520034C113 /* GameViewController.swift */; };
 		97F15D03203B96520034C113 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97F15D01203B96520034C113 /* Main.storyboard */; };
 		97F6A152219A5FA200CAB491 /* RixVideoGame Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971BD487219A5A8800F2911D /* RixVideoGame Bold.ttf */; };
+		97F6A154219BCD3A00CAB491 /* FlashingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */; };
 		E48EF51DBE0E1982BD26FA55 /* libPods-TicPongToe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		97F15D09203B96520034C113 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97F15D0E203B96520034C113 /* TicPongToeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15D19203B96520034C113 /* TicPongToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashingLabel.swift; sourceTree = "<group>"; };
 		B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TicPongToe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06A768DF8541E6345C476F3 /* Pods-TicPongToe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.release.xcconfig"; sourceTree = "<group>"; };
 		F6F8D13C5542260EBC917237 /* Pods-TicPongToe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.debug.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				97D29FD02184E18D00982FB8 /* FloatingButton.swift */,
 				97D60F7121954638007B4CF8 /* AnimatedMaskLabel.swift */,
 				9776C5B3219A38E800C6A1A0 /* Localizable.strings */,
+				97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -280,7 +283,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Nathan Lane";
 				TargetAttributes = {
 					97F15CF3203B96520034C113 = {
@@ -402,6 +405,7 @@
 				97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */,
 				9798EC2B2159D51400099502 /* InfiniteScrollingBackground.swift in Sources */,
 				97BAB39920B4FB2400499B93 /* AI.swift in Sources */,
+				97F6A154219BCD3A00CAB491 /* FlashingLabel.swift in Sources */,
 				97F15CF8203B96520034C113 /* AppDelegate.swift in Sources */,
 				97D60F7221954638007B4CF8 /* AnimatedMaskLabel.swift in Sources */,
 			);
@@ -473,6 +477,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -480,6 +485,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -531,6 +537,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -538,6 +545,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

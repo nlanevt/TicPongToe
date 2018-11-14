@@ -282,6 +282,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 lives.append(lifeNode);
                 self.addChild(lives[i]);
             }
+            
+            /*for i in 0..<Int(life/2) {
+                let lifeNode = SKSpriteNode(texture: lifeTexture, size: lifeSize);
+                
+                lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(25 + i*Int(lifeSize.width)), y: pauseButton.position.y)
+                lifeNode.zPosition = pauseButton.zPosition;
+                lives.append(lifeNode);
+                self.addChild(lives[i]);
+            }*/
         }
         else // Play Duel!!!
         {
@@ -323,7 +332,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         if (game_over) {return};
         ai.enemy_hit_ball = down;
-        ballmanager.startBall(down: true);
+        ballmanager.startBall(down: down);
     }
     
     private func endGame()
@@ -382,7 +391,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         if (currentGameType == gameType.high_score)
         {
-            if (playerWhoWon == main)
+            if (playerWhoWon == main && type == 0)
             {
                 // run increase score animation
                 var score_counter = score;
@@ -393,17 +402,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     score_counter = score_counter + 1;
                     self.high_score.text = "\(score_counter)";
                 })
+                
                 let repeatScoreIncreaseAction = SKAction.repeat(SKAction.sequence([increaseScoreAction, waitAction]), count: Int(amount));
+                
                 high_score.run(repeatScoreIncreaseAction, completion: {
                     self.high_score.fontColor = UIColor.white;
                     self.growLife();
                 });
                 
-                if (type == 0) {
-                    if (ai.decreaseLife() == true) {
-                        increaseLevel();
-                    }
+                
+                if (ai.decreaseLife() == true) {
+                    increaseLevel();
                 }
+                
             }
             else if (type == 0) // Enemy scored a pong score, not a tic-tac-toe score (which shouldn't take away the players life). Only a Pong score does that.
             {
@@ -939,12 +950,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 else
                 {
+                    //TODO
                     squaresArray[winning_squares[i]].run(SKAction.sequence([SKAction.wait(forDuration: wait_time), fadeoutAction]), completion: {
                         self.squaresArray[winning_squares[i]].texture = texture;
                         self.resetBoard();
                         self.switchStartingPlayer();
                         self.timerLabel.alpha = 1.0;
                         self.resetTimer();
+                        self.runTimer();
                         self.animation_on = false;
                     });
                 }

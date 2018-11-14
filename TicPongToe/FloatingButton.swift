@@ -22,7 +22,6 @@ class FloatingButton: UIButton {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("Awake from Nib");
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationDidBecomeActive(notification:)),
