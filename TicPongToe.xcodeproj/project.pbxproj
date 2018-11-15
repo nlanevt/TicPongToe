@@ -33,8 +33,9 @@
 		97F15CFE203B96520034C113 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CFD203B96520034C113 /* GameScene.swift */; };
 		97F15D00203B96520034C113 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CFF203B96520034C113 /* GameViewController.swift */; };
 		97F15D03203B96520034C113 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97F15D01203B96520034C113 /* Main.storyboard */; };
-		97F6A152219A5FA200CAB491 /* RixVideoGame Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 971BD487219A5A8800F2911D /* RixVideoGame Bold.ttf */; };
 		97F6A154219BCD3A00CAB491 /* FlashingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */; };
+		97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */; };
+		97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */; };
 		E48EF51DBE0E1982BD26FA55 /* libPods-TicPongToe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +60,6 @@
 		97097E6B2118E4B7005CB2EA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97097E76211904F5005CB2EA /* LaunchScreenImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchScreenImage.png; path = ../LaunchScreenImage.png; sourceTree = "<group>"; };
 		9709A6972151E656005027AF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		971BD487219A5A8800F2911D /* RixVideoGame Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame Bold.ttf"; sourceTree = "<group>"; };
 		9726327221699C7D00C88A38 /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		97263274216AEF1D00C88A38 /* VectorRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorRotation.swift; sourceTree = "<group>"; };
 		976C64AB215DC46F00B4C322 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -90,6 +90,8 @@
 		97F15D0E203B96520034C113 /* TicPongToeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15D19203B96520034C113 /* TicPongToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashingLabel.swift; sourceTree = "<group>"; };
+		97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-3D.ttf"; sourceTree = "<group>"; };
+		97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-Bold.ttf"; sourceTree = "<group>"; };
 		B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TicPongToe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06A768DF8541E6345C476F3 /* Pods-TicPongToe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.release.xcconfig"; sourceTree = "<group>"; };
 		F6F8D13C5542260EBC917237 /* Pods-TicPongToe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,8 +135,9 @@
 		97377AF320E024D400271771 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */,
+				97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */,
 				978AD0802118BA990017173D /* ARCADECLASSIC.TTF */,
-				971BD487219A5A8800F2911D /* RixVideoGame Bold.ttf */,
 				978AD0812118BAAE0017173D /* manaspc.ttf */,
 			);
 			path = Font;
@@ -341,11 +344,12 @@
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
 				97097E6C2118E4B7005CB2EA /* LaunchScreen.storyboard in Resources */,
 				97F15CFA203B96520034C113 /* GameScene.sks in Resources */,
-				97F6A152219A5FA200CAB491 /* RixVideoGame Bold.ttf in Resources */,
+				97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */,
 				978AD0832118BD720017173D /* manaspc.ttf in Resources */,
 				978AD0822118BD6F0017173D /* ARCADECLASSIC.TTF in Resources */,
 				97F15CFC203B96520034C113 /* Actions.sks in Resources */,
 				97097E6A2118DFB8005CB2EA /* Assets.xcassets in Resources */,
+				97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */,
 				97097E77211904F6005CB2EA /* LaunchScreenImage.png in Resources */,
 				97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */,
 			);

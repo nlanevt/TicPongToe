@@ -111,6 +111,12 @@ class Ball  {
         })
     }
     
+    public func hideBall() {
+        ball.isHidden = true;
+        ball.position = ball_start_position
+        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+    }
+    
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
         var return_speed = ballspeed;
