@@ -20,18 +20,23 @@ class AnimationFramesHelper {
     private var paddle48GrowFrames: [SKTexture] = [];
     private var paddle72GrowFrames: [SKTexture] = [];
     private var ballStartFrames: [SKTexture] = [];
-    private var lifeShrinkFrames:[SKTexture] = [];
-    private var lifeGrowFrames:[SKTexture] = [];
+    public var lifeShrinkFrames:[SKTexture] = [];
+    public var lifeGrowFrames:[SKTexture] = [];
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
     private var paddleGrowthFrames:[SKTexture] = [];
     private var fireBallAFrames:[SKTexture] = [];
     private var fireBallBFrames:[SKTexture] = [];
+    public var fireBallCFrames:[SKTexture] = [];
     public var scoreExplosionAFrames:[SKTexture] = [];
     public var scoreExplosionBFrames:[SKTexture] = [];
     public var hitWallBFrames:[SKTexture] = [];
+    public var hitWallCFrames:[SKTexture] = [];
+    public var lifeDeathAFrames:[SKTexture] = [];
+    public var lifeDeathBFrames:[SKTexture] = [];
+    public var lifeGrowAFrames:[SKTexture] = [];
+    public var lifeGrowBFrames:[SKTexture] = [];
 
-    
     private var sceneHeight:CGFloat = 0.0;
     private var backgroundNodeA1:SKSpriteNode? = nil;
     private var backgroundNodeA2:SKSpriteNode? = nil;
@@ -50,13 +55,21 @@ class AnimationFramesHelper {
         lifeGrowFrames = lifeShrinkFrames.reversed();
         hitWallFrames = buildAnimation(textureAtlasName: "HitWallAnimation");
         hitWallBFrames = buildAnimation(textureAtlasName: "HitWallAnimationB");
+        hitWallCFrames = buildAnimation(textureAtlasName: "HitWallAnimationC");
         hitPaddleFrames = buildAnimation(textureAtlasName: "HitPaddleAnimation");
         paddleGrowthFrames = buildAnimation(textureAtlasName: "PaddleGrowth").reversed();
         fireBallAFrames = buildAnimation(textureAtlasName: "FireBallA");
         fireBallBFrames = buildAnimation(textureAtlasName: "FireBallB");
+        fireBallCFrames = buildAnimation(textureAtlasName: "FireBallC");
         scoreExplosionAFrames = buildAnimation(textureAtlasName: "ScoreExplosionA");
         scoreExplosionBFrames = buildAnimation(textureAtlasName: "ScoreExplosionB");
+        lifeDeathAFrames = buildAnimation(textureAtlasName: "LifeDeathA");
+        lifeDeathBFrames = buildAnimation(textureAtlasName: "LifeDeathB");
+        lifeGrowAFrames = buildAnimation(textureAtlasName: "LifeGrowA");
+        lifeGrowBFrames = buildAnimation(textureAtlasName: "LifeGrowB");
     }
+    
+    // Don't add public functions any more. Just use the public variables in this class.
     
     public func getScoreExplosionAFrames() -> [SKTexture]
     {

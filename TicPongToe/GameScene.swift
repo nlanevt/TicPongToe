@@ -24,10 +24,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     public var score: Int64 = 0;
     private var level: Int64 = 1;
     
-    private var score_increase_array:[Int64] = [250, 500, 1000, 2000, 5000, 10000]
+    private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
     private var score_increase_iterator = 0;
     
-    public var life = 7;
+    public var life = 6;
+    private var max_lives = 6;
     public var player_score_counter:Int64 = 0;
     public var enemy_score_counter:Int64 = 0;
     
@@ -123,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var lives:[SKSpriteNode] = [];
     private var lifeTexture:SKTexture = SKTexture.init(imageNamed: "Life");
-    private var lifeSize:CGSize = CGSize.init(width: 7, height: 24);
+    private var lifeSize:CGSize = CGSize.init(width: 24, height: 24);
     
     private var gameFrame = SKSpriteNode();
     
@@ -212,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Switch game types. Currently we are just using easy, medium and hard as types.
         ai.setPaddleValues(ball: ball, ai: enemy);
-        ai.setFrameSize(view_size: self.frame.size);
+        ai.setScene(scene: self);
         ai.setLevel(level: level);
         
         MenuViewControl?.setUpPauseView();
@@ -267,7 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         level = 1;
         score = 0;
-        life = 7;
+        life = max_lives;
         tictactoeboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         players_turn = false;
         player_starts = false;
@@ -286,28 +287,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.isHidden = true;
             
             self.startLevel {
+                self.ai.growLives();
                 self.pending_round = false;
                 self.startBall(down: false)
                 self.ai.setNewChaseMethod();
                 self.runTimer();
             }
             
-            for i in 0..<life {
+            for i in 0..<Int(life/2) {
                 let lifeNode = SKSpriteNode(texture: lifeTexture, size: lifeSize);
-                lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(25 + i*10), y: pauseButton.position.y)
+                
+                lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(30 + i*28), y: pauseButton.position.y)
                 lifeNode.zPosition = pauseButton.zPosition;
                 lives.append(lifeNode);
                 self.addChild(lives[i]);
             }
-            
-            /*for i in 0..<Int(life/2) {
-                let lifeNode = SKSpriteNode(texture: lifeTexture, size: lifeSize);
-                
-                lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(25 + i*Int(lifeSize.width)), y: pauseButton.position.y)
-                lifeNode.zPosition = pauseButton.zPosition;
-                lives.append(lifeNode);
-                self.addChild(lives[i]);
-            }*/
         }
         else // Play Duel!!!
         {
@@ -332,7 +326,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func startLevel(completion: @escaping ()->Void) {
         let centerLabelfadeIn = SKAction.fadeIn(withDuration: 0.25);
-        let centerWait = SKAction.wait(forDuration: 4.0);
+        let centerWait = SKAction.wait(forDuration: 3.0);
         let fadeOut = SKAction.fadeOut(withDuration: 0.25);
         /*var centerLabelFloatUp = SKAction.move(by: CGVector(dx: 0, dy: 10), duration: 0.25)
         var centerLabelFloatDown = centerLabelFloatUp.reversed();
@@ -370,40 +364,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func increaseLevel() {
         
         pending_round = true;
-        endTicTacToeGame(quick_fade: true, completion: {
+        endTicTacToeGame(quick_fade: false, completion: {
             self.resetBoard();
             self.switchStartingPlayer();
             self.animation_on = true;
         });
+        
         level = level + 1;
         ai.setLevel(level: level);
-        var newTransitionSpeed = (scroller?.transitionSpeed)!;
         
-        if (level < 50) {
-            scroller?.speed = (scroller?.speed)! + 0.5;
+        // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
+        if (level < 50 && (scroller?.speed)! <= CGFloat(6.0)) {
+            scroller?.speed = (scroller?.speed)! + 0.25;
         }
         
         startLevel(completion: {
             self.pending_round = false;
+            self.resetBoard();
             self.startBall(down: false)
             self.ai.setNewChaseMethod();
+            self.resetTimer();
             self.fadeInTimer(completion: {
                 self.runTimer();
             })
             
+            // Grow enemy paddle to start the (new) level
             if (self.enemy_is_dead) {
                 self.animatePaddleGrowth(paddle: self.enemy, completion: {
                     self.enemy_is_dead = false;
                 })
             }
             
+            self.ai.growLives();
+            
             self.animation_on = false;
         })
-
-        
-        
-        print("Game Level: \(level), scroller speed: \(scroller?.transitionSpeed)")
-        
     }
     
     // This function animates and times ball properly whenever it starts
@@ -420,13 +415,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Remove the paddles through the paddle death animation
         // Remove the X/O's through a fadeout animation
         // Ensure that ball can bounce around where-ever
+        // Ensure that the ai lives aren't present on the screen
         game_over = true;
         stopTimer();
-        //timerLabel.text = "";
-        //fadeoutTimer();
-        endTicTacToeGame(quick_fade: true, completion: {
+
+        endTicTacToeGame(quick_fade: false, completion: {
             self.resetBoard();
-            self.switchStartingPlayer();
+            self.clearBoard();
         }); // remove x/o's from game.
         
         if (!main.isHidden)
@@ -439,8 +434,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             animatePaddleRemoval(paddle: enemy)
         }
 
+        ai.removeAllLives(); // Remove all remaining ai_lives from the screen
+        
         // Deactivated below to ensure no new scores get saved
-        /*if (currentGameType == gameType.high_score)
+        if (currentGameType == gameType.high_score)
         {
             if (score > HighScore)
             {
@@ -460,7 +457,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 MenuViewControl?.GameOverLabel.text = "YOU LOSE";
             }
-        }*/
+        }
         
         MenuViewControl?.deleteCoreData(); // Remove any current core data.
         MenuViewControl?.save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased) // Save new info to Core Data
@@ -487,12 +484,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.high_score.text = "\(score_counter)";
                 })
                 
+                /* Start Score Increase Animation */
                 let repeatScoreIncreaseAction = SKAction.repeat(SKAction.sequence([increaseScoreAction, waitAction]), count: Int(amount));
-                
                 high_score.run(repeatScoreIncreaseAction, completion: {
                     self.high_score.fontColor = UIColor.white;
-                    self.growLife();
+                    if (self.score_increase_iterator < self.score_increase_array.count && self.score >= self.score_increase_array[self.score_increase_iterator])
+                    {
+                        self.score_increase_iterator = self.score_increase_iterator + 1;
+                        self.growLife()
+                    }
+                    
                 });
+                /* End Score Increase Animation */
+                
+                /* +Score sign animation */
+                let scorelabelnode = SKLabelNode(fontNamed: "RixVideoGame3D");
+                scorelabelnode.alpha = 1.0;
+                scorelabelnode.zPosition = 1.0;
+                scorelabelnode.fontColor = UIColor.init(red: 73, green: 170, blue: 16);
+                scorelabelnode.fontSize = 32;
+                scorelabelnode.horizontalAlignmentMode = .center;
+                scorelabelnode.verticalAlignmentMode = .top;
+                scorelabelnode.text = "+\(amount)";
+                scorelabelnode.position = ballmanager.ball.position.x > abs(120) ?  CGPoint(x: sign(Double(ballmanager.ball.position.x))*120, y: 245.0) : CGPoint(x: ballmanager.ball.position.x, y: 245.0)
+                self.addChild(scorelabelnode);
+                
+                let moveVector = ballmanager.ball.position.x < 0 ? CGVector(dx: 4, dy: -6) : CGVector(dx: -4, dy: -6);
+                let scoreLabelActionSequence = SKAction.sequence([SKAction.move(by: moveVector, duration: 1.0), SKAction.fadeOut(withDuration: 0.25)]);
+                
+                scorelabelnode.run(scoreLabelActionSequence, completion: {scorelabelnode.removeFromParent()});
+                /* End +Score sign animation */
                 
                 // Decreases the ai's life and checks to see if ai's life is depleted. IF it is we increase the level
                 if (ai.decreaseLife()) {
@@ -502,15 +523,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             else if (type == 0) // Enemy scored a pong score, not a tic-tac-toe score (which shouldn't take away the players life). Only a Pong score does that.
             {
-                life = life - 1; // remove life from player
-                
-                // run remove life animation
-                if (life >= 0)
-                {
-                    var lifeNode = lives.popLast();
-                    let shrinkAction = SKAction.animate(with: lifeShrinkFrames, timePerFrame: 0.025);
-                    lifeNode?.run(shrinkAction, completion: {lifeNode = nil});
-                }
+                removeLife();
             }
             
             if (life == 0)
@@ -554,6 +567,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
     // Type is the type of game that was scored.
     // Type == 0 is Pong
     // Type == 1 is Tic-Tac-Toe
@@ -565,8 +579,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             if playerWhoWon == main
             {
-                var score_counter = calculateScore()
-                setScore(playerWhoWon: main, amount: score_counter, type: 0)
+                setScore(playerWhoWon: main, amount: calculateScore(), type: 0)
                 
                 if (!enemy_is_dead) {
                     enemy_is_dead = true;
@@ -645,7 +658,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             else if playerWhoWon == enemy
             {
                 // Shrink main paddle
-                print("weird shrink paddle");
                 shrinkPaddle(paddle: main)
                 
                 if (enemy.size.width < paddle_width)
@@ -694,7 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score_counter = score_counter + 200;
         }
         
-        if (ballmanager.ballspeed >= 50) {
+        if (ballmanager.ballspeed >= 50) { // You need the ball to go fast if you want the extra points
             score_counter = score_counter + Int64(ballmanager.ballspeed);
         }
         
@@ -728,6 +740,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle.size.width = 256;
         paddle.run(deathAction, completion: {
             paddle.isHidden = true;
+            
             paddle.physicsBody = nil;
         })
     }
@@ -737,6 +750,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     */
     private func animatePaddleDeath(paddle: SKSpriteNode, completion: @escaping ()->Void)
     {
+        
+        paddle.texture = paddleDeathFrames[0];
         paddle.size.width = 256;
         paddle.run(SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025), completion: {
             paddle.size.width = self.paddle_width;
@@ -806,8 +821,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitWallNode?.position.x = contact_point.x + 2;
         }
         
-        if (ballmanager.ballspeed >= 45 && ballmanager.ballspeed < 50)
-        {
+        // Use small wall hit explosion
+        if (ballmanager.ballspeed >= 42 && ballmanager.ballspeed < 48) {
             let hitWallSparkNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
             hitWallSparkNode.position = (hitWallNode?.position)!;
             hitWallSparkNode.zPosition = (hitWallNode?.zPosition)!;
@@ -817,19 +832,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
         }
         else {
-            let hitWallBNode = SKSpriteNode(texture: AnimationFramesManager?.hitWallBFrames[0], size: (AnimationFramesManager?.hitWallBFrames[0].size())!);
+            // if the ballspeed >= 48 and < 55 use the medium hit explosion
+            var frames = AnimationFramesManager?.hitWallBFrames;
+            
+            // otherwise if ballspeed >= 55 use the big hit explosion
+            if (ballmanager.ballspeed >= 55) {
+                frames = AnimationFramesManager?.hitWallCFrames;
+            }
+            
+            
+            let hitWallBNode = SKSpriteNode(texture: frames?[0], size: (frames?[0].size())!);
             hitWallBNode.zPosition = 0.0;
             hitWallBNode.position.y = contact_point.y;
             if (contact_point.x > 0) {
-                hitWallBNode.position.x = contact_point.x - 2 - ((AnimationFramesManager?.hitWallBFrames[0].size().width)! / 2);
+                hitWallBNode.position.x = contact_point.x - 2 - ((frames![0].size().width) / 2);
                 hitWallBNode.zRotation = CGFloat.pi;
             }
             else {
-                hitWallBNode.position.x = contact_point.x + 2 + ((AnimationFramesManager?.hitWallBFrames[0].size().width)! / 2);
+                hitWallBNode.position.x = contact_point.x + 2 + ((frames![0].size().width) / 2);
             }
             
             self.addChild(hitWallBNode);
-            hitWallBNode.run(SKAction.animate(with: (AnimationFramesManager?.hitWallBFrames)!, timePerFrame: 0.025), completion: {
+            hitWallBNode.run(SKAction.animate(with: frames!, timePerFrame: 0.025), completion: {
                 hitWallBNode.removeFromParent();
             })
             
@@ -926,23 +950,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    private func growLife()
-    {
-        if (score_increase_iterator >= score_increase_array.count - 1) {return}
+    private func removeLife() {
+        if (life <= 0) {return}
         
-        if (score >= score_increase_array[score_increase_iterator] && life < 8)
-        {
-            score_increase_iterator = score_increase_iterator + 1;
-            let lifeNode = SKSpriteNode(texture: lifeGrowFrames[0], size: lifeSize);
-            lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(25 + life*10), y: pauseButton.position.y)
-            lifeNode.zPosition = pauseButton.zPosition;
-            lives.append(lifeNode);
-            self.addChild(lives[life]);
-            let growAction = SKAction.animate(with: lifeGrowFrames, timePerFrame: 0.01);
-            let setFinalTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Life"));
-            lives[life].run(SKAction.sequence([growAction, setFinalTextureAction]));
-            life = life + 1;
-        }
+        let index = (life / 2) + (life % 2) - 1 // Gets the proper life node in the lives array
+        
+        var frames = AnimationFramesManager?.lifeDeathAFrames;
+        
+        // If it is not 0 then that means we are removing the second half of the heart.
+        if (life % 2 != 0) {frames = AnimationFramesManager?.lifeDeathBFrames}
+        
+        // run remove life animation
+        let shrinkAction = SKAction.animate(with: frames!, timePerFrame: 0.1);
+        let finalTexture = SKAction.setTexture((frames?.last)!)
+        var shrinkSequence:[SKAction] = []
+        
+        for _ in 0 ..< 8 {shrinkSequence.append(shrinkAction)}
+        
+        shrinkSequence.append(finalTexture)
+        
+        lives[index].run(SKAction.sequence(shrinkSequence));
+        life = life - 1; // remove life from player
+    }
+    
+    private func growLife() {
+        
+        if (life >= max_lives) {return}
+        life = life + 1;
+        let index = (life / 2) + (life % 2) - 1;
+        
+        var frames = AnimationFramesManager?.lifeGrowAFrames;
+        
+        if (life % 2 == 0) {frames = AnimationFramesManager?.lifeGrowBFrames}
+        
+        // create and run grow life animation
+        let growAction = SKAction.animate(with: frames!, timePerFrame: 0.1);
+        let finalTexture = SKAction.setTexture((frames?.last)!)
+        var growthSequence:[SKAction] = []
+        
+        for _ in 0 ..< 8 {growthSequence.append(growAction)}
+        
+        growthSequence.append(finalTexture)
+        
+        lives[index].run(SKAction.sequence(growthSequence));
     }
     
     private func updatePaddleSpeeds()
@@ -954,7 +1004,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     public func runTimer() {
-        if (!game_over && !pending_round && !isTimerRunning) //MARK
+        if (!game_over && !pending_round && !isTimerRunning)
         {
             isTimerRunning = true;
             timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(GameScene.updateTimer)), userInfo: nil, repeats: true)
@@ -974,6 +1024,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func resetTimer()
     {
+        isTimerRunning = false;
         stopTimer();
         seconds = 10;
         timerLabel.text = "\(seconds)"
@@ -1092,9 +1143,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if (!self.pending_round && !self.game_over) {
                             self.resetBoard();
                             self.switchStartingPlayer();
-                            self.timerLabel.alpha = 1.0;
                             self.resetTimer();
-                            self.runTimer();
+                            self.fadeInTimer {
+                                self.runTimer();
+                            }
                         }
                         self.animation_on = false;
                     });
@@ -1146,7 +1198,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (!animation_on && !pending_round)
         {
-            print("enemySetBoard: \(pending_round)")
             animation_on = true;
             let position = ai.selectBoardPosition(board: &tictactoeboard)
             tictactoeboard[position] = 5;
@@ -1208,7 +1259,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 // set the board
-                print("players_turn: \(players_turn)");
                 if (location.y > main_paddle_move_boundary && players_turn && !self.isPaused)
                 {
                     playerSetBoard(location: location);
@@ -1239,8 +1289,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    //TODO
     private func clearBoard() {
+        
         for square in squaresArray {
             if square.alpha > 0 && !square.hasActions() {
                 square.run(SKAction.fadeOut(withDuration: 0.25), completion: {
@@ -1249,7 +1299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if (!ball.isHidden) {
+        if (!ball.isHidden && !game_over) {
             ballmanager.hideBall();
         }
     }
@@ -1276,36 +1326,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 // Manage Tic Tac Toe board
-                if (players_turn == false && board_hits < 9 && !pending_round) {
-                    enemySetBoard();
+                if (pending_round) {
+                    clearBoard();
                 }
-                else if (board_hits == 9) {
-                    endTicTacToeGame(quick_fade: false, completion: {
-                        self.resetBoard();
-                        self.switchStartingPlayer();
-                        if (!self.pending_round && !self.game_over) {
-                            self.resetTimer();
-                            self.fadeInTimer(completion: {
-                                self.runTimer();
-                            })
-                        }
-                    });
+                else {
+                    if (players_turn == false && board_hits < 9 && !pending_round) {
+                        enemySetBoard();
+                    }
+                    else if (board_hits == 9) {
+                        endTicTacToeGame(quick_fade: false, completion: {
+                            self.resetBoard();
+                            self.switchStartingPlayer();
+                            if (!self.pending_round && !self.game_over) {
+                                self.resetTimer();
+                                self.fadeInTimer(completion: {
+                                    self.runTimer();
+                                })
+                            }
+                        });
+                    }
+                    
+                    if (seconds == 0 && isTimerRunning) {
+                        addScore(playerWhoWon: enemy, type: 1)
+                        endTicTacToeGame(quick_fade: true, completion: {
+                            self.resetBoard();
+                            self.switchStartingPlayer();
+                            if (!self.pending_round && !self.game_over) {
+                                self.resetTimer();
+                                self.fadeInTimer(completion: {
+                                    self.runTimer();
+                                })
+                            }
+                        });
+                    }
                 }
                 
-                if (seconds == 0) {
-                    addScore(playerWhoWon: enemy, type: 1)
-                    endTicTacToeGame(quick_fade: true, completion: {
-                        self.resetBoard();
-                        self.switchStartingPlayer();
-                        if (!self.pending_round && !self.game_over) {
-                            self.resetTimer();
-                            self.fadeInTimer(completion: {
-                                self.runTimer();
-                            })
-                        }
-                    });
-                }
-                
+                //Deals with bug for when ball weirdly goes out of boundaries.
                 if (!self.frame.contains(ball.position)) {
                     if (ball.position.y < 0) {
                         self.startBall(down: true)
@@ -1314,11 +1370,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.startBall(down: false)
                     }
                 }
-                
-                if (pending_round) {
-                    clearBoard();
-                }
             }
+            else {
+                clearBoard();
+        }
+    
     }
     
     private func fadeOutTimer() {
@@ -1342,7 +1398,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fadeOutTimer();
             
             for (index, squares) in squaresArray.enumerated() {
-                //squares.removeAllActions();
                 
                 if (quick_fade)
                 {

@@ -12,13 +12,17 @@ import GameplayKit
 
 class Ball  {
     public var ballspeed:CGFloat = 40.0;
+    public var ball_speed_minimum:CGFloat = 40.0;
+    public var ball_speed_maximum:CGFloat = 75.0;
 
     private var fireBallAFrames:[SKTexture] = [];
     private var fireBallBFrames:[SKTexture] = [];
+    private var fireBallCFrames:[SKTexture] = [];
     private var ballStartFrames:[SKTexture] = [];
     
     private var fireBallA = SKSpriteNode();
     private var fireBallB = SKSpriteNode();
+    private var fireBallC = SKSpriteNode();
     
     private var bounceAnglePivot = CGFloat.pi / 2;
     private var maximumBounceAngle = (5*CGFloat.pi) / 6;
@@ -35,6 +39,7 @@ class Ball  {
     {
         fireBallAFrames = (AnimationFramesManager?.getFireBallAFrames())!;
         fireBallBFrames = (AnimationFramesManager?.getFireBallBFrames())!;
+        fireBallCFrames = (AnimationFramesManager?.fireBallCFrames)!;
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
         self.ball = ball;
         self.ball.physicsBody?.usesPreciseCollisionDetection = true
@@ -49,16 +54,21 @@ class Ball  {
         fireBallB.size = CGSize(width: 30, height: 35);
         fireBallB.zPosition = 0.5;
         fireBallB.position = CGPoint(x: 0.0, y: -5.0)
+        
+        fireBallC = SKSpriteNode(imageNamed: "FireBallC1");
+        fireBallC.size = CGSize(width: 30, height: 35);
+        fireBallC.zPosition = 0.5;
+        fireBallC.position = CGPoint(x: 0.0, y: -5.0)
     }
     
     private func animateFireBall(ball_type: Int)
     {
-        
         if (ball_type == 0) {
             ball.removeAllChildren();
         }
         else if (ball_type == 1 && fireBallA.parent == nil) {
             fireBallB.removeFromParent();
+            fireBallC.removeFromParent();
             
             if (!fireBallA.hasActions()) {
                 fireBallA.run(SKAction.repeatForever(SKAction.animate(with: fireBallAFrames, timePerFrame: 0.2)))
@@ -68,12 +78,23 @@ class Ball  {
         }
         else if (ball_type == 2 && fireBallB.parent == nil) {
             fireBallA.removeFromParent();
+            fireBallC.removeFromParent();
             
             if (!fireBallB.hasActions()) {
                 fireBallB.run(SKAction.repeatForever(SKAction.animate(with: fireBallBFrames, timePerFrame: 0.2)))
             }
             
             ball.addChild(fireBallB);
+        }
+        else if (ball_type == 3 && fireBallC.parent == nil) {
+            fireBallA.removeFromParent();
+            fireBallB.removeFromParent();
+            
+            if (!fireBallC.hasActions()) {
+                fireBallC.run(SKAction.repeatForever(SKAction.animate(with: fireBallCFrames, timePerFrame: 0.2)))
+            }
+            
+            ball.addChild(fireBallC);
         }
     }
     
@@ -123,12 +144,12 @@ class Ball  {
         if (abs(paddle_speed) >= 0.15)
         {
             return_speed = return_speed + 20 * abs(paddle_speed);
-            if (return_speed > 60.0) {return_speed = 60.0}
+            if (return_speed > ball_speed_maximum) {return_speed = ball_speed_maximum}
         }
         else
         {
-            return_speed = return_speed - 3 * (1 - abs(paddle_speed));
-            if (return_speed < 40.0) {return_speed = 40.0}
+            return_speed = return_speed - 7 * (1 - abs(paddle_speed));
+            if (return_speed < ball_speed_minimum) {return_speed = ball_speed_minimum}
         }
         
         return return_speed;
@@ -156,20 +177,19 @@ class Ball  {
     
     private func setFireBall()
     {
-        if (ballspeed <= 48) {
+        
+        if (ballspeed <= 48.0) {
             animateFireBall(ball_type: 0)
         }
-        else if (48 < ballspeed && ballspeed <= 56){
+        else if (48.0 < ballspeed && ballspeed <= 56.0){
             animateFireBall(ball_type: 1);
         }
-        else {
+        else if (56.0 < ballspeed && ballspeed <= 65.0) {
             animateFireBall(ball_type: 2);
         }
-    }
-    
-    public func resetBallAtGameOver()
-    {
-        
+        else {
+            animateFireBall(ball_type: 3);
+        }
     }
 }
 

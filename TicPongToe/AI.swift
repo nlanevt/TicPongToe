@@ -46,6 +46,14 @@ class AI {
     private var ai_lives = 3;
     private var ai_lives_amount = 3;
     
+    private var ai_lives_y_position:CGFloat = 235.0;
+    private var ai_lives_z_position:CGFloat = -1.0;
+    private var ai_lives_array:[SKSpriteNode] = [];
+    private var ai_life_texture:SKTexture = SKTexture.init(imageNamed: "AILife");
+    private var ai_life_size:CGSize = CGSize.init(width: 7, height: 20);
+    
+    private var game_scene:GameScene? = nil;
+    
     func setPaddleValues(ball: SKSpriteNode, ai: SKSpriteNode)
     {
         self.ball = ball;
@@ -55,6 +63,13 @@ class AI {
     func setFrameSize(view_size: CGSize)
     {
         viewSize = view_size;
+        offset1 = viewSize.height*0.26;
+        offset2 = viewSize.height*0.44;
+    }
+    
+    func setScene(scene: GameScene) {
+        game_scene = scene;
+        viewSize = (game_scene?.frame.size)!;
         offset1 = viewSize.height*0.26;
         offset2 = viewSize.height*0.44;
     }
@@ -70,13 +85,50 @@ class AI {
     public func decreaseLife() -> Bool{
         var result = false;
         ai_lives = ai_lives - 1;
+        removeLifeAnimation();
         if (ai_lives <= 0) {
             result = true
-            if (ai_lives_amount < 21) {ai_lives_amount = ai_lives_amount + 1}
+            if (ai_lives_amount < 11) {ai_lives_amount = ai_lives_amount + 1}
             ai_lives = ai_lives_amount;
         }
         
         return result;
+    }
+    
+    public func growLives() {
+        if (currentGameType == .high_score) {
+            var wait_time:TimeInterval = 0.0;
+            for i in 0..<ai_lives {
+                let lifeNode = SKSpriteNode(imageNamed: "AILife");
+                lifeNode.isHidden = true;
+                lifeNode.size = ai_life_size;
+                lifeNode.position = CGPoint(x: 150 - CGFloat(1 + i*10), y: ai_lives_y_position)
+                lifeNode.zPosition = ai_lives_z_position;
+                ai_lives_array.append(lifeNode);
+                game_scene?.addChild(ai_lives_array[i]);
+                growLife(lifeNode: lifeNode, wait_time: wait_time);
+                wait_time = wait_time + 0.2;
+            }
+        }
+    }
+    
+    public func growLife(lifeNode: SKSpriteNode, wait_time: TimeInterval) {
+        var growth_frames = AnimationFramesManager?.lifeGrowFrames;
+        let actionSequence = SKAction.sequence([SKAction.setTexture(growth_frames![0]), SKAction.wait(forDuration: wait_time), SKAction.unhide(), SKAction.animate(with: growth_frames!, timePerFrame: 0.01), SKAction.setTexture(ai_life_texture)])
+        lifeNode.run(actionSequence);
+    }
+    
+    //This method pops the last life in the ai lives array, animates its death, then removes it.
+    public func removeLifeAnimation() {
+        let deathSequence = SKAction.sequence([SKAction.animate(with: (AnimationFramesManager?.lifeShrinkFrames)!, timePerFrame: 0.01), SKAction.hide()])
+        var lifeNode = ai_lives_array.popLast();
+        lifeNode?.run(deathSequence, completion: {lifeNode?.removeFromParent(); lifeNode = nil});
+    }
+    
+    public func removeAllLives() {
+        while (!ai_lives_array.isEmpty) {
+            removeLifeAnimation();
+        }
     }
     
     public func setLevel(level: Int64) {
@@ -235,9 +287,6 @@ class AI {
             else if (rand < 3) {intensity = 0.04}
             else {intensity = 0.05}
         }
-        
-        print("AI Level: \(level), Intensity: \(intensity), lives: \(ai_lives)");
-
     }
     
     public func move()

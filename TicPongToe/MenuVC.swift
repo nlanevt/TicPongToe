@@ -11,7 +11,7 @@ import SpriteKit
 import GameplayKit
 import CoreData
 import GameKit
-import GoogleMobileAds //MARK
+import GoogleMobileAds
 
 var player:NSManagedObject? = nil;
 var players:[NSManagedObject] = [];
@@ -418,7 +418,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         if (MenuViewControl?.running == false && homescreen == true)
         {
-            //print("Menu View Control Become Active");
             if (MenuViewControl?.interstitial.hasBeenUsed == false && MenuViewControl?.interstitial.isReady == false)
             {
                 MenuViewControl?.request = GADRequest();
@@ -463,7 +462,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910");
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
         interstitial.delegate = self
         interstitial.load(request);
         
