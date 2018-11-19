@@ -584,7 +584,7 @@
 			baseConfigurationReference = F6F8D13C5542260EBC917237 /* Pods-TicPongToe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Lane (A2NY5YXLRN)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
@@ -604,7 +604,7 @@
 			baseConfigurationReference = D06A768DF8541E6345C476F3 /* Pods-TicPongToe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Lane (A2NY5YXLRN)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
