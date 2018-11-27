@@ -22,7 +22,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
-    private var level: Int64 = 1;
+    //private var level: Int64 = 1;
+    private var level_controller:LevelController = LevelController();
     
     private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
     private var score_increase_iterator = 0;
@@ -134,6 +135,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var centerLevelLabel = SKLabelNode();
     private var pending_round = false;
     
+    
+    
     override func didMove(to view: SKView)
     {
         super.didMove(to: view)
@@ -214,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Switch game types. Currently we are just using easy, medium and hard as types.
         ai.setPaddleValues(ball: ball, ai: enemy);
         ai.setScene(scene: self);
-        ai.setLevel(level: level);
+        //ai.setLevel(level: level);
         
         MenuViewControl?.setUpPauseView();
         
@@ -225,6 +228,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 18)
         scroller?.scroll()
         scroller?.zPosition = -3
+        
+        //TODO: Will need to increase parameters
+        level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager)
         
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
@@ -266,7 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func startGame()
     {
-        level = 1;
+        //level = 1;
         score = 0;
         life = max_lives;
         tictactoeboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -347,10 +353,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             topLevelLabel.run(topFadeOut);
         }
         
-        topLevelLabel.text = "LEVEL \(level)";
+        topLevelLabel.text = "LEVEL \(level_controller.getLevel())";
         topLevelLabel.isHidden = true;
         topLevelLabel.alpha = 0.0;
-        centerLevelLabel.text = "LEVEL \(level)";
+        centerLevelLabel.text = "LEVEL \(level_controller.getLevel())";
         centerLevelLabel.isHidden = false;
         centerLevelLabel.alpha = 0.0;
         
@@ -361,6 +367,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    // TODO: Adjust Level class values from this function.
     private func increaseLevel() {
         
         pending_round = true;
@@ -370,13 +377,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.animation_on = true;
         });
         
-        level = level + 1;
+        /*level = level + 1;
         ai.setLevel(level: level);
         
         // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
         if (level < 50 && (scroller?.speed)! <= CGFloat(6.0)) {
             scroller?.speed = (scroller?.speed)! + 0.25;
-        }
+        }*/
+        level_controller.increaseLevel();
         
         startLevel(completion: {
             self.pending_round = false;
@@ -1269,6 +1277,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     pauseGame()
                 }
+                
+                //TODO Check if they have clicked on a powerup
+                //TODO Check if they have clicked on an obstacle
+                // level.checkTouch
+                level_controller.checkBoardTouch();
+                
             }
         }
         
@@ -1370,10 +1384,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.startBall(down: false)
                     }
                 }
+                
+                level_controller.update();
             }
             else {
                 clearBoard();
-        }
+            }
     
     }
     

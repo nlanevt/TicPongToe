@@ -462,7 +462,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910");
         interstitial.delegate = self
         interstitial.load(request);
         
