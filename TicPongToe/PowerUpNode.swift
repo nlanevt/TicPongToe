@@ -45,9 +45,6 @@ class PowerUpNode: SKSpriteNode {
         case .expander:
             imageName = "ExpanderPowerUp";
             break
-        default:
-            imageName = "HeartPowerUp";
-            break;
         }
         let texture = SKTexture(imageNamed: imageName);
         super.init(texture: texture, color: .clear, size: texture.size())
@@ -60,6 +57,25 @@ class PowerUpNode: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // Runs the animation that results in the powerups appearance.
+    public func appear() {
+        
+    }
+    
+    // Runs the animation for when the powerup is selected.
+    // Sets the paddles capabilities.
+    // @by is the paddle/player that selected the powerup
+    public func select(by: SKSpriteNode) {
+        var paddle = by;
+        
+    }
+    
+    // Runs the animation to disappear and remove the powerup from the screen
+    public func disappear() {
+        
+    }
+    
     
     
 }

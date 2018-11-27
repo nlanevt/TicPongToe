@@ -33,6 +33,7 @@
 		97F15D03203B96520034C113 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97F15D01203B96520034C113 /* Main.storyboard */; };
 		97F6731921AC437A00007018 /* PowerUpNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731821AC437A00007018 /* PowerUpNode.swift */; };
 		97F6731B21AC499000007018 /* LevelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731A21AC499000007018 /* LevelController.swift */; };
+		97F6731F21ADE2F300007018 /* Paddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731E21ADE2F300007018 /* Paddle.swift */; };
 		97F6A154219BCD3A00CAB491 /* FlashingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */; };
 		97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */; };
 		97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */; };
@@ -91,6 +92,7 @@
 		97F15D19203B96520034C113 /* TicPongToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F6731821AC437A00007018 /* PowerUpNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpNode.swift; sourceTree = "<group>"; };
 		97F6731A21AC499000007018 /* LevelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelController.swift; sourceTree = "<group>"; };
+		97F6731E21ADE2F300007018 /* Paddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paddle.swift; sourceTree = "<group>"; };
 		97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashingLabel.swift; sourceTree = "<group>"; };
 		97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-3D.ttf"; sourceTree = "<group>"; };
 		97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-Bold.ttf"; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */,
 				97F6731821AC437A00007018 /* PowerUpNode.swift */,
 				97F6731A21AC499000007018 /* LevelController.swift */,
+				97F6731E21ADE2F300007018 /* Paddle.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				97F6731B21AC499000007018 /* LevelController.swift in Sources */,
 				9726327321699C7D00C88A38 /* Ball.swift in Sources */,
 				97F15CFE203B96520034C113 /* GameScene.swift in Sources */,
+				97F6731F21ADE2F300007018 /* Paddle.swift in Sources */,
 				97911262212F6FFB00B697AB /* AnimationFramesHelper.swift in Sources */,
 				97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */,
 				97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */,

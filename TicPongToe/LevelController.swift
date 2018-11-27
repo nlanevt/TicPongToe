@@ -47,11 +47,13 @@ class LevelController {
     }
     
     // Used when user touches the board area.
+    // Used to determine if you have touched the powerups / obstacles
     public func checkBoardTouch() {
         
     }
     
     // Used in the game_scenes update method.
+    // Used to determine if you have hit the powerups / obstacles with the ball
     public func update() {
         
     }

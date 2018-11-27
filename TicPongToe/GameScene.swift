@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var ball = SKSpriteNode();
     private var enemy = SKSpriteNode();
     private var main = SKSpriteNode();
-    private var paddle_physics_height:CGFloat = 15.0;
+    private var paddle_physics_height:CGFloat = 15.0; //MARK
     private var main_boundary_position:CGFloat = -194;
     private var enemy_boundary_position:CGFloat = 247;
     
@@ -88,29 +88,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var isTimerRunning = false;
 
     // Paddle Physics Variables
-    private var main_paddle_speed = CGFloat.init(0);
-    private var main_previous_position = CGFloat.init(0);
+    private var main_paddle_speed = CGFloat.init(0); //MARK
+    private var main_previous_position = CGFloat.init(0); //MARK
     private var main_paddle_move_boundary:CGFloat = -175;
     
     private var enemy_is_dead = false; // Used when paddle is complete deleted and user scores.
-    private var enemy_paddle_speed = CGFloat.init(0);
-    private var enemy_previous_position = CGFloat.init(0);
-    private var paddle_width = CGFloat.init(96);
-    private var paddle_size_decrement:CGFloat = 24;
+    private var enemy_paddle_speed = CGFloat.init(0); //MARK
+    private var enemy_previous_position = CGFloat.init(0); //MARK
+    private var paddle_width = CGFloat.init(96); //MARK
+    private var paddle_size_decrement:CGFloat = 24; //MARK
     
-    private var paddleDeathFrames: [SKTexture] = [];
-    private var paddle96ShrinkFrames: [SKTexture] = [];
-    private var paddle72ShrinkFrames: [SKTexture] = [];
-    private var paddle48ShrinkFrames: [SKTexture] = [];
-    private var paddle24GrowFrames: [SKTexture] = [];
-    private var paddle48GrowFrames: [SKTexture] = [];
-    private var paddle72GrowFrames: [SKTexture] = [];
+    private var paddleDeathFrames: [SKTexture] = []; //MARK
+    private var paddle96ShrinkFrames: [SKTexture] = [];//MARK
+    private var paddle72ShrinkFrames: [SKTexture] = [];//MARK
+    private var paddle48ShrinkFrames: [SKTexture] = [];//MARK
+    private var paddle24GrowFrames: [SKTexture] = [];//MARK
+    private var paddle48GrowFrames: [SKTexture] = [];//MARK
+    private var paddle72GrowFrames: [SKTexture] = [];//MARK
     private var ballStartFrames: [SKTexture] = [];
     private var lifeShrinkFrames:[SKTexture] = [];
     private var lifeGrowFrames:[SKTexture] = [];
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
-    private var paddleGrowthFrames:[SKTexture] = [];
+    private var paddleGrowthFrames:[SKTexture] = [];//MARK
     
     var ai = AI();
     
@@ -738,7 +738,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return frames;
     }
     
-    /*
+    /* MARK
      * Completely removes paddle, except doesn't delete the node
      * Used when the game is over.
     */
@@ -753,7 +753,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    /*
+    /* MARK
     ** Used when scored on and paddle is deleted and regenerated.
     */
     private func animatePaddleDeath(paddle: SKSpriteNode, completion: @escaping ()->Void)
@@ -889,6 +889,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // This method does the paddle shrink animation
+    // MARK
     private func shrinkPaddle(paddle: SKSpriteNode)
     {
         var shrinkAction:SKAction? = nil;
@@ -927,6 +928,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    //MARK
     private func growPaddle(paddle: SKSpriteNode)
     {        
         var shrinkAction:SKAction? = nil;
@@ -1003,6 +1005,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lives[index].run(SKAction.sequence(growthSequence));
     }
     
+    //MARK
     private func updatePaddleSpeeds()
     {
         main_paddle_speed = (main.position.x - main_previous_position)/60.0;
@@ -1466,6 +1469,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didSimulatePhysics() {
         ballmanager.ordinateBall();
+        //main.updateSpeed();
+        //enemy.updateSpeed();
     }
     
     private func PaddleHitAnimate(paddle: SKSpriteNode, collision_position: CGPoint, return_speed: CGFloat)
