@@ -15,15 +15,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var ballmanager = Ball();
     private var ball = SKSpriteNode();
-    private var enemy = SKSpriteNode();
-    private var main = SKSpriteNode();
-    private var paddle_physics_height:CGFloat = 15.0; //MARK
+    private var enemy:Paddle = Paddle(direction_down: true);
+    private var main:Paddle = Paddle(direction_down: false);
     private var main_boundary_position:CGFloat = -194;
     private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
     //private var level: Int64 = 1;
-    private var level_controller:LevelController = LevelController();
+    private var level_controller:LevelController!
     
     private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
     private var score_increase_iterator = 0;
@@ -87,30 +86,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var timer = Timer();
     private var isTimerRunning = false;
 
-    // Paddle Physics Variables
-    private var main_paddle_speed = CGFloat.init(0); //MARK
-    private var main_previous_position = CGFloat.init(0); //MARK
     private var main_paddle_move_boundary:CGFloat = -175;
-    
     private var enemy_is_dead = false; // Used when paddle is complete deleted and user scores.
-    private var enemy_paddle_speed = CGFloat.init(0); //MARK
-    private var enemy_previous_position = CGFloat.init(0); //MARK
-    private var paddle_width = CGFloat.init(96); //MARK
-    private var paddle_size_decrement:CGFloat = 24; //MARK
     
-    private var paddleDeathFrames: [SKTexture] = []; //MARK
-    private var paddle96ShrinkFrames: [SKTexture] = [];//MARK
-    private var paddle72ShrinkFrames: [SKTexture] = [];//MARK
-    private var paddle48ShrinkFrames: [SKTexture] = [];//MARK
-    private var paddle24GrowFrames: [SKTexture] = [];//MARK
-    private var paddle48GrowFrames: [SKTexture] = [];//MARK
-    private var paddle72GrowFrames: [SKTexture] = [];//MARK
     private var ballStartFrames: [SKTexture] = [];
     private var lifeShrinkFrames:[SKTexture] = [];
     private var lifeGrowFrames:[SKTexture] = [];
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
-    private var paddleGrowthFrames:[SKTexture] = [];//MARK
     
     var ai = AI();
     
@@ -159,11 +142,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         ballmanager.setUp(ball: &ball);
         
-        enemy = self.childNode(withName: "enemy") as! SKSpriteNode
-        applyPhysicsBodyToPaddle(paddle: enemy);
-        
-        main = self.childNode(withName: "main") as! SKSpriteNode
-        applyPhysicsBodyToPaddle(paddle: main);
+        enemy = self.childNode(withName: "enemy") as! Paddle
+        main = self.childNode(withName: "main") as! Paddle
         
         timerLabel = self.childNode(withName: "timer") as! SKLabelNode;
         
@@ -200,24 +180,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
         
         // Build animation frames
-        paddleDeathFrames = (AnimationFramesManager?.getPaddleDeathFrames())!;
-        paddle96ShrinkFrames = (AnimationFramesManager?.getPaddle96ShrinkFrames())!;
-        paddle72ShrinkFrames = (AnimationFramesManager?.getPaddle72ShrinkFrames())!;
-        paddle48ShrinkFrames = (AnimationFramesManager?.getPaddle48ShrinkFrames())!;
-        paddle24GrowFrames = (AnimationFramesManager?.getPaddle24GrowFrames())!;
-        paddle48GrowFrames = (AnimationFramesManager?.getPaddle48GrowFrames())!;
-        paddle72GrowFrames = (AnimationFramesManager?.getPaddle72GrowFrames())!;
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
         lifeShrinkFrames = (AnimationFramesManager?.getLifeShrinkFrames())!;
         lifeGrowFrames = (AnimationFramesManager?.getLifeGrowFrames())!;
         hitWallFrames = (AnimationFramesManager?.getHitWallFrames())!;
         hitPaddleFrames = (AnimationFramesManager?.getHitPaddleFrames())!;
-        paddleGrowthFrames = (AnimationFramesManager?.getPaddleGrowthFrames())!;
         
         // Switch game types. Currently we are just using easy, medium and hard as types.
         ai.setPaddleValues(ball: ball, ai: enemy);
         ai.setScene(scene: self);
-        //ai.setLevel(level: level);
+        
+        main.setAnimationFrames();
+        enemy.setAnimationFrames();
         
         MenuViewControl?.setUpPauseView();
         
@@ -240,34 +214,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Run the relevant game type
         startGame();
-    }
-    
-    private func applyPhysicsBodyToPaddle(paddle: SKSpriteNode)
-    {
-        if (paddle == main)
-        {
-            main.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: main.size.width, height: paddle_physics_height));
-            main.physicsBody?.categoryBitMask = 1
-            main.physicsBody?.collisionBitMask = 2
-            main.physicsBody?.contactTestBitMask = 1
-            main.physicsBody?.mass = 0.266666680574417;
-            main.physicsBody?.linearDamping = 0.1;
-            main.physicsBody?.angularDamping = 0.1;
-            main.physicsBody?.isDynamic = false;
-            main.physicsBody?.usesPreciseCollisionDetection = true
-        }
-        else if (paddle == enemy)
-        {
-            enemy.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: enemy.size.width, height: paddle_physics_height));
-            enemy.physicsBody?.categoryBitMask = 1
-            enemy.physicsBody?.collisionBitMask = 2
-            enemy.physicsBody?.contactTestBitMask = 2
-            enemy.physicsBody?.mass = 0.266666680574417;
-            enemy.physicsBody?.linearDamping = 0.1;
-            enemy.physicsBody?.angularDamping = 0.1;
-            enemy.physicsBody?.isDynamic = false;
-            enemy.physicsBody?.usesPreciseCollisionDetection = true
-        }
     }
     
     private func startGame()
@@ -325,9 +271,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ai.setNewChaseMethod();
             runTimer();
         }
-        
-        //Add animation for starting at Level 1
-        
     }
     
     private func startLevel(completion: @escaping ()->Void) {
@@ -377,13 +320,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.animation_on = true;
         });
         
-        /*level = level + 1;
-        ai.setLevel(level: level);
-        
-        // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
-        if (level < 50 && (scroller?.speed)! <= CGFloat(6.0)) {
-            scroller?.speed = (scroller?.speed)! + 0.25;
-        }*/
         level_controller.increaseLevel();
         
         startLevel(completion: {
@@ -398,9 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Grow enemy paddle to start the (new) level
             if (self.enemy_is_dead) {
-                self.animatePaddleGrowth(paddle: self.enemy, completion: {
-                    self.enemy_is_dead = false;
-                })
+                self.enemy.animateGrowth(completion: {self.enemy_is_dead = false})
             }
             
             self.ai.growLives();
@@ -434,12 +368,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (!main.isHidden)
         {
-            animatePaddleRemoval(paddle: main)
+            main.animateRemoval()
         }
         
         if (!enemy.isHidden)
         {
-            animatePaddleRemoval(paddle: enemy)
+            enemy.animateRemoval();
         }
 
         ai.removeAllLives(); // Remove all remaining ai_lives from the screen
@@ -591,7 +525,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if (!enemy_is_dead) {
                     enemy_is_dead = true;
-                    animatePaddleDeath(paddle: enemy, completion: {
+                    /*animatePaddleDeath(paddle: enemy, completion: {
                         if (self.game_over) {
                             self.enemy.isHidden = true;
                             self.enemy.physicsBody = nil;
@@ -601,7 +535,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 self.enemy_is_dead = false;
                             })
                         }
-                    });
+                    });*/
+                    enemy.animateDeath(completion: {
+                        if (self.game_over) {
+                            self.enemy.isHidden = true;
+                            self.enemy.physicsBody = nil;
+                        }
+                        else if (!self.pending_round) {
+                            self.enemy.animateGrowth(completion: {
+                                self.enemy_is_dead = false;
+                            })
+                        }
+                    })
                 }
                 
                 
@@ -614,7 +559,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 setScore(playerWhoWon: enemy, amount: 0, type: 0)
                 startBall(down: false)
-                animatePaddleDeath(paddle: main, completion: {
+                main.animateDeath(completion: {
                     // Grow paddle
                     if (self.game_over)
                     {
@@ -622,21 +567,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.main.physicsBody = nil;
                     }
                     else {
-                        self.animatePaddleGrowth(paddle: self.main, completion: {})
+                        self.main.animateGrowth(completion: {})
                     }
-                    
-                });
+                })
             }
         }
         else if (type == 1) // tic tac toe score
         {
             if playerWhoWon == main
             {
-                shrinkPaddle(paddle: enemy)
+                enemy.shrink();
                 
-                if (main.size.width < paddle_width)
+                if (main.size.width < main.paddle_width)
                 {
-                    growPaddle(paddle: main)
+                    main.grow();
                 }
                 
                 // Get extra points for completely removing the enemy paddle
@@ -645,17 +589,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     setScore(playerWhoWon: main, amount: 0, type: 1)
                     if (!enemy_is_dead) {
                         enemy_is_dead = true;
-                        animatePaddleDeath(paddle: enemy, completion: {
+                        enemy.animateDeath(completion: {
                             if (self.game_over) {
                                 self.enemy.isHidden = true;
                                 self.enemy.physicsBody = nil;
                             }
                             else if (!self.pending_round) {
-                                self.animatePaddleGrowth(paddle: self.enemy, completion: {
-                                    self.enemy_is_dead = false;
-                                })
+                                self.enemy.animateGrowth(completion: {self.enemy_is_dead = false})
                             }
-                        });
+                        })
                     }
                 }
                 else
@@ -663,32 +605,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     setScore(playerWhoWon: main, amount: 0, type: 1)
                 }
             }
-            else if playerWhoWon == enemy
+            else if (playerWhoWon == enemy)
             {
                 // Shrink main paddle
-                shrinkPaddle(paddle: main)
+                main.shrink();
                 
-                if (enemy.size.width < paddle_width)
+                if (enemy.size.width < enemy.paddle_width)
                 {
-                    growPaddle(paddle: enemy)
+                    enemy.grow();
                 }
                 
                 // remove life from player
                 if (main.size.width == 0)
                 {
                     setScore(playerWhoWon: enemy, amount: 0, type: 1)
-                    animatePaddleDeath(paddle: main, completion: {
-                        // Grow paddle
+                    main.animateDeath(completion: {// Grow paddle
                         if (self.game_over)
                         {
                             self.main.isHidden = true;
                             self.main.physicsBody = nil;
                         }
                         else {
-                            self.animatePaddleGrowth(paddle: self.main, completion: {})
+                            self.main.animateGrowth(completion: {})
                         }
-                        
-                    });
+                    })
                 }
             }
         }
@@ -736,47 +676,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         return frames;
-    }
-    
-    /* MARK
-     * Completely removes paddle, except doesn't delete the node
-     * Used when the game is over.
-    */
-    private func animatePaddleRemoval(paddle: SKSpriteNode)
-    {
-        let deathAction = SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025);
-        paddle.size.width = 256;
-        paddle.run(deathAction, completion: {
-            paddle.isHidden = true;
-            
-            paddle.physicsBody = nil;
-        })
-    }
-    
-    /* MARK
-    ** Used when scored on and paddle is deleted and regenerated.
-    */
-    private func animatePaddleDeath(paddle: SKSpriteNode, completion: @escaping ()->Void)
-    {
-        
-        paddle.texture = paddleDeathFrames[0];
-        paddle.size.width = 256;
-        paddle.run(SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025), completion: {
-            paddle.size.width = self.paddle_width;
-            completion();
-        })
-    }
-    
-    // Grow the paddle
-    private func animatePaddleGrowth(paddle: SKSpriteNode, completion: @escaping ()->Void) {
-        let growthAction = SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01);
-        let setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle96"));
-        paddle.size.width = paddle_width;
-        paddle.run(SKAction.sequence([growthAction, setFinalPaddleTextureAction]), completion: {
-            paddle.size.width = self.paddle_width;
-            self.applyPhysicsBodyToPaddle(paddle: paddle);
-            completion();
-        })
     }
     
     private func animateScoreExplosion() {
@@ -888,78 +787,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
-    // This method does the paddle shrink animation
-    // MARK
-    private func shrinkPaddle(paddle: SKSpriteNode)
-    {
-        var shrinkAction:SKAction? = nil;
-        var setFinalPaddleTextureAction:SKAction? = nil;
-        
-        if (paddle.size.width == 96)
-        {
-            shrinkAction = SKAction.animate(with: paddle96ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle72"));
-        }
-        else if (paddle.size.width == 72)
-        {
-            shrinkAction = SKAction.animate(with: paddle72ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle48"));
-        }
-        else if (paddle.size.width == 48)
-        {
-            shrinkAction = SKAction.animate(with: paddle48ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle24"));
-        }
-        else if (paddle.size.width == 24)
-        {
-            paddle.size.width = paddle.size.width - self.paddle_size_decrement;
-            applyPhysicsBodyToPaddle(paddle: paddle);
-            return;
-        }
-        else
-        {
-            return;
-        }
-        
-        let shrinkSequence = SKAction.sequence([shrinkAction!, setFinalPaddleTextureAction!]);
-        paddle.run(shrinkSequence, completion: {
-            paddle.size.width = paddle.size.width - self.paddle_size_decrement;
-            self.applyPhysicsBodyToPaddle(paddle: paddle);
-        })
-    }
-    
-    //MARK
-    private func growPaddle(paddle: SKSpriteNode)
-    {        
-        var shrinkAction:SKAction? = nil;
-        var setFinalPaddleTextureAction:SKAction? = nil;
-        
-        if (paddle.size.width == 72)
-        {
-            shrinkAction = SKAction.animate(with: paddle72GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle96"));
-        }
-        else if (paddle.size.width == 48)
-        {
-            shrinkAction = SKAction.animate(with: paddle48GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle72"));
-        }
-        else if (paddle.size.width == 24)
-        {
-            shrinkAction = SKAction.animate(with: paddle24GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(SKTexture(imageNamed: "Paddle48"));
-        }
-        else
-        {
-            return;
-        }
-        paddle.size.width = paddle.size.width + self.paddle_size_decrement;
-        let shrinkSequence = SKAction.sequence([shrinkAction!, setFinalPaddleTextureAction!]);
-        paddle.run(shrinkSequence, completion: {
-            self.applyPhysicsBodyToPaddle(paddle: paddle);
-        })
-    }
-    
     private func removeLife() {
         if (life <= 0) {return}
         
@@ -1003,15 +830,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         growthSequence.append(finalTexture)
         
         lives[index].run(SKAction.sequence(growthSequence));
-    }
-    
-    //MARK
-    private func updatePaddleSpeeds()
-    {
-        main_paddle_speed = (main.position.x - main_previous_position)/60.0;
-        main_previous_position = main.position.x;
-        enemy_paddle_speed = (enemy.position.x - enemy_previous_position)/60.0;
-        enemy_previous_position = enemy.position.x;
     }
     
     public func runTimer() {
@@ -1324,7 +1142,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
             if (!game_over)
             {
-                updatePaddleSpeeds();
                 ai.move();
                 
                 // Check to see if ball went past the paddles
@@ -1447,15 +1264,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
-            updatePaddleSpeeds();
             
             if (contact.bodyA.node?.name == "main")
             {
-                ballmanager.bounceBall(contact, paddle: main, paddle_speed: main_paddle_speed)
+                main.updateSpeed();
+                ballmanager.bounceBall(contact, paddle: main, paddle_speed: main.paddle_speed)
             }
             else
             {
-                ballmanager.bounceBall(contact, paddle: enemy, paddle_speed: enemy_paddle_speed)
+                enemy.updateSpeed()
+                ballmanager.bounceBall(contact, paddle: enemy, paddle_speed: enemy.paddle_speed)
             }
             
             animateHitPaddle(contact_point: contact.contactPoint);
@@ -1469,8 +1287,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didSimulatePhysics() {
         ballmanager.ordinateBall();
-        //main.updateSpeed();
-        //enemy.updateSpeed();
+        main.updateSpeed();
+        enemy.updateSpeed();
     }
     
     private func PaddleHitAnimate(paddle: SKSpriteNode, collision_position: CGPoint, return_speed: CGFloat)

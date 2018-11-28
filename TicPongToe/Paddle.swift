@@ -10,11 +10,12 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
+
 class Paddle: SKSpriteNode {
-    private var default_texture = SKTexture(imageNamed: "Paddle96");
-    private var paddle_physics_height:CGFloat = 15.0;
+    
+    private var paddle_physics_height:CGFloat = CGFloat.init(15.0);
     private var previous_position = CGFloat.init(0);
-    private var paddle_width = CGFloat.init(96);
+    
     private var paddle_size_decrement:CGFloat = 24;
     private var paddleDeathFrames: [SKTexture] = [];
     private var paddle96ShrinkFrames: [SKTexture] = [];
@@ -24,16 +25,28 @@ class Paddle: SKSpriteNode {
     private var paddle48GrowFrames: [SKTexture] = [];
     private var paddle72GrowFrames: [SKTexture] = [];
     private var paddleGrowthFrames:[SKTexture] = [];
+    private var default_texture_name = "Paddle96";
+    private var default_texture:SKTexture = SKTexture.init(imageNamed: "Paddle96");
     
     public var down = false; //if down == true, then it's the enemy; else if false it is the player
     public var paddle_speed = CGFloat.init(0);
+    public var paddle_width = CGFloat.init(96);
     
     /*
      * if direction_down == true, then it's the enemy; else if false it is the player
      */
     init(direction_down: Bool) {
         down = direction_down;
+        default_texture = SKTexture(imageNamed: "Paddle96");
         super.init(texture: default_texture, color: .clear, size: default_texture.size());
+        applyPhysicsBody();
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    public func setAnimationFrames() {
         // Build animation frames
         paddleDeathFrames = (AnimationFramesManager?.getPaddleDeathFrames())!;
         paddle96ShrinkFrames = (AnimationFramesManager?.getPaddle96ShrinkFrames())!;
@@ -43,14 +56,8 @@ class Paddle: SKSpriteNode {
         paddle48GrowFrames = (AnimationFramesManager?.getPaddle48GrowFrames())!;
         paddle72GrowFrames = (AnimationFramesManager?.getPaddle72GrowFrames())!;
         paddleGrowthFrames = (AnimationFramesManager?.getPaddleGrowthFrames())!;
-        applyPhysicsBody();
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //private func applyPhysicsBodyToPaddle(paddle: SKSpriteNode)
     public func applyPhysicsBody()
     {
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: paddle_physics_height));
@@ -64,7 +71,6 @@ class Paddle: SKSpriteNode {
         self.physicsBody?.contactTestBitMask = down ? 2 : 1 // 2 if the enemy paddle; 1 if player
     }
     
-    //private func animatePaddleRemoval(paddle: SKSpriteNode)
     /*
      * Completely removes paddle, except doesn't delete the node
      * Used when the game is over.
@@ -80,7 +86,6 @@ class Paddle: SKSpriteNode {
         })
     }
     
-    // private func animatePaddleDeath(paddle: SKSpriteNode, completion: @escaping ()->Void)
     /*
      ** Used when scored on and paddle is deleted and regenerated.
      */
@@ -95,9 +100,8 @@ class Paddle: SKSpriteNode {
         })
     }
     
-    // private func animatePaddleGrowth(paddle: SKSpriteNode, completion: @escaping ()->Void) {
     // Grow the paddle
-    public func animateGrowth(paddle: SKSpriteNode, completion: @escaping ()->Void) {
+    public func animateGrowth(completion: @escaping ()->Void) {
         self.size.width = paddle_width;
         self.run(SKAction.sequence([SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01), SKAction.setTexture(default_texture)]), completion: {
             self.size.width = self.paddle_width;
@@ -106,7 +110,6 @@ class Paddle: SKSpriteNode {
         })
     }
     
-    //private func shrinkPaddle(paddle: SKSpriteNode)
     // This method does the paddle shrink animation
     public func shrink()
     {
@@ -146,7 +149,6 @@ class Paddle: SKSpriteNode {
         })
     }
     
-    //private func growPaddle(paddle: SKSpriteNode)
     public func grow()
     {
         var growAction:SKAction? = nil;
@@ -178,7 +180,6 @@ class Paddle: SKSpriteNode {
         })
     }
     
-    // updatePaddleSpeeds();
     public func updateSpeed()
     {
         paddle_speed = (self.position.x - previous_position)/60.0;

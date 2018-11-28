@@ -140,6 +140,7 @@ class Ball  {
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
+        print("paddle_speed: \(paddle_speed)")
         var return_speed = ballspeed;
         if (abs(paddle_speed) >= 0.15)
         {
