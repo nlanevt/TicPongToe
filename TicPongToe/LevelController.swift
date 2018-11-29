@@ -18,7 +18,7 @@ class LevelController {
     private var ai = AI();
     private var scroller:InfiniteScrollingBackground? = nil;
     private var ball_manager = Ball();
-    private var game_scene = GameScene();
+    private var game_scene:GameScene!
     
     init(ai: AI, scroller: InfiniteScrollingBackground, game_scene: GameScene, ball_manager: Ball) {
         self.ai = ai;

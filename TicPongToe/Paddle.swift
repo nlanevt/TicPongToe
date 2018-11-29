@@ -32,6 +32,8 @@ class Paddle: SKSpriteNode {
     public var paddle_speed = CGFloat.init(0);
     public var paddle_width = CGFloat.init(96);
     
+    private var shadow:SKLightNode!;
+    
     /*
      * if direction_down == true, then it's the enemy; else if false it is the player
      */
@@ -69,6 +71,7 @@ class Paddle: SKSpriteNode {
         self.physicsBody?.isDynamic = false;
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.contactTestBitMask = down ? 2 : 1 // 2 if the enemy paddle; 1 if player
+        
     }
     
     /*

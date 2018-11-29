@@ -15,13 +15,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var ballmanager = Ball();
     private var ball = SKSpriteNode();
+    
     private var enemy:Paddle = Paddle(direction_down: true);
     private var main:Paddle = Paddle(direction_down: false);
     private var main_boundary_position:CGFloat = -194;
     private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
-    //private var level: Int64 = 1;
     private var level_controller:LevelController!
     
     private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
@@ -39,7 +39,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_score = SKLabelNode();
     private var player_won = false;
     public var game_over = false;
-    
     
     private var square1 = SKSpriteNode();
     private var square2 = SKSpriteNode();
@@ -205,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //TODO: Will need to increase parameters
         level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager)
+
         
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
