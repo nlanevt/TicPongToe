@@ -1277,12 +1277,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             animateHitPaddle(contact_point: contact.contactPoint);
+            ballmanager.squashBall(contact: contact);
         }
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
+            ballmanager.squashBall(contact: contact);
         }
+        
+        
     }
     
     override func didSimulatePhysics() {
@@ -1317,6 +1321,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             ai.enemy_hit_ball = true;
         }
+        else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
+        {
+            
+        }
+        
+        ballmanager.unsquashBall(contact: contact);
     }
     
     @objc func doubleTapped() {
