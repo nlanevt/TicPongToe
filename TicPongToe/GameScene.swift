@@ -80,6 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var player_starts = false;
     private var board_hits = 0;
 
+    private var moon_timer = SKSpriteNode();
     private var timerLabel = SKLabelNode();
     private var seconds = 10;
     private var timer = Timer();
@@ -177,6 +178,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseButtonGrid = self.childNode(withName: "pauseButtonGrid") as! SKSpriteNode
         
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
+        
+        moon_timer = self.childNode(withName: "MoonTimer") as! SKSpriteNode;
         
         // Build animation frames
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
@@ -859,6 +862,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         timerLabel.text = "\(seconds)"
     }
     
+    private func fadeOutTimer() {
+        let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
+        stopTimer()
+        timerLabel.run(fadeoutAction);
+    }
+    
+    private func fadeInTimer(completion: @escaping ()->Void) {
+        let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
+        timerLabel.run(fadeinAction, completion: {completion()});
+    }
+    
     private func resetBoard()
     {
         for i in 0 ..< tictactoeboard.count {
@@ -1211,17 +1225,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 clearBoard();
             }
     
-    }
-    
-    private func fadeOutTimer() {
-        let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
-        stopTimer()
-        timerLabel.run(fadeoutAction);
-    }
-    
-    private func fadeInTimer(completion: @escaping ()->Void) {
-        let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
-        timerLabel.run(fadeinAction, completion: {completion()});
     }
     
     private func endTicTacToeGame(quick_fade: Bool, completion: @escaping ()->Void) {
