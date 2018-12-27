@@ -18,7 +18,8 @@ class LevelController {
     private var ai = AI();
     private var scroller:InfiniteScrollingBackground? = nil;
     private var ball_manager = Ball();
-    private var game_scene:GameScene!
+    private var game_scene:GameScene!       //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
+    private var ai_lives_increase_array:[Int] = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54];
     
     init(ai: AI, scroller: InfiniteScrollingBackground, game_scene: GameScene, ball_manager: Ball) {
         self.ai = ai;
@@ -39,6 +40,13 @@ class LevelController {
         // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
         if (level_counter < 50 && (scroller?.speed)! <= CGFloat(6.0)) {
             scroller?.speed = (scroller?.speed)! + 0.25;
+        }
+        
+        for i in ai_lives_increase_array {
+            if level_counter == i {
+                ai.increaseLivesAmount();
+                break;
+            }
         }
     }
     

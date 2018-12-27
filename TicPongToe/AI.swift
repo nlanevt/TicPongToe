@@ -82,17 +82,25 @@ class AI {
         return speed;
     }
     
+    /*
+     * Returns true if the AI has no more lives.
+    */
     public func decreaseLife() -> Bool{
         var result = false;
         ai_lives = ai_lives - 1;
         removeLifeAnimation();
         if (ai_lives <= 0) {
             result = true
-            if (ai_lives_amount < 11) {ai_lives_amount = ai_lives_amount + 1}
             ai_lives = ai_lives_amount;
         }
-        
         return result;
+    }
+    
+    // Increases lives amount
+    // Max number of lives is 21. 
+    public func increaseLivesAmount() {
+        ai_lives_amount = ai_lives_amount < 21 ? ai_lives_amount + 1 : ai_lives_amount
+        ai_lives = ai_lives_amount;
     }
     
     public func growLives() {

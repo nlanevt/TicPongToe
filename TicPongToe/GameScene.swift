@@ -840,7 +840,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             isTimerRunning = true;
             timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(GameScene.updateTimer)), userInfo: nil, repeats: true)
+            
+            //MARK
+            if (moon_timer.isPaused) {
+                moon_timer.isPaused = false;
+            }
+            else {
+                moon_timer.alpha = 1.0;
+                moon_timer.removeAllActions();
+                moon_timer.run(SKAction.animate(with: (AnimationFramesManager?.moonTimerCountDownFrames)!, timePerFrame: 1.0), completion: {
+                    print("Moon Timer Complete");
+                });
+            }
         }
+
+       
     }
     
     @objc private func updateTimer() {
@@ -852,6 +866,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         isTimerRunning = false;
         timer.invalidate()
+        moon_timer.isPaused = true; //MARK
     }
     
     private func resetTimer()
@@ -866,11 +881,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
         stopTimer()
         timerLabel.run(fadeoutAction);
+        moon_timer.run(fadeoutAction); //MARK
     }
     
     private func fadeInTimer(completion: @escaping ()->Void) {
         let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
         timerLabel.run(fadeinAction, completion: {completion()});
+        moon_timer.run(fadeinAction, completion: {completion()}); //MARK
     }
     
     private func resetBoard()
