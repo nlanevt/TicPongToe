@@ -80,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var player_starts = false;
     private var board_hits = 0;
 
-    private var moon_timer = SKSpriteNode();
+    //private var moon_timer = SKSpriteNode(); MARK
     private var timerLabel = SKLabelNode();
     private var seconds = 10;
     private var timer = Timer();
@@ -179,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
         
-        moon_timer = self.childNode(withName: "MoonTimer") as! SKSpriteNode;
+        //moon_timer = self.childNode(withName: "MoonTimer") as! SKSpriteNode; //MARK
         
         // Build animation frames
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
@@ -779,15 +779,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func animateHitPaddle(contact_point: CGPoint)
     {
-        let hitPaddleNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
+        // < 48 use small
+        // >= 48 and < 55 use medium
+        // >= 55 use big
+        var hitPaddleNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
         hitPaddleNode.zPosition = 0.0;
         hitPaddleNode.position = contact_point
         
-        self.addChild(hitPaddleNode);
+        if (ballmanager.ballspeed >= 42 && ballmanager.ballspeed < 48) {
+            self.addChild(hitPaddleNode);
+            hitPaddleNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
+                hitPaddleNode.removeFromParent();
+            })
+        }
+        else if (ballmanager.ballspeed >= 48 && ballmanager.ballspeed < 55) {
+            hitPaddleNode = SKSpriteNode(texture: AnimationFramesManager?.hitPaddleBFrames[0], size: (AnimationFramesManager?.hitPaddleBFrames[0].size())!);
+            hitPaddleNode.zPosition = 0.0;
+            hitPaddleNode.position = contact_point
+            self.addChild(hitPaddleNode);
+            hitPaddleNode.run(SKAction.animate(with: (AnimationFramesManager?.hitPaddleBFrames)!, timePerFrame: 0.05), completion: {
+                hitPaddleNode.removeFromParent();
+            })
+        }
+        else {
+            hitPaddleNode = SKSpriteNode(texture: AnimationFramesManager?.hitPaddleBFrames[0], size: (AnimationFramesManager?.hitPaddleBFrames[0].size())!);
+            hitPaddleNode.zPosition = 0.0;
+            hitPaddleNode.position = contact_point
+            self.addChild(hitPaddleNode);
+            hitPaddleNode.run(SKAction.animate(with: (AnimationFramesManager?.hitPaddleBFrames)!, timePerFrame: 0.05), completion: {
+                hitPaddleNode.removeFromParent();
+            })
+        }
         
-        hitPaddleNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
-            hitPaddleNode.removeFromParent();
-        })
+        
+        
+        
     }
     
     private func removeLife() {
@@ -842,7 +868,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(GameScene.updateTimer)), userInfo: nil, repeats: true)
             
             //MARK
-            if (moon_timer.isPaused) {
+            /*if (moon_timer.isPaused) {
                 moon_timer.isPaused = false;
             }
             else {
@@ -851,7 +877,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moon_timer.run(SKAction.animate(with: (AnimationFramesManager?.moonTimerCountDownFrames)!, timePerFrame: 1.0), completion: {
                     print("Moon Timer Complete");
                 });
-            }
+            }*/
         }
 
        
@@ -866,7 +892,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         isTimerRunning = false;
         timer.invalidate()
-        moon_timer.isPaused = true; //MARK
+        //moon_timer.isPaused = true; //MARK
     }
     
     private func resetTimer()
@@ -881,13 +907,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
         stopTimer()
         timerLabel.run(fadeoutAction);
-        moon_timer.run(fadeoutAction); //MARK
+        //moon_timer.run(fadeoutAction); //MARK
     }
     
     private func fadeInTimer(completion: @escaping ()->Void) {
         let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
         timerLabel.run(fadeinAction, completion: {completion()});
-        moon_timer.run(fadeinAction, completion: {completion()}); //MARK
+        //moon_timer.run(fadeinAction, completion: {completion()}); //MARK
     }
     
     private func resetBoard()

@@ -57,6 +57,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
     @IBOutlet weak var GameOverLabel: UILabel!
+    @IBOutlet weak var GameOverLabelImage: UIImageView!
     
     @IBOutlet weak var ContinueGameButton: UIButton!
     @IBOutlet weak var QuitGameButton: UIButton!
@@ -119,6 +120,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
         MenuViewControl?.ScoreLabel = self.ScoreLabel;
         MenuViewControl?.GameOverLabel = self.GameOverLabel;
+        MenuViewControl?.GameOverLabelImage = self.GameOverLabelImage;
         MenuViewControl?.ContinueGameButton = self.ContinueGameButton;
         MenuViewControl?.QuitGameButton = self.QuitGameButton;
         
@@ -212,6 +214,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     {
         YourScoreLabel.isHidden = true;
         ScoreLabel.isHidden = true;
+        GameOverLabelImage.isHidden = true;
         GameOverLabel.isHidden = true;
         ReturnHomeHighScoreButton.isHidden = true;
         ReturnHomeDuelButton.isHidden = true;
@@ -227,16 +230,17 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         {
             YourScoreLabel.isHidden = false;
             ScoreLabel.isHidden = false;
-            GameOverLabel.isHidden = false;
+            GameOverLabelImage.isHidden = false;
+            GameOverLabel.isHidden = true;
             ReturnHomeHighScoreButton.isHidden = false;
             MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
             ReturnHomeDuelButton.isHidden = true;
             ContinueGameButton.isHidden = true;
             QuitGameButton.isHidden = true;
-            GameOverLabel.text = "GAME OVER";
         }
         else
         {
+            GameOverLabelImage.isHidden = true;
             GameOverLabel.isHidden = false;
             ReturnHomeHighScoreButton.isHidden = true;
             ReturnHomeDuelButton.isHidden = false;

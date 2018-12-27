@@ -161,7 +161,7 @@
                                     <action selector="QuitGame:" destination="pS6-eI-uXl" eventType="touchUpInside" id="hlT-eF-eYI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tte-mg-6S9" userLabel="GameOverLabel">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tte-mg-6S9" userLabel="GameOverLabel">
                                 <rect key="frame" x="8" y="0.0" width="298" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="48"/>
@@ -204,12 +204,17 @@
                                     <action selector="ReturnHomeDuel:" destination="pS6-eI-uXl" eventType="touchUpInside" id="uSU-8w-uO6"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GameOverLabelImage" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-ve-hhg">
+                                <rect key="frame" x="8" y="0.0" width="298" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lXR-Sy-8h1"/>
                     </view>
                     <connections>
                         <outlet property="ContinueGameButton" destination="HsZ-X7-9Qz" id="G0y-MW-XeQ"/>
                         <outlet property="GameOverLabel" destination="Tte-mg-6S9" id="0pd-zE-D5V"/>
+                        <outlet property="GameOverLabelImage" destination="h4W-ve-hhg" id="xHm-yl-4JG"/>
                         <outlet property="QuitGameButton" destination="E08-lm-SVS" id="wp7-vs-jmh"/>
                         <outlet property="ReturnHomeDuelButton" destination="bmg-kg-sRw" id="lI4-vP-jME"/>
                         <outlet property="ReturnHomeHighScoreButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
@@ -223,6 +228,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="GameOverLabelImage" width="882" height="202"/>
         <image name="TicPongToeTitleImage" width="296" height="66"/>
     </resources>
 </document>
