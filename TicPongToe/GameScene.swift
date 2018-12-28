@@ -97,8 +97,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var ai = AI();
     
-    private var player_ball_hit = SKSpriteNode();
-    
     private var animation_on = false;
     
     private var pauseButton = SKSpriteNode();
@@ -786,7 +784,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hitPaddleNode.zPosition = 0.0;
         hitPaddleNode.position = contact_point
         
-        if (ballmanager.ballspeed >= 42 && ballmanager.ballspeed < 48) {
+        if (ballmanager.ballspeed < 48) {
             self.addChild(hitPaddleNode);
             hitPaddleNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
                 hitPaddleNode.removeFromParent();
@@ -802,18 +800,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             })
         }
         else {
-            hitPaddleNode = SKSpriteNode(texture: AnimationFramesManager?.hitPaddleBFrames[0], size: (AnimationFramesManager?.hitPaddleBFrames[0].size())!);
+            hitPaddleNode = SKSpriteNode(texture: AnimationFramesManager?.hitPaddleCFrames[0], size:CGSize(width: (AnimationFramesManager?.hitPaddleCFrames[0].size().width)! / 2, height: (AnimationFramesManager?.hitPaddleCFrames[0].size().height)! / 2));
             hitPaddleNode.zPosition = 0.0;
-            hitPaddleNode.position = contact_point
+            hitPaddleNode.position.x = contact_point.x;
+            hitPaddleNode.position.y = contact_point.y + (hitPaddleNode.size.height/2);
+            
+            if (ballmanager.ball.position.y >= 0) {
+                hitPaddleNode.zRotation = .pi;
+                hitPaddleNode.position.y = contact_point.y - (hitPaddleNode.size.height/2);
+            }
+            
             self.addChild(hitPaddleNode);
-            hitPaddleNode.run(SKAction.animate(with: (AnimationFramesManager?.hitPaddleBFrames)!, timePerFrame: 0.05), completion: {
+            hitPaddleNode.run(SKAction.animate(with: (AnimationFramesManager?.hitPaddleCFrames)!, timePerFrame: 0.04), completion: {
                 hitPaddleNode.removeFromParent();
             })
         }
-        
-        
-        
-        
     }
     
     private func removeLife() {
@@ -1323,13 +1324,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             animateHitPaddle(contact_point: contact.contactPoint);
-            ballmanager.squashBall(contact: contact);
+            //ballmanager.squashBall(contact: contact);
         }
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
-            ballmanager.squashBall(contact: contact);
+            //ballmanager.squashBall(contact: contact);
         }
         
         
@@ -1341,19 +1342,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.updateSpeed();
     }
     
-    private func PaddleHitAnimate(paddle: SKSpriteNode, collision_position: CGPoint, return_speed: CGFloat)
-    {
-        if (paddle == main)
-        {
-            UIView.animate(withDuration: 0.1,
-            animations: {
-                self.player_ball_hit.isHidden = false;
-                self.player_ball_hit.alpha = 1;
-                self.player_ball_hit.position = CGPoint(x: collision_position.x, y: collision_position.y + 10)
-            }
-            )
-        }
-    }
     
     func didEnd(_ contact: SKPhysicsContact) {
         if (contact.bodyA.node?.name == "main") &&
@@ -1372,7 +1360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        ballmanager.unsquashBall(contact: contact);
+        //ballmanager.unsquashBall(contact: contact);
     }
     
     @objc func doubleTapped() {

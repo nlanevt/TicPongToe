@@ -53,6 +53,8 @@ class GameViewController: UIViewController {
                 
                 PauseView.isHidden = true;
                 // Present the scene
+                view.showsNodeCount = true; // DeployMark
+                //view.show
                 view.presentScene(scene)
             }
             
