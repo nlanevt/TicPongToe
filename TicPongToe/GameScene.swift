@@ -81,6 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var board_hits = 0;
 
     //private var moon_timer = SKSpriteNode(); MARK
+    private var timer_node = SKSpriteNode();
     private var timerLabel = SKLabelNode();
     private var seconds = 10;
     private var timer = Timer();
@@ -178,6 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
         
         //moon_timer = self.childNode(withName: "MoonTimer") as! SKSpriteNode; //MARK
+        timer_node = self.childNode(withName: "TimerNode") as! SKSpriteNode;
         
         // Build animation frames
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
@@ -227,7 +229,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player_starts = false;
         player_won = false;
         game_over = false;
-        timerLabel.text = "\(seconds)";
+        //timerLabel.text = "\(seconds)";
+        resetTimer();
         if (currentGameType == gameType.high_score)
         {
             pending_round = true;
@@ -887,6 +890,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc private func updateTimer() {
         seconds -= 1     //This will decrement(count down)the seconds.
         timerLabel.text = "\(seconds)" //This will update the label.
+        if (seconds >= 0) {
+            timer_node.isHidden = false;
+            timer_node.texture = AnimationFramesManager?.timerImageFrames[10-seconds]; //MARK hardcoded 10, which is infact the length of the timerImageframes array.
+        }
+        else {
+            timer_node.isHidden = true;
+        }
     }
     
     public func stopTimer()
@@ -902,6 +912,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stopTimer();
         seconds = 10;
         timerLabel.text = "\(seconds)"
+        timer_node.texture = AnimationFramesManager?.timerImageFrames[10-seconds]; //MARK hardcoded 10, which is infact the length of the timerImageframes array.
     }
     
     private func fadeOutTimer() {
@@ -909,12 +920,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stopTimer()
         timerLabel.run(fadeoutAction);
         //moon_timer.run(fadeoutAction); //MARK
+        timer_node.run(fadeoutAction); //MARK
     }
     
     private func fadeInTimer(completion: @escaping ()->Void) {
         let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
         timerLabel.run(fadeinAction, completion: {completion()});
         //moon_timer.run(fadeinAction, completion: {completion()}); //MARK
+        timer_node.run(fadeinAction, completion: {completion()}); //MARK
     }
     
     private func resetBoard()

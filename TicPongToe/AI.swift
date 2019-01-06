@@ -43,8 +43,8 @@ class AI {
     private var offset2:CGFloat = 250;
     
     private var intensity:CGFloat = 0.03;
-    private var ai_lives = 3;
-    private var ai_lives_amount = 3;
+    private var ai_lives = 6;
+    private var ai_lives_amount = 6;
     
     private var ai_lives_y_position:CGFloat = 235.0;
     private var ai_lives_z_position:CGFloat = -1.0;

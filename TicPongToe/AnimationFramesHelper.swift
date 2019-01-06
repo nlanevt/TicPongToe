@@ -37,6 +37,7 @@ class AnimationFramesHelper {
     public var lifeGrowAFrames:[SKTexture] = [];
     public var lifeGrowBFrames:[SKTexture] = [];
     //public var moonTimerCountDownFrames:[SKTexture] = []; //MARK
+    public var timerImageFrames:[SKTexture] = [];
     public var hitPaddleBFrames:[SKTexture] = [];
     public var hitPaddleCFrames:[SKTexture] = [];
 
@@ -73,6 +74,7 @@ class AnimationFramesHelper {
         //moonTimerCountDownFrames = buildAnimation(textureAtlasName: "MoonTimerCountDown"); //MARK
         hitPaddleBFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationB");
         hitPaddleCFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationC");
+        timerImageFrames = buildAnimation(textureAtlasName: "TimerImage");
     }
     
     // Don't add public functions any more. Just use the public variables in this class.

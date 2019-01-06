@@ -2,16 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "X8.png",
+      "filename" : "X13.png",
       "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {
