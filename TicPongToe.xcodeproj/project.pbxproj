@@ -25,6 +25,7 @@
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
 		97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */; };
+		97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */ = {isa = PBXBuildFile; fileRef = 97E311B621E2CE590000FE6F /* LaunchImagev3 */; };
 		97F15CF8203B96520034C113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CF7203B96520034C113 /* AppDelegate.swift */; };
 		97F15CFA203B96520034C113 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CF9203B96520034C113 /* GameScene.sks */; };
 		97F15CFC203B96520034C113 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CFB203B96520034C113 /* Actions.sks */; };
@@ -38,7 +39,6 @@
 		97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */; };
 		97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */; };
 		97F6A15A21A2127500CAB491 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A15921A2127500CAB491 /* HexColor.swift */; };
-		97F6A15E21A226DC00CAB491 /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A15D21A226DB00CAB491 /* LaunchImage.png */; };
 		E48EF51DBE0E1982BD26FA55 /* libPods-TicPongToe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +79,7 @@
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		97DC2C6221163FB10027A71F /* TicPongToe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TicPongToe.xcdatamodel; sourceTree = "<group>"; };
+		97E311B621E2CE590000FE6F /* LaunchImagev3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = LaunchImagev3; sourceTree = "<group>"; };
 		97F15CF4203B96520034C113 /* TicPongToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicPongToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15CF7203B96520034C113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97F15CF9203B96520034C113 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-3D.ttf"; sourceTree = "<group>"; };
 		97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-Bold.ttf"; sourceTree = "<group>"; };
 		97F6A15921A2127500CAB491 /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
-		97F6A15D21A226DB00CAB491 /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
 		B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TicPongToe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06A768DF8541E6345C476F3 /* Pods-TicPongToe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.release.xcconfig"; sourceTree = "<group>"; };
 		F6F8D13C5542260EBC917237 /* Pods-TicPongToe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		97097E702118F0F6005CB2EA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				97F6A15D21A226DB00CAB491 /* LaunchImage.png */,
+				97E311B621E2CE590000FE6F /* LaunchImagev3 */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -351,7 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97F6A15E21A226DC00CAB491 /* LaunchImage.png in Resources */,
+				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
 				97F15D03203B96520034C113 /* Main.storyboard in Resources */,
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
