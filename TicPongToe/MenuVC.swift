@@ -437,8 +437,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     public func showAd()
     {
         ad_counter = ad_counter + 1;
-        if (ad_counter >= ad_trigger)
-        //if (ad_counter == ad_counter)
+        //if (ad_counter >= ad_trigger)
+        if (true)
         {
             if interstitial.isReady {
                 running = false; // should only be the MenuViewControl calling this.
@@ -466,7 +466,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910"); // DeployMark
+        //let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910"); // DeployMark
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
         interstitial.delegate = self
         interstitial.load(request);
         
