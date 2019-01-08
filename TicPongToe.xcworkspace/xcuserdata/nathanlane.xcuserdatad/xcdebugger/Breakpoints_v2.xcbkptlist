@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.516508"
+            timestampString = "568517510.931615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "870"
-            endingLineNumber = "870"
-            landmarkName = "animateHitPaddle(contact_point:)"
+            startingLineNumber = "1005"
+            endingLineNumber = "1005"
+            landmarkName = "winRoundAnimation(player:winning_squares:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,13 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.516706"
+            timestampString = "568517510.931699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1351"
-            endingLineNumber = "1351"
-            landmarkName = "update(_:)"
-            landmarkType = "7">
+            startingLineNumber = "1396"
+            endingLineNumber = "1396">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,76 +40,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.516839"
+            timestampString = "568517510.93177"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "751"
-            endingLineNumber = "751"
-            landmarkName = "animatePaddleDeath(paddle:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.51697"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "737"
-            endingLineNumber = "737"
-            landmarkName = "animatePaddleRemoval(paddle:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.517115"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
-            landmarkName = "addScore(playerWhoWon:type:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.517265"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "755"
-            endingLineNumber = "755"
-            landmarkName = "animatePaddleDeath(paddle:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/GameScene.swift"
-            timestampString = "564280159.517415"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "740"
-            endingLineNumber = "740"
-            landmarkName = "animatePaddleRemoval(paddle:)"
+            startingLineNumber = "725"
+            endingLineNumber = "725"
+            landmarkName = "animateHitWall(contact_point:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,12 +56,119 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/Ball.swift"
-            timestampString = "564280159.517542"
+            timestampString = "567639828.075327"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "setFireBall()"
+            startingLineNumber = "204"
+            endingLineNumber = "204">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicPongToe/GameScene.swift"
+            timestampString = "568517510.9318759"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "GameScene"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TicPongToe.GameScene.(main in _EAD15C31E96A2A88479FA0B855FFE2D5).getter : TicPongToe.Paddle"
+                  moduleName = "TicPongToe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nathanlane/Documents/Development/Products/Tic-Pong-Toe/TicPongToe/GameScene.swift"
+                  timestampString = "565067076.576032"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TicPongToe.GameScene.(main in _EAD15C31E96A2A88479FA0B855FFE2D5).setter : TicPongToe.Paddle"
+                  moduleName = "TicPongToe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nathanlane/Documents/Development/Products/Tic-Pong-Toe/TicPongToe/GameScene.swift"
+                  timestampString = "565067076.578909"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TicPongToe.GameScene.init(size: __C.CGSize) -&gt; TicPongToe.GameScene"
+                  moduleName = "TicPongToe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nathanlane/Documents/Development/Products/Tic-Pong-Toe/TicPongToe/GameScene.swift"
+                  timestampString = "565067076.582598"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "420">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TicPongToe.GameScene.init() -&gt; TicPongToe.GameScene"
+                  moduleName = "TicPongToe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nathanlane/Documents/Development/Products/Tic-Pong-Toe/TicPongToe/GameScene.swift"
+                  timestampString = "565067076.585585"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "396">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TicPongToe.GameScene.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;TicPongToe.GameScene&gt;"
+                  moduleName = "TicPongToe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nathanlane/Documents/Development/Products/Tic-Pong-Toe/TicPongToe/GameScene.swift"
+                  timestampString = "565067076.588799"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "404">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicPongToe/GameScene.swift"
+            timestampString = "568517510.9319431"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "didMove(to:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
