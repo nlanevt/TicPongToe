@@ -19,6 +19,12 @@ class Ball  {
     private var fireBallBFrames:[SKTexture] = [];
     private var fireBallCFrames:[SKTexture] = [];
     private var ballStartFrames:[SKTexture] = [];
+    private var squashedBallPaddleBottomTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallPaddleBottom");
+    private var squashedBallPaddleTopTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallPaddleTop");
+    private var squashedBallWallLeftTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallWallLeft");
+    private var squashedBallWallRightTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallWallRight");
+    private var defaultBallTexture:SKTexture = SKTexture.init(imageNamed: "Ball");
+    //private var ballBounceAnimationTextures:[SKTexture] = [
     
     private var fireBallA = SKSpriteNode();
     private var fireBallB = SKSpriteNode();
@@ -34,6 +40,11 @@ class Ball  {
     private var ballStartSpeed:CGFloat = 40.0;
     public var ball = SKSpriteNode();
     private var angle_offset = CGFloat(Double.pi / 2);
+    
+    private var default_size:CGSize = CGSize(width: 20.0, height: 20.0)
+    private var squashed_paddle_size:CGSize = CGSize(width: 20.0, height: 20.0);
+    private var squashed_wall_size:CGSize = CGSize(width: 20.0, height: 20.0);
+    private var can_ordinate = true;
     
     public func setUp(ball: inout SKSpriteNode)
     {
@@ -101,7 +112,7 @@ class Ball  {
     public func ordinateBall()
     {
         if let body = ball.physicsBody {
-            if (body.velocity.speed() > 0.01) {
+            if (body.velocity.speed() > 0.01 && can_ordinate) {
                 ball.zRotation = body.velocity.angle() - angle_offset;
             }
         }
@@ -140,6 +151,7 @@ class Ball  {
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
+        print("paddle_speed: \(paddle_speed)")
         var return_speed = ballspeed;
         if (abs(paddle_speed) >= 0.15)
         {
@@ -189,6 +201,60 @@ class Ball  {
         }
         else {
             animateFireBall(ball_type: 3);
+        }
+    }
+    
+    public func squashBall(contact: SKPhysicsContact) {
+        
+        if (contact.bodyA.node?.name == "main") {
+            ball.size = squashed_paddle_size;
+            can_ordinate = false;
+            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleBottomTexture), SKAction.wait(forDuration: 0.015)]), completion: {
+                self.ball.size = self.default_size;
+                self.ball.texture = self.defaultBallTexture;
+                self.can_ordinate = true;
+                self.ordinateBall();
+            })
+        }
+        else if (contact.bodyA.node?.name == "enemy") {
+            ball.size = squashed_paddle_size;
+            can_ordinate = false;
+            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleTopTexture), SKAction.wait(forDuration: 0.015)]), completion: {
+                self.ball.size = self.default_size;
+                self.ball.texture = self.defaultBallTexture;
+                self.can_ordinate = true;
+                self.ordinateBall();
+            })
+        }
+        else if (contact.bodyA.categoryBitMask == 3) { //MARK Wall squashing Disabled
+            ball.size = squashed_wall_size;
+            can_ordinate = false;
+            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(contact.contactPoint.x >= 0 ? squashedBallWallRightTexture : squashedBallWallLeftTexture), SKAction.wait(forDuration: 0.015)]), completion: {
+                self.ball.size = self.default_size;
+                self.ball.texture = self.defaultBallTexture;
+                self.can_ordinate = true;
+                self.ordinateBall();
+            })
+        }
+        else {
+            ball.size = default_size;
+            ball.texture = defaultBallTexture;
+            can_ordinate = true;
+        }
+    }
+    
+    public func unsquashBall(contact: SKPhysicsContact) {
+        if (contact.bodyA.node?.name == "main") {
+            //ball.size = default_size;
+            //ball.texture = defaultBallTexture;
+        }
+        else if (contact.bodyA.node?.name == "enemy") {
+            //ball.size = default_size;
+            //ball.texture = defaultBallTexture;
+        }
+        else if (contact.bodyA.categoryBitMask == 3) { //MARK Wall squashing Disabled
+            //ball.size = default_size;
+            //ball.texture = defaultBallTexture;
         }
     }
 }

@@ -25,17 +25,20 @@
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
 		97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */; };
+		97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */ = {isa = PBXBuildFile; fileRef = 97E311B621E2CE590000FE6F /* LaunchImagev3 */; };
 		97F15CF8203B96520034C113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CF7203B96520034C113 /* AppDelegate.swift */; };
 		97F15CFA203B96520034C113 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CF9203B96520034C113 /* GameScene.sks */; };
 		97F15CFC203B96520034C113 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CFB203B96520034C113 /* Actions.sks */; };
 		97F15CFE203B96520034C113 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CFD203B96520034C113 /* GameScene.swift */; };
 		97F15D00203B96520034C113 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CFF203B96520034C113 /* GameViewController.swift */; };
 		97F15D03203B96520034C113 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97F15D01203B96520034C113 /* Main.storyboard */; };
+		97F6731921AC437A00007018 /* PowerUpNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731821AC437A00007018 /* PowerUpNode.swift */; };
+		97F6731B21AC499000007018 /* LevelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731A21AC499000007018 /* LevelController.swift */; };
+		97F6731F21ADE2F300007018 /* Paddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6731E21ADE2F300007018 /* Paddle.swift */; };
 		97F6A154219BCD3A00CAB491 /* FlashingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */; };
 		97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */; };
 		97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */; };
 		97F6A15A21A2127500CAB491 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F6A15921A2127500CAB491 /* HexColor.swift */; };
-		97F6A15E21A226DC00CAB491 /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 97F6A15D21A226DB00CAB491 /* LaunchImage.png */; };
 		E48EF51DBE0E1982BD26FA55 /* libPods-TicPongToe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +79,7 @@
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		97DC2C6221163FB10027A71F /* TicPongToe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TicPongToe.xcdatamodel; sourceTree = "<group>"; };
+		97E311B621E2CE590000FE6F /* LaunchImagev3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = LaunchImagev3; sourceTree = "<group>"; };
 		97F15CF4203B96520034C113 /* TicPongToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicPongToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15CF7203B96520034C113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97F15CF9203B96520034C113 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -87,11 +91,13 @@
 		97F15D09203B96520034C113 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97F15D0E203B96520034C113 /* TicPongToeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15D19203B96520034C113 /* TicPongToeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicPongToeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		97F6731821AC437A00007018 /* PowerUpNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpNode.swift; sourceTree = "<group>"; };
+		97F6731A21AC499000007018 /* LevelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelController.swift; sourceTree = "<group>"; };
+		97F6731E21ADE2F300007018 /* Paddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paddle.swift; sourceTree = "<group>"; };
 		97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashingLabel.swift; sourceTree = "<group>"; };
 		97F6A155219D3F6000CAB491 /* RixVideoGame-3D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-3D.ttf"; sourceTree = "<group>"; };
 		97F6A157219D43F700CAB491 /* RixVideoGame-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RixVideoGame-Bold.ttf"; sourceTree = "<group>"; };
 		97F6A15921A2127500CAB491 /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
-		97F6A15D21A226DB00CAB491 /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
 		B9CEB77DE7B3194BCAD33874 /* libPods-TicPongToe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TicPongToe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D06A768DF8541E6345C476F3 /* Pods-TicPongToe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.release.xcconfig"; sourceTree = "<group>"; };
 		F6F8D13C5542260EBC917237 /* Pods-TicPongToe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicPongToe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TicPongToe/Pods-TicPongToe.debug.xcconfig"; sourceTree = "<group>"; };
@@ -127,7 +133,7 @@
 		97097E702118F0F6005CB2EA /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				97F6A15D21A226DB00CAB491 /* LaunchImage.png */,
+				97E311B621E2CE590000FE6F /* LaunchImagev3 */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -200,6 +206,9 @@
 				97D29FD02184E18D00982FB8 /* FloatingButton.swift */,
 				9776C5B3219A38E800C6A1A0 /* Localizable.strings */,
 				97F6A153219BCD3A00CAB491 /* FlashingLabel.swift */,
+				97F6731821AC437A00007018 /* PowerUpNode.swift */,
+				97F6731A21AC499000007018 /* LevelController.swift */,
+				97F6731E21ADE2F300007018 /* Paddle.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -296,6 +305,9 @@
 							com.apple.GameCenter = {
 								enabled = 1;
 							};
+							com.apple.GameCenter.iOS = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
@@ -339,7 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97F6A15E21A226DC00CAB491 /* LaunchImage.png in Resources */,
+				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
 				97F15D03203B96520034C113 /* Main.storyboard in Resources */,
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
@@ -397,8 +409,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97F6731B21AC499000007018 /* LevelController.swift in Sources */,
 				9726327321699C7D00C88A38 /* Ball.swift in Sources */,
 				97F15CFE203B96520034C113 /* GameScene.swift in Sources */,
+				97F6731F21ADE2F300007018 /* Paddle.swift in Sources */,
 				97911262212F6FFB00B697AB /* AnimationFramesHelper.swift in Sources */,
 				97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */,
 				97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */,
@@ -407,6 +421,7 @@
 				97F6A15A21A2127500CAB491 /* HexColor.swift in Sources */,
 				97263275216AEF1D00C88A38 /* VectorRotation.swift in Sources */,
 				97DC2C6021127E000027A71F /* MenuScene.swift in Sources */,
+				97F6731921AC437A00007018 /* PowerUpNode.swift in Sources */,
 				97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */,
 				9798EC2B2159D51400099502 /* InfiniteScrollingBackground.swift in Sources */,
 				97BAB39920B4FB2400499B93 /* AI.swift in Sources */,

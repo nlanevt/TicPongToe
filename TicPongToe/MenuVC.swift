@@ -57,6 +57,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
     @IBOutlet weak var GameOverLabel: UILabel!
+    @IBOutlet weak var GameOverLabelImage: UIImageView!
     
     @IBOutlet weak var ContinueGameButton: UIButton!
     @IBOutlet weak var QuitGameButton: UIButton!
@@ -119,6 +120,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
         MenuViewControl?.ScoreLabel = self.ScoreLabel;
         MenuViewControl?.GameOverLabel = self.GameOverLabel;
+        MenuViewControl?.GameOverLabelImage = self.GameOverLabelImage;
         MenuViewControl?.ContinueGameButton = self.ContinueGameButton;
         MenuViewControl?.QuitGameButton = self.QuitGameButton;
         
@@ -212,6 +214,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     {
         YourScoreLabel.isHidden = true;
         ScoreLabel.isHidden = true;
+        GameOverLabelImage.isHidden = true;
         GameOverLabel.isHidden = true;
         ReturnHomeHighScoreButton.isHidden = true;
         ReturnHomeDuelButton.isHidden = true;
@@ -227,16 +230,17 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         {
             YourScoreLabel.isHidden = false;
             ScoreLabel.isHidden = false;
-            GameOverLabel.isHidden = false;
+            GameOverLabelImage.isHidden = false;
+            GameOverLabel.isHidden = true;
             ReturnHomeHighScoreButton.isHidden = false;
             MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
             ReturnHomeDuelButton.isHidden = true;
             ContinueGameButton.isHidden = true;
             QuitGameButton.isHidden = true;
-            GameOverLabel.text = "GAME OVER";
         }
         else
         {
+            GameOverLabelImage.isHidden = true;
             GameOverLabel.isHidden = false;
             ReturnHomeHighScoreButton.isHidden = true;
             ReturnHomeDuelButton.isHidden = false;
@@ -433,8 +437,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     public func showAd()
     {
         ad_counter = ad_counter + 1;
-        if (ad_counter >= ad_trigger)
-        //if (ad_counter == ad_counter)
+        //if (ad_counter >= ad_trigger)
+        if (true)
         {
             if interstitial.isReady {
                 running = false; // should only be the MenuViewControl calling this.
@@ -462,6 +466,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         
         // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
         // The Test ID: ca-app-pub-3940256099942544/4411468910
+        //let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910"); // DeployMark
         let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
         interstitial.delegate = self
         interstitial.load(request);

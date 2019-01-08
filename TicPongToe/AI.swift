@@ -43,8 +43,8 @@ class AI {
     private var offset2:CGFloat = 250;
     
     private var intensity:CGFloat = 0.03;
-    private var ai_lives = 3;
-    private var ai_lives_amount = 3;
+    private var ai_lives = 6;
+    private var ai_lives_amount = 6;
     
     private var ai_lives_y_position:CGFloat = 235.0;
     private var ai_lives_z_position:CGFloat = -1.0;
@@ -82,17 +82,25 @@ class AI {
         return speed;
     }
     
+    /*
+     * Returns true if the AI has no more lives.
+    */
     public func decreaseLife() -> Bool{
         var result = false;
         ai_lives = ai_lives - 1;
         removeLifeAnimation();
         if (ai_lives <= 0) {
             result = true
-            if (ai_lives_amount < 11) {ai_lives_amount = ai_lives_amount + 1}
             ai_lives = ai_lives_amount;
         }
-        
         return result;
+    }
+    
+    // Increases lives amount
+    // Max number of lives is 21. 
+    public func increaseLivesAmount() {
+        ai_lives_amount = ai_lives_amount < 21 ? ai_lives_amount + 1 : ai_lives_amount
+        ai_lives = ai_lives_amount;
     }
     
     public func growLives() {

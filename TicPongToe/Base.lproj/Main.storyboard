@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="RixVideoGame-3D.ttf">
+            <string>RixVideoGame3D</string>
+        </array>
         <array key="manaspc.ttf">
             <string>ManaspaceReg</string>
         </array>
@@ -20,11 +23,11 @@
             <objects>
                 <viewController storyboardIdentifier="gameVC" id="BV1-FR-VrT" customClass="GameViewController" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-aa-bPw">
-                                <rect key="frame" x="31" y="179" width="314" height="212"/>
+                                <rect key="frame" x="51" y="206" width="314" height="212"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <viewLayoutGuide key="safeArea" id="fbd-5L-pNZ"/>
                                 <connections>
@@ -68,25 +71,18 @@
             <objects>
                 <viewController storyboardIdentifier="MenuVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kah-ot-ka5" customClass="MenuVC" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" id="7wj-ju-MeN" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="128" y="286" width="120" height="37"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="WSs-dh-1El"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
-                                <state key="normal" title="Play Duel"/>
-                                <connections>
-                                    <action selector="Duel:" destination="kah-ot-ka5" eventType="touchUpInside" id="dUj-sm-YLK"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TicPongToeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-wy-OBD">
-                                <rect key="frame" x="8" y="117" width="359" height="66"/>
+                                <rect key="frame" x="60" y="123" width="295" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="HK3-DY-coc"/>
+                                    <constraint firstAttribute="width" constant="295" id="iNX-B9-3Ze"/>
+                                </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="84" y="246" width="200" height="32"/>
+                                <rect key="frame" x="107" y="237" width="200" height="32"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
                                 <state key="normal" title="Play High Score"/>
                                 <connections>
@@ -94,29 +90,33 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="114.5" y="331" width="147" height="46"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="46" id="RwG-Q6-vF4"/>
-                                </constraints>
+                                <rect key="frame" x="134" y="329" width="147" height="32"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
                                 <state key="normal" title="Leaderboard"/>
                                 <connections>
                                     <action selector="CheckLeaderboard:" destination="kah-ot-ka5" eventType="touchUpInside" id="NbW-er-fAo"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
+                                <rect key="frame" x="147" y="283" width="120" height="32"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
+                                <state key="normal" title="Play Duel"/>
+                                <connections>
+                                    <action selector="Duel:" destination="kah-ot-ka5" eventType="touchUpInside" id="dUj-sm-YLK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" constant="-3.5" id="4KG-Xv-bU2"/>
-                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="97" id="6TQ-T3-Qbd"/>
-                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="leading" secondItem="8di-Xp-PQW" secondAttribute="leading" constant="8" id="9y7-oR-99G"/>
-                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="8" symbolic="YES" id="A4B-5k-PKG"/>
-                            <constraint firstItem="8di-Xp-PQW" firstAttribute="trailing" secondItem="Fg3-wy-OBD" secondAttribute="trailing" constant="8" id="BEi-4h-tfC"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="e77-KA-Tc6" secondAttribute="centerX" id="NO9-5t-mP3"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="8" symbolic="YES" id="Qjd-ag-9sV"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="Fg3-wy-OBD" secondAttribute="centerX" id="dFb-GS-lUU"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="63" id="up0-Jo-lwY"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="14" id="2lW-a7-Gvp"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="14" id="42A-JY-mLL"/>
+                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="103" id="85d-v5-QJc"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="48" id="O6e-WE-Oh3"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="P36-i1-LuZ"/>
+                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VNQ-6s-C6c"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VRZ-7p-tyz"/>
+                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="pRb-Xs-3Lj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                     </view>
@@ -161,11 +161,11 @@
                                     <action selector="QuitGame:" destination="pS6-eI-uXl" eventType="touchUpInside" id="hlT-eF-eYI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tte-mg-6S9" userLabel="GameOverLabel">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tte-mg-6S9" userLabel="GameOverLabel">
                                 <rect key="frame" x="8" y="0.0" width="298" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="48"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="RixVideoGame3D" family="RixVideoGame" pointSize="48"/>
+                                <color key="textColor" red="1" green="1" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YOUR SCORE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAH-04-moT" userLabel="YourScoreLabel">
@@ -204,12 +204,17 @@
                                     <action selector="ReturnHomeDuel:" destination="pS6-eI-uXl" eventType="touchUpInside" id="uSU-8w-uO6"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GameOverLabelImage" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-ve-hhg">
+                                <rect key="frame" x="8" y="0.0" width="298" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lXR-Sy-8h1"/>
                     </view>
                     <connections>
                         <outlet property="ContinueGameButton" destination="HsZ-X7-9Qz" id="G0y-MW-XeQ"/>
                         <outlet property="GameOverLabel" destination="Tte-mg-6S9" id="0pd-zE-D5V"/>
+                        <outlet property="GameOverLabelImage" destination="h4W-ve-hhg" id="xHm-yl-4JG"/>
                         <outlet property="QuitGameButton" destination="E08-lm-SVS" id="wp7-vs-jmh"/>
                         <outlet property="ReturnHomeDuelButton" destination="bmg-kg-sRw" id="lI4-vP-jME"/>
                         <outlet property="ReturnHomeHighScoreButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
@@ -223,6 +228,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="TicPongToeTitleImage" width="296" height="66"/>
+        <image name="GameOverLabelImage" width="882" height="202"/>
+        <image name="TicPongToeTitleImage" width="1184" height="264"/>
     </resources>
 </document>
