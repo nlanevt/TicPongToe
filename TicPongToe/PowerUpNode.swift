@@ -11,39 +11,32 @@ import SpriteKit
 import GameplayKit
 
 enum powerUpType {
-    case heart;
-    case power_hit;
-    case slow_down;
-    case quarter_shrinker;
-    case half_shrinker;
-    case expander
+    case health_booster;
+    case super_health_booster;
+    case full_replenish;
+    case fast_ball;
+    case super_fast_ball;
+    case large_size_booster;
+    case mega_size_booster;
+    case small_bomb_item;
+    case big_bomb_item;
+    case small_missile_item;
+    case big_missile_item;
+    
 }
 
 class PowerUpNode: SKSpriteNode {
     
-    private var type = powerUpType.heart;
+    private var type = powerUpType.health_booster;
     
     init(power_up_type: powerUpType) {
-        var imageName = "HeartPowerUp";
+        var imageName = "HealthBoosterPowerUp";
         
         switch power_up_type {
-        case .heart:
-            imageName = "HeartPowerUp";
+        case .health_booster:
+            imageName = "HealthBoosterPowerUp";
             break
-        case .power_hit:
-            imageName = "PowerHitPowerUp";
-            break
-        case .slow_down:
-            imageName = "SlowDownPowerUp";
-            break
-        case .quarter_shrinker:
-            imageName = "QuarterShrinkerPowerUp";
-            break
-        case .half_shrinker:
-            imageName = "HalfShrinkerPowerUp";
-            break
-        case .expander:
-            imageName = "ExpanderPowerUp";
+        default:
             break
         }
         let texture = SKTexture(imageNamed: imageName);
@@ -51,7 +44,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     convenience init() {
-        self.init(power_up_type: .heart);
+        self.init(power_up_type: .health_booster);
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,14 +57,15 @@ class PowerUpNode: SKSpriteNode {
     }
     
     // Runs the animation for when the powerup is selected.
-    // Sets the paddles capabilities.
+    // Sets the paddles capabilities if its a power up
+    // If its an item, assigns it to the paddle. 
     // @by is the paddle/player that selected the powerup
     public func select(by: SKSpriteNode) {
         var paddle = by;
         
     }
     
-    // Runs the animation to disappear and remove the powerup from the screen
+    // Runs the animation to disappear and remove the powerup from the screen as well as producing any background effects made by the power up / item selection
     public func disappear() {
         
     }
