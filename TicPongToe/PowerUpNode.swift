@@ -28,6 +28,9 @@ enum powerUpType {
 class PowerUpNode: SKSpriteNode {
     
     private var type = powerUpType.health_booster;
+    private var is_selectable = false;
+    private var wait_time:TimeInterval = 0.0;
+    private var power_up_size = CGSize(width: 48.0, height: 48.0);
     
     init(power_up_type: powerUpType) {
         var imageName = "HealthBoosterPowerUp";
@@ -35,12 +38,14 @@ class PowerUpNode: SKSpriteNode {
         switch power_up_type {
         case .health_booster:
             imageName = "HealthBoosterPowerUp";
+            power_up_size = CGSize(width: 48.0, height: 48.0);
             break
         default:
             break
         }
         let texture = SKTexture(imageNamed: imageName);
-        super.init(texture: texture, color: .clear, size: texture.size())
+        super.init(texture: texture, color: .clear, size: power_up_size)
+        self.alpha = 0.0;
     }
     
     convenience init() {
@@ -53,6 +58,39 @@ class PowerUpNode: SKSpriteNode {
     
     // Runs the animation that results in the powerups appearance.
     public func appear() {
+        switch self.type {
+        case .health_booster:
+            healthBoosterAppear();
+            break
+        default:
+            break
+        }
+    }
+    
+    public func appear(wait_time: TimeInterval) {
+        self.wait_time = wait_time;
+        appear();
+    }
+    private func healthBoosterAppear() {
+        is_selectable = false;
+        
+        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+            self.is_selectable = true;
+            self.wait_time = 0.0;
+        });
+    }
+    
+    private func healthBoosterDisappear() {
+        is_selectable = false;
+        self.run(SKAction.fadeOut(withDuration: 1.0));
+    }
+    
+    private func healthBoosterSelected(completion: @escaping ()->Void) {
+        is_selectable = false;
+        // will end up also running other background effects
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            completion();
+        });
         
     }
     
@@ -60,16 +98,33 @@ class PowerUpNode: SKSpriteNode {
     // Sets the paddles capabilities if its a power up
     // If its an item, assigns it to the paddle. 
     // @by is the paddle/player that selected the powerup
-    public func select(by: SKSpriteNode) {
+    public func select(by: Paddle, completion: @escaping ()->Void) {
+        print("power up selected");
         var paddle = by;
-        
+        switch self.type {
+        case .health_booster:
+            healthBoosterSelected(completion: {completion()});
+            // assign capabilities to sprite
+            break
+        default:
+            break
+        }
     }
     
     // Runs the animation to disappear and remove the powerup from the screen as well as producing any background effects made by the power up / item selection
     public func disappear() {
-        
+        switch self.type {
+        case .health_booster:
+            healthBoosterDisappear();
+            break
+        default:
+            break
+        }
     }
     
+    public func isSelectable() -> Bool {
+        return is_selectable;
+    }
     
     
 }

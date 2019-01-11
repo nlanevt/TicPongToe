@@ -206,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scroller?.zPosition = -3
         
         //TODO: Will need to increase parameters
-        level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager)
+        level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager, player: main);
 
         
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
@@ -307,6 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         centerLevelLabel.isHidden = false;
         centerLevelLabel.alpha = 0.0;
         
+        level_controller.startLevel();
         
         centerLevelLabel.run(centerFadeAction, completion: {
            // self.topLevelLabel.run(topFadeIn);
@@ -843,7 +844,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life = life - 1; // remove life from player
     }
     
-    private func growLife() {
+    public func growLife() {
         
         if (life >= max_lives) {return}
         life = life + 1;
@@ -1086,6 +1087,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     board_hits = board_hits + 1;
                     switchPlayers();
                     checkBoard(player: main);
+                    level_controller.checkPlayerStageSelect(square: squaresArray[i])
                     return;
                 }
             }
