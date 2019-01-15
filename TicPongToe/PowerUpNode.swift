@@ -25,6 +25,11 @@ enum powerUpType {
     
 }
 
+enum obstacleType {
+    case rouge_rookie;
+    case batter_bro;
+}
+
 class PowerUpNode: SKSpriteNode {
     
     private var type = powerUpType.health_booster;
@@ -68,9 +73,11 @@ class PowerUpNode: SKSpriteNode {
     }
     
     public func appear(wait_time: TimeInterval) {
+        print("power up appear: wait time \(wait_time)");
         self.wait_time = wait_time;
         appear();
     }
+    
     private func healthBoosterAppear() {
         is_selectable = false;
         
@@ -82,28 +89,40 @@ class PowerUpNode: SKSpriteNode {
     
     private func healthBoosterDisappear() {
         is_selectable = false;
-        self.run(SKAction.fadeOut(withDuration: 1.0));
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+        });
     }
     
-    private func healthBoosterSelected(completion: @escaping ()->Void) {
+    private func healthBoosterSelected(by: String, completion: @escaping ()->Void) {
+        print("power up: health booster selected");
         is_selectable = false;
+        let scene = self.parent as! GameScene;
+        if (by == "main") {
+            scene.growLife();
+        }
+        else {
+            print("power up: enemy selected health booster");
+            scene.ai.growLife();
+        }
+        
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
             completion();
         });
-        
     }
     
     // Runs the animation for when the powerup is selected.
     // Sets the paddles capabilities if its a power up
     // If its an item, assigns it to the paddle. 
     // @by is the paddle/player that selected the powerup
-    public func select(by: Paddle, completion: @escaping ()->Void) {
+    public func select(by: String, completion: @escaping ()->Void) {
         print("power up selected");
-        var paddle = by;
+        let paddle = by;
         switch self.type {
         case .health_booster:
-            healthBoosterSelected(completion: {completion()});
+            healthBoosterSelected(by: paddle, completion: {completion()});
             // assign capabilities to sprite
             break
         default:

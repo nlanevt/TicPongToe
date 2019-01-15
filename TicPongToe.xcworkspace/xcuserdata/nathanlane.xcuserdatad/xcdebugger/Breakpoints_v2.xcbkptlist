@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "568873542.6948839"
+            timestampString = "569218673.902347"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1006"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "568873542.694952"
+            timestampString = "569218673.902818"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1398"
-            endingLineNumber = "1398">
+            startingLineNumber = "1399"
+            endingLineNumber = "1399">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,7 +40,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "568873542.695008"
+            timestampString = "569218673.903055"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "726"
@@ -72,7 +72,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "568873542.6951081"
+            timestampString = "569218673.903362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -165,12 +165,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "568873542.69516"
+            timestampString = "569218673.903635"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
             endingLineNumber = "150"
             landmarkName = "didMove(to:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicPongToe/LevelController.swift"
+            timestampString = "569218673.903899"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "startPowerUpWave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var enemy_boundary_position:CGFloat = 247;
     
     public var score: Int64 = 0;
-    private var level_controller:LevelController!
+    public var level_controller:LevelController!
     
     private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
     private var score_increase_iterator = 0;
@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var square7 = SKSpriteNode();
     private var square8 = SKSpriteNode();
     private var square9 = SKSpriteNode();
-    private var squaresArray = [SKSpriteNode]();
+    public var squaresArray = [SKSpriteNode]();
     
     private var animationSquare1 = SKSpriteNode();
     private var animationSquare2 = SKSpriteNode();
@@ -1113,6 +1113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.board_hits = self.board_hits + 1;
                         self.switchPlayers();
                         self.checkBoard(player: self.enemy);
+                        self.level_controller.checkEnemyStageSelect(square: self.squaresArray[i])
                     })
                     return;
                 }
