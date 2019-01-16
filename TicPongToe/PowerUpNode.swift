@@ -44,7 +44,10 @@ class PowerUpNode: SKSpriteNode {
         case .health_booster:
             imageName = "HealthBoosterPowerUp";
             power_up_size = CGSize(width: 48.0, height: 48.0);
-            break
+            break;
+        case .fast_ball:
+            imageName = "FastBallPowerUp";
+            power_up_size = CGSize(width: 64.0, height: 64.0);
         default:
             break
         }
@@ -66,7 +69,10 @@ class PowerUpNode: SKSpriteNode {
         switch self.type {
         case .health_booster:
             healthBoosterAppear();
-            break
+            break;
+        case .fast_ball:
+            fastBallAppear();
+            break;
         default:
             break
         }
@@ -76,6 +82,40 @@ class PowerUpNode: SKSpriteNode {
         print("power up appear: wait time \(wait_time)");
         self.wait_time = wait_time;
         appear();
+    }
+    
+    // Runs the animation for when the powerup is selected.
+    // Sets the paddles capabilities if its a power up
+    // If its an item, assigns it to the paddle.
+    // @by is the paddle/player that selected the powerup
+    public func select(by: String, completion: @escaping ()->Void) {
+        print("power up selected");
+        let paddle = by;
+        switch self.type {
+        case .health_booster:
+            healthBoosterSelected(by: paddle, completion: {completion()});
+            // assign capabilities to sprite
+            break;
+        case .fast_ball:
+            fastBallSelected(by: paddle, completion: {completion()});
+            break;
+        default:
+            break
+        }
+    }
+    
+    // Runs the animation to disappear and remove the powerup from the screen as well as producing any background effects made by the power up / item selection
+    public func disappear() {
+        switch self.type {
+        case .health_booster:
+            healthBoosterDisappear();
+            break;
+        case .fast_ball:
+            fastBallDisappear();
+            break;
+        default:
+            break
+        }
     }
     
     private func healthBoosterAppear() {
@@ -113,32 +153,39 @@ class PowerUpNode: SKSpriteNode {
         });
     }
     
-    // Runs the animation for when the powerup is selected.
-    // Sets the paddles capabilities if its a power up
-    // If its an item, assigns it to the paddle. 
-    // @by is the paddle/player that selected the powerup
-    public func select(by: String, completion: @escaping ()->Void) {
-        print("power up selected");
-        let paddle = by;
-        switch self.type {
-        case .health_booster:
-            healthBoosterSelected(by: paddle, completion: {completion()});
-            // assign capabilities to sprite
-            break
-        default:
-            break
-        }
+    private func fastBallAppear() {
+        is_selectable = false;
+        
+        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+            self.is_selectable = true;
+            self.wait_time = 0.0;
+        });
     }
     
-    // Runs the animation to disappear and remove the powerup from the screen as well as producing any background effects made by the power up / item selection
-    public func disappear() {
-        switch self.type {
-        case .health_booster:
-            healthBoosterDisappear();
-            break
-        default:
-            break
+    private func fastBallDisappear() {
+        is_selectable = false;
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+        });
+    }
+    
+    private func fastBallSelected(by: String, completion: @escaping ()->Void) {
+        print("power up: fast ball selected");
+        is_selectable = false;
+        let scene = self.parent as! GameScene;
+        if (by == "main") {
+            
         }
+        else {
+            
+            print("power up: enemy selected fast ball");
+        }
+        
+        // will end up also running other background effects
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+            completion();
+        });
     }
     
     public func isSelectable() -> Bool {
