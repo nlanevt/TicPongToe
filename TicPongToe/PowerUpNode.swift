@@ -88,7 +88,7 @@ class PowerUpNode: SKSpriteNode {
     // Sets the paddles capabilities if its a power up
     // If its an item, assigns it to the paddle.
     // @by is the paddle/player that selected the powerup
-    public func select(by: String, completion: @escaping ()->Void) {
+    public func select(by: Paddle, completion: @escaping ()->Void) {
         print("power up selected");
         let paddle = by;
         switch self.type {
@@ -134,11 +134,11 @@ class PowerUpNode: SKSpriteNode {
         });
     }
     
-    private func healthBoosterSelected(by: String, completion: @escaping ()->Void) {
+    private func healthBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
         print("power up: health booster selected");
         is_selectable = false;
         let scene = self.parent as! GameScene;
-        if (by == "main") {
+        if (by.name == "main") {
             scene.growLife();
         }
         else {
@@ -169,18 +169,12 @@ class PowerUpNode: SKSpriteNode {
         });
     }
     
-    private func fastBallSelected(by: String, completion: @escaping ()->Void) {
+    private func fastBallSelected(by: Paddle, completion: @escaping ()->Void) {
         print("power up: fast ball selected");
         is_selectable = false;
-        let scene = self.parent as! GameScene;
-        if (by == "main") {
-            
-        }
-        else {
-            
-            print("power up: enemy selected fast ball");
-        }
-        
+ 
+        by.startFastBallPowerUp();
+
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
             self.removeFromParent();

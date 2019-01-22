@@ -28,6 +28,8 @@ class Paddle: SKSpriteNode {
     private var default_texture_name = "Paddle96";
     private var default_texture:SKTexture = SKTexture.init(imageNamed: "Paddle96");
     
+    private var isFastBall = false;
+    
     public var down = false; //if down == true, then it's the enemy; else if false it is the player
     public var paddle_speed = CGFloat.init(0);
     public var paddle_width = CGFloat.init(96);
@@ -187,5 +189,21 @@ class Paddle: SKSpriteNode {
     {
         paddle_speed = (self.position.x - previous_position)/60.0;
         previous_position = self.position.x;
+    }
+    
+    public func startFastBallPowerUp() {
+        isFastBall = true;
+        //TO DO: this is where you do things to animate the paddle. 
+        /*self.run(SKAction.wait(forDuration: 10), completion: {
+            self.isFastBall = false;
+        });*/
+    }
+    
+    public func endFastBallPowerUp() {
+        isFastBall = false;
+    }
+    
+    public func checkIfFastBall() -> Bool {
+        return isFastBall;
     }
 }

@@ -61,7 +61,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "204"
             endingLineNumber = "204"
-            landmarkName = "setFireBall()"
+            landmarkName = "bounceBall(_:paddle:paddle_speed:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -187,6 +187,38 @@
             startingLineNumber = "97"
             endingLineNumber = "97"
             landmarkName = "startPowerUpWave()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicPongToe/PowerUpNode.swift"
+            timestampString = "569824744.88113"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "fastBallSelected(by:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicPongToe/Ball.swift"
+            timestampString = "569824767.749553"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "bounceBall(_:paddle:paddle_speed:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

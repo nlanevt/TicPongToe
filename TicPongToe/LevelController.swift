@@ -70,14 +70,14 @@ class LevelController {
         
         switch level_counter {
         case 1:
-            pu_waves = [[.health_booster], [.health_booster], [.health_booster]];
+            pu_waves = [[.health_booster], [.health_booster, .fast_ball], [.health_booster]];
             pu_wave_wait_times = [10, 5, 5];
             ob_waves = [[.batter_bro]];
             ob_wave_trigger = [2];
             ob_wave_amount = [1];
             break;
         case 2:
-            pu_waves = [[.health_booster], [.health_booster], [.health_booster]];
+            pu_waves = [[.health_booster, .fast_ball], [.health_booster, .fast_ball], [.health_booster]];
             pu_wave_wait_times = [10, 10, 10];
             ob_waves = [[.batter_bro],[.rouge_rookie]];
             ob_wave_trigger = [4, 2];
@@ -172,10 +172,10 @@ class LevelController {
     }
     
     
-    public func checkPlayerStageSelect(square: SKSpriteNode) {
+    public func checkPlayerStageSelect(paddle: Paddle, square: SKSpriteNode) {
         print("power up checking stage");
     
-        selectPowerUp(paddle: "main", square: square);
+        selectPowerUp(paddle: paddle, square: square);
         
         if (!obstacles.isEmpty) {
             var i = 0;
@@ -196,11 +196,11 @@ class LevelController {
         }
     }
     
-    public func checkEnemyStageSelect(square: SKSpriteNode) {
-        selectPowerUp(paddle: "enemy", square: square);
+    public func checkEnemyStageSelect(paddle: Paddle, square: SKSpriteNode) {
+        selectPowerUp(paddle: paddle, square: square);
     }
     
-    private func selectPowerUp(paddle: String, square: SKSpriteNode) {
+    private func selectPowerUp(paddle: Paddle, square: SKSpriteNode) {
         // Check, Use and Remove Power up.
         if (!power_ups.isEmpty) {
             for power_up in power_ups {

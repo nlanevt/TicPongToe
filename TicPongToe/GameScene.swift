@@ -1087,7 +1087,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     board_hits = board_hits + 1;
                     switchPlayers();
                     checkBoard(player: main);
-                    level_controller.checkPlayerStageSelect(square: squaresArray[i])
+                    level_controller.checkPlayerStageSelect(paddle: main, square: squaresArray[i])
                     return;
                 }
             }
@@ -1113,7 +1113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.board_hits = self.board_hits + 1;
                         self.switchPlayers();
                         self.checkBoard(player: self.enemy);
-                        self.level_controller.checkEnemyStageSelect(square: self.squaresArray[i])
+                        self.level_controller.checkEnemyStageSelect(paddle: self.enemy, square: self.squaresArray[i])
                     })
                     return;
                 }

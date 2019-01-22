@@ -45,6 +45,8 @@ class Ball  {
     private var squashed_paddle_size:CGSize = CGSize(width: 20.0, height: 20.0);
     private var squashed_wall_size:CGSize = CGSize(width: 20.0, height: 20.0);
     private var can_ordinate = true;
+    private var isFastBall = false;
+    private var fastBallPaddle:Paddle?;
     
     public func setUp(ball: inout SKSpriteNode)
     {
@@ -152,7 +154,12 @@ class Ball  {
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
         print("paddle_speed: \(paddle_speed)")
+        
+    
+        
         var return_speed = ballspeed;
+        
+        
         if (abs(paddle_speed) >= 0.15)
         {
             return_speed = return_speed + 20 * abs(paddle_speed);
@@ -167,12 +174,14 @@ class Ball  {
         return return_speed;
     }
     
-    public func bounceBall(_ contact: SKPhysicsContact, paddle: SKSpriteNode, paddle_speed: CGFloat) {
+    public func bounceBall(_ contact: SKPhysicsContact, paddle: Paddle, paddle_speed: CGFloat) {
         let contactPoint = contact.contactPoint
         let offset = paddle.position.x - contactPoint.x;
         let dy_reflection:CGFloat = contact.bodyA.node?.name == "enemy" ? -1.0 : 1.0;
-        let return_speed = getBallReturnSpeed(paddle_speed: paddle_speed)
-        
+        var return_speed = getBallReturnSpeed(paddle_speed: paddle_speed)
+        if paddle.checkIfFastBall() {
+            return_speed = 60;
+        }
         bounceAngle = bounceAnglePivot + ((CGFloat.pi/3)*(2/(paddle.size.width))*offset);
     
         if (bounceAngle > maximumBounceAngle) {bounceAngle = maximumBounceAngle}
@@ -180,7 +189,14 @@ class Ball  {
         
         balldy = dy_reflection*return_speed*sin(bounceAngle);
         balldx = return_speed*cos(bounceAngle);
-        ballspeed = return_speed;
+        
+        if paddle.checkIfFastBall() {
+            
+        }
+        else {
+            ballspeed = return_speed;
+        }
+        
         ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
         ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
         
@@ -257,6 +273,8 @@ class Ball  {
             //ball.texture = defaultBallTexture;
         }
     }
+    
+
 }
 
 
