@@ -14,6 +14,8 @@ class Ball  {
     public var ballspeed:CGFloat = 40.0;
     public var ball_speed_minimum:CGFloat = 40.0;
     public var ball_speed_maximum:CGFloat = 75.0;
+    
+    private var noFastBallSpeed:CGFloat = 40.0;
 
     private var fireBallAFrames:[SKTexture] = [];
     private var fireBallBFrames:[SKTexture] = [];
@@ -157,7 +159,7 @@ class Ball  {
         
     
         
-        var return_speed = ballspeed;
+        var return_speed = noFastBallSpeed;
         
         
         if (abs(paddle_speed) >= 0.15)
@@ -178,24 +180,18 @@ class Ball  {
         let contactPoint = contact.contactPoint
         let offset = paddle.position.x - contactPoint.x;
         let dy_reflection:CGFloat = contact.bodyA.node?.name == "enemy" ? -1.0 : 1.0;
-        var return_speed = getBallReturnSpeed(paddle_speed: paddle_speed)
-        if paddle.checkIfFastBall() {
-            return_speed = 60;
-        }
+        let return_speed = paddle.checkIfFastBall() ? 60 : getBallReturnSpeed(paddle_speed: paddle_speed);
         bounceAngle = bounceAnglePivot + ((CGFloat.pi/3)*(2/(paddle.size.width))*offset);
     
         if (bounceAngle > maximumBounceAngle) {bounceAngle = maximumBounceAngle}
         else if (bounceAngle < minimumBounceAngle) {bounceAngle = minimumBounceAngle}
         
+        print("bounceBall Return Speed: \(return_speed), chkFastBall: \(paddle.checkIfFastBall())");
         balldy = dy_reflection*return_speed*sin(bounceAngle);
         balldx = return_speed*cos(bounceAngle);
         
-        if paddle.checkIfFastBall() {
-            
-        }
-        else {
-            ballspeed = return_speed;
-        }
+        ballspeed = return_speed;
+        noFastBallSpeed = paddle.checkIfFastBall() ? noFastBallSpeed : return_speed;
         
         ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
         ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))

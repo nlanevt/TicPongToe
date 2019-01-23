@@ -194,9 +194,9 @@ class Paddle: SKSpriteNode {
     public func startFastBallPowerUp() {
         isFastBall = true;
         //TO DO: this is where you do things to animate the paddle. 
-        /*self.run(SKAction.wait(forDuration: 10), completion: {
+        self.run(SKAction.wait(forDuration: 10), completion: {
             self.isFastBall = false;
-        });*/
+        });
     }
     
     public func endFastBallPowerUp() {
@@ -205,5 +205,18 @@ class Paddle: SKSpriteNode {
     
     public func checkIfFastBall() -> Bool {
         return isFastBall;
+    }
+    
+    public func startBigBoyBoosterPowerUp() {
+        self.size.width = paddle_width * 2;
+        self.applyPhysicsBody()
+        self.run(SKAction.wait(forDuration: 10), completion: {
+            self.size.width = self.paddle_width;
+            self.applyPhysicsBody();
+        })
+    }
+    
+    public func endBigBoyBoosterPowerUp() {
+        
     }
 }

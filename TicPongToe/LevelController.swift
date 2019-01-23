@@ -70,14 +70,18 @@ class LevelController {
         
         switch level_counter {
         case 1:
-            pu_waves = [[.health_booster], [.health_booster, .fast_ball], [.health_booster]];
+            pu_waves = [[.health_booster],
+                        [.health_booster, .fast_ball],
+                        [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 5, 5];
             ob_waves = [[.batter_bro]];
             ob_wave_trigger = [2];
             ob_wave_amount = [1];
             break;
         case 2:
-            pu_waves = [[.health_booster, .fast_ball], [.health_booster, .fast_ball], [.health_booster]];
+            pu_waves = [[.health_booster, .fast_ball],
+                        [.health_booster, .fast_ball, .big_boy_booster],
+                        [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
             ob_waves = [[.batter_bro],[.rouge_rookie]];
             ob_wave_trigger = [4, 2];
@@ -101,7 +105,6 @@ class LevelController {
             game_scene.addChild(power_up);
             power_ups.append(power_up);
             power_up.appear(wait_time: pu_wave_wait_times[pu_wave_iterator]);
-            //print("\npower up: \(i), \(pu_waves[pu_wave_iterator][i]), \(power_ups.count)");
         }
         print("power up: # waves \(pu_waves.count), power_ups.count \(power_ups.count), wave \(pu_wave_iterator)");
         pu_wave_iterator = pu_wave_iterator + 1;
@@ -203,13 +206,21 @@ class LevelController {
     private func selectPowerUp(paddle: Paddle, square: SKSpriteNode) {
         // Check, Use and Remove Power up.
         if (!power_ups.isEmpty) {
-            for power_up in power_ups {
+            var i = 0;
+            var power_up:PowerUpNode!
+            while (i < power_ups.count) {
+                power_up = power_ups[i];
                 if (square.frame.intersects(power_up.frame) && power_up.isSelectable()) {
-                    power_up.select(by: paddle, completion: {
-                        if (power_up == self.power_ups.last) {
-                            self.startPowerUpWave();
-                        }
-                    });
+                    power_up.select(by: paddle, completion: {});
+                    
+                    power_ups.remove(at: i);
+                    
+                    if (power_ups.isEmpty) {
+                        self.startPowerUpWave();
+                    }
+                }
+                else {
+                    i = i + 1;
                 }
             }
         }

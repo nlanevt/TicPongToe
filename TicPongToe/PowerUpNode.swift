@@ -16,8 +16,8 @@ enum powerUpType {
     case full_replenish;
     case fast_ball;
     case super_fast_ball;
-    case large_size_booster;
-    case mega_size_booster;
+    case big_boy_booster;
+    case super_big_boy_booster;
     case small_bomb_item;
     case big_bomb_item;
     case small_missile_item;
@@ -38,8 +38,8 @@ class PowerUpNode: SKSpriteNode {
     private var power_up_size = CGSize(width: 48.0, height: 48.0);
     
     init(power_up_type: powerUpType) {
+        type = power_up_type;
         var imageName = "HealthBoosterPowerUp";
-        
         switch power_up_type {
         case .health_booster:
             imageName = "HealthBoosterPowerUp";
@@ -47,6 +47,9 @@ class PowerUpNode: SKSpriteNode {
             break;
         case .fast_ball:
             imageName = "FastBallPowerUp";
+            power_up_size = CGSize(width: 64.0, height: 64.0);
+        case .big_boy_booster:
+            imageName = "BigBoyBoosterPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
         default:
             break
@@ -64,6 +67,12 @@ class PowerUpNode: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func appear(wait_time: TimeInterval) {
+        print("power up appear: wait time \(wait_time)");
+        self.wait_time = wait_time;
+        appear();
+    }
+    
     // Runs the animation that results in the powerups appearance.
     public func appear() {
         switch self.type {
@@ -73,15 +82,12 @@ class PowerUpNode: SKSpriteNode {
         case .fast_ball:
             fastBallAppear();
             break;
+        case .big_boy_booster:
+            bigBoyBoosterAppear();
+            break;
         default:
             break
         }
-    }
-    
-    public func appear(wait_time: TimeInterval) {
-        print("power up appear: wait time \(wait_time)");
-        self.wait_time = wait_time;
-        appear();
     }
     
     // Runs the animation for when the powerup is selected.
@@ -89,7 +95,7 @@ class PowerUpNode: SKSpriteNode {
     // If its an item, assigns it to the paddle.
     // @by is the paddle/player that selected the powerup
     public func select(by: Paddle, completion: @escaping ()->Void) {
-        print("power up selected");
+        print("power up selected: \(type)");
         let paddle = by;
         switch self.type {
         case .health_booster:
@@ -98,6 +104,9 @@ class PowerUpNode: SKSpriteNode {
             break;
         case .fast_ball:
             fastBallSelected(by: paddle, completion: {completion()});
+            break;
+        case .big_boy_booster:
+            bigBoyBoosterSelected(by: paddle, completion: {completion()});
             break;
         default:
             break
@@ -112,6 +121,9 @@ class PowerUpNode: SKSpriteNode {
             break;
         case .fast_ball:
             fastBallDisappear();
+            break;
+        case .big_boy_booster:
+            bigBoyBoosterDisappear();
             break;
         default:
             break
@@ -175,6 +187,35 @@ class PowerUpNode: SKSpriteNode {
  
         by.startFastBallPowerUp();
 
+        // will end up also running other background effects
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+            completion();
+        });
+    }
+    
+    private func bigBoyBoosterAppear() {
+        is_selectable = false;
+        
+        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+            self.is_selectable = true;
+            self.wait_time = 0.0;
+        });
+    }
+    
+    private func bigBoyBoosterDisappear() {
+        is_selectable = false;
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+        });
+    }
+    
+    private func bigBoyBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
+        print("power up: Big Boy Booster selected");
+        is_selectable = false;
+        
+        by.startBigBoyBoosterPowerUp();
+        
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
             self.removeFromParent();
