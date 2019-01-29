@@ -28,7 +28,7 @@ class Paddle: SKSpriteNode {
     private var default_texture_name = "Paddle96";
     private var default_texture:SKTexture = SKTexture.init(imageNamed: "Paddle96");
     
-    private var isFastBall = false;
+    private var fastBallSpeed:CGFloat = 0.0;
     
     public var down = false; //if down == true, then it's the enemy; else if false it is the player
     public var paddle_speed = CGFloat.init(0);
@@ -191,29 +191,38 @@ class Paddle: SKSpriteNode {
         previous_position = self.position.x;
     }
     
-    public func startFastBallPowerUp() {
-        isFastBall = true;
+    public func startFastBallPowerUp(is_super: Bool) {
+        if (fastBallSpeed > 0) {
+            self.removeAction(forKey: "FastBallAction")
+        }
+        
+        fastBallSpeed = is_super ? 75 : 60;
+        
         //TO DO: this is where you do things to animate the paddle. 
-        self.run(SKAction.wait(forDuration: 10), completion: {
-            self.isFastBall = false;
-        });
+        self.run(SKAction.sequence([SKAction.wait(forDuration: 10), SKAction.run({self.fastBallSpeed = 0})]), withKey: "FastBallAction");
     }
     
     public func endFastBallPowerUp() {
-        isFastBall = false;
+        fastBallSpeed = 0;
     }
     
     public func checkIfFastBall() -> Bool {
-        return isFastBall;
+        return fastBallSpeed > 0;
     }
     
-    public func startBigBoyBoosterPowerUp() {
-        self.size.width = paddle_width * 2;
+    public func getFastBallSpeed() -> CGFloat {
+        return fastBallSpeed;
+    }
+    
+    public func startBigBoyBoosterPowerUp(is_super: Bool) {
+        if (self.size.width > paddle_width) {
+            self.removeAction(forKey: "BigBoyAction");
+        }
+        
+        self.size.width = is_super ? paddle_width * 3 : paddle_width * 2;
         self.applyPhysicsBody()
-        self.run(SKAction.wait(forDuration: 10), completion: {
-            self.size.width = self.paddle_width;
-            self.applyPhysicsBody();
-        })
+        self.run(SKAction.sequence([SKAction.wait(forDuration: 10), SKAction.run({self.size.width = self.paddle_width;
+            self.applyPhysicsBody();})]), withKey: "BigBoyAction")
     }
     
     public func endBigBoyBoosterPowerUp() {

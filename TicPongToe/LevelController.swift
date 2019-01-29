@@ -70,17 +70,17 @@ class LevelController {
         
         switch level_counter {
         case 1:
-            pu_waves = [[.health_booster],
-                        [.health_booster, .fast_ball],
-                        [.health_booster, .big_boy_booster]];
+            pu_waves = [[.health_booster, .fast_ball, .super_big_boy_booster],
+                        [.super_big_boy_booster, .super_fast_ball, .super_health_booster],
+                        [.super_fast_ball, .big_boy_booster, .full_replenish]];
             pu_wave_wait_times = [10, 5, 5];
             ob_waves = [[.batter_bro]];
             ob_wave_trigger = [2];
             ob_wave_amount = [1];
             break;
         case 2:
-            pu_waves = [[.health_booster, .fast_ball],
-                        [.health_booster, .fast_ball, .big_boy_booster],
+            pu_waves = [[.super_health_booster, .fast_ball, .super_fast_ball],
+                        [.full_replenish, .fast_ball, .big_boy_booster],
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
             ob_waves = [[.batter_bro],[.rouge_rookie]];

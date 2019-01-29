@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "569218673.902347"
+            timestampString = "570424291.4693201"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1006"
-            endingLineNumber = "1006"
+            startingLineNumber = "1009"
+            endingLineNumber = "1009"
             landmarkName = "winRoundAnimation(player:winning_squares:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "569218673.902818"
+            timestampString = "570424291.469408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1399"
-            endingLineNumber = "1399">
+            startingLineNumber = "1402"
+            endingLineNumber = "1402">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,7 +40,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "569218673.903055"
+            timestampString = "570424291.469481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "726"
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/Ball.swift"
-            timestampString = "569907567.560275"
+            timestampString = "570424291.469547"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "bounceBall(_:paddle:paddle_speed:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,7 +72,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "569218673.903362"
+            timestampString = "570424291.469609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -165,7 +165,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/GameScene.swift"
-            timestampString = "569218673.903635"
+            timestampString = "570424291.469667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
@@ -181,7 +181,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/LevelController.swift"
-            timestampString = "569907567.560452"
+            timestampString = "570424291.469725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
@@ -197,13 +197,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "569907567.5605479"
+            timestampString = "570424291.470261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "fastBallSelected(by:completion:)"
-            landmarkType = "7">
+            startingLineNumber = "335"
+            endingLineNumber = "335"
+            landmarkName = "PowerUpNode"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -213,12 +213,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "569907567.600347"
+            timestampString = "570424291.470361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
-            landmarkName = "fastBallSelected(by:completion:)"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
+            landmarkName = "fastBallDisappear()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -229,7 +229,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/LevelController.swift"
-            timestampString = "569907567.600749"
+            timestampString = "570424291.470453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "214"
@@ -245,7 +245,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/LevelController.swift"
-            timestampString = "569907567.6008379"
+            timestampString = "570424291.4709049"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
@@ -261,7 +261,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "569907567.600921"
+            timestampString = "570424291.471357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -277,7 +277,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "569907567.601287"
+            timestampString = "570424291.471451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"

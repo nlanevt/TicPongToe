@@ -47,7 +47,6 @@ class Ball  {
     private var squashed_paddle_size:CGSize = CGSize(width: 20.0, height: 20.0);
     private var squashed_wall_size:CGSize = CGSize(width: 20.0, height: 20.0);
     private var can_ordinate = true;
-    private var isFastBall = false;
     private var fastBallPaddle:Paddle?;
     
     public func setUp(ball: inout SKSpriteNode)
@@ -74,6 +73,12 @@ class Ball  {
         fireBallC.size = CGSize(width: 30, height: 35);
         fireBallC.zPosition = 0.5;
         fireBallC.position = CGPoint(x: 0.0, y: -5.0)
+        
+        // All the speed settings get set to the minimum ball speed upon
+        // start of the ball. 
+        ballspeed = ball_speed_minimum;
+        noFastBallSpeed = ball_speed_minimum;
+        ballStartSpeed = ball_speed_minimum;
     }
     
     private func animateFireBall(ball_type: Int)
@@ -180,13 +185,12 @@ class Ball  {
         let contactPoint = contact.contactPoint
         let offset = paddle.position.x - contactPoint.x;
         let dy_reflection:CGFloat = contact.bodyA.node?.name == "enemy" ? -1.0 : 1.0;
-        let return_speed = paddle.checkIfFastBall() ? 60 : getBallReturnSpeed(paddle_speed: paddle_speed);
+        let return_speed = paddle.checkIfFastBall() ? paddle.getFastBallSpeed() : getBallReturnSpeed(paddle_speed: paddle_speed)
         bounceAngle = bounceAnglePivot + ((CGFloat.pi/3)*(2/(paddle.size.width))*offset);
     
         if (bounceAngle > maximumBounceAngle) {bounceAngle = maximumBounceAngle}
         else if (bounceAngle < minimumBounceAngle) {bounceAngle = minimumBounceAngle}
         
-        print("bounceBall Return Speed: \(return_speed), chkFastBall: \(paddle.checkIfFastBall())");
         balldy = dy_reflection*return_speed*sin(bounceAngle);
         balldx = return_speed*cos(bounceAngle);
         

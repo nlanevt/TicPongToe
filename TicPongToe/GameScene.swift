@@ -844,9 +844,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life = life - 1; // remove life from player
     }
     
-    public func growLife() {
+    public func growLife() -> Bool {
         
-        if (life >= max_lives) {return}
+        if (life >= max_lives) {return false}
+        
         life = life + 1;
         let index = (life / 2) + (life % 2) - 1;
         
@@ -864,6 +865,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         growthSequence.append(finalTexture)
         
         lives[index].run(SKAction.sequence(growthSequence));
+        
+        return true;
     }
     
     public func runTimer() {

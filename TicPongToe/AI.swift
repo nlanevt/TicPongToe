@@ -125,21 +125,21 @@ class AI {
                 lifeNode.zPosition = ai_lives_z_position;
                 ai_lives_array.append(lifeNode);
                 game_scene?.addChild(ai_lives_array[i]);
-                growLife(lifeNode: lifeNode, wait_time: wait_time);
+                growLifeHelper(lifeNode: lifeNode, wait_time: wait_time);
                 wait_time = wait_time + 0.2;
             }
         }
     }
     
-    private func growLife(lifeNode: SKSpriteNode, wait_time: TimeInterval) {
+    private func growLifeHelper(lifeNode: SKSpriteNode, wait_time: TimeInterval) {
         var growth_frames = AnimationFramesManager?.lifeGrowFrames;
         let actionSequence = SKAction.sequence([SKAction.setTexture(growth_frames![0]), SKAction.wait(forDuration: wait_time), SKAction.unhide(), SKAction.animate(with: growth_frames!, timePerFrame: 0.01), SKAction.setTexture(ai_life_texture)])
         lifeNode.run(actionSequence);
     }
     
-    public func growLife() {
+    public func growLife(wait_time: TimeInterval) -> Bool {
         print("power up: enemy grow life.");
-        if (ai_lives >= ai_lives_amount) {return}
+        if (ai_lives >= ai_lives_amount) {return false}
         
         let lifeNode = SKSpriteNode(imageNamed: "AILife");
         lifeNode.isHidden = true;
@@ -148,8 +148,10 @@ class AI {
         lifeNode.zPosition = ai_lives_z_position;
         ai_lives_array.append(lifeNode);
         game_scene?.addChild(ai_lives_array[ai_lives]);
-        growLife(lifeNode: lifeNode, wait_time: 0.0);
+        growLifeHelper(lifeNode: lifeNode, wait_time: wait_time);
         ai_lives = ai_lives + 1;
+        
+        return true;
     }
     
     //This method pops the last life in the ai lives array, animates its death, then removes it.
