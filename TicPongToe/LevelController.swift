@@ -71,8 +71,8 @@ class LevelController {
         switch level_counter {
         case 1:
             pu_waves = [[.health_booster, .fast_ball, .super_big_boy_booster],
-                        [.super_big_boy_booster, .super_fast_ball, .super_health_booster],
-                        [.super_fast_ball, .big_boy_booster, .full_replenish]];
+                        [.missile_item, .super_fast_ball, .super_health_booster],
+                        [.missile_item, .big_boy_booster, .full_replenish]];
             pu_wave_wait_times = [10, 5, 5];
             ob_waves = [[.batter_bro]];
             ob_wave_trigger = [2];

@@ -22,6 +22,7 @@ enum powerUpType {
     case big_bomb_item;
     case missile_item;
     case big_missile_item;
+    case blaster_item;
     
 }
 
@@ -121,7 +122,7 @@ class PowerUpNode: SKSpriteNode {
             // TO DO
             break;
         case .missile_item:
-            // TO DO
+            missileItemAppear();
             break;
         default:
             break
@@ -162,7 +163,7 @@ class PowerUpNode: SKSpriteNode {
             // TO DO
             break;
         case .missile_item:
-            // TO DO
+            missileItemSelected(by: paddle, completion: {completion()})
             break;
         default:
             break
@@ -197,7 +198,7 @@ class PowerUpNode: SKSpriteNode {
             // TO DO
             break;
         case .missile_item:
-            // TO DO
+            missileItemDisappear();
             break;
         default:
             break
@@ -477,7 +478,11 @@ class PowerUpNode: SKSpriteNode {
         print("power up: Big Boy Booster selected");
         is_selectable = false;
         
-        // Do stuff
+        // Missile Useage Steps:
+        // (1) Create missile button
+        // (2) When missile button is pressed, a missile launches and does its behavior
+        
+        by.launchMissile(missile_type: "normal");
         
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {

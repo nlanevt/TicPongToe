@@ -73,7 +73,6 @@ class Paddle: SKSpriteNode {
         self.physicsBody?.isDynamic = false;
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.contactTestBitMask = down ? 2 : 1 // 2 if the enemy paddle; 1 if player
-        
     }
     
     /*
@@ -226,6 +225,48 @@ class Paddle: SKSpriteNode {
     }
     
     public func endBigBoyBoosterPowerUp() {
+        
+    }
+    
+    public func launchMissile(missile_type: String) {
+        let missileNode = SKSpriteNode(imageNamed: "MissileItem1");
+        missileNode.size = CGSize(width: 16, height: 26);
+        missileNode.position = self.position;
+        missileNode.zPosition = self.zPosition;
+        
+        self.parent?.addChild(missileNode);
+        
+        var opponent_node = self.parent?.childNode(withName: "enemy");
+        var corner_y = (opponent_node?.position.y)! + 20;
+        
+        if (self.name == "enemy") {
+            opponent_node = self.parent?.childNode(withName: "main");
+            corner_y = (opponent_node?.position.y)! - 70.0;
+            missileNode.zRotation = .pi;
+        }
+        
+        /*let goToCorner = SKAction.run {
+            var corner_point = CGPoint(x: -150, y: corner_y);
+            if ((opponent_node?.position.x)! <= CGFloat(0.0)) {
+                corner_point = CGPoint(x: 150, y: corner_y);
+            }
+            SKAction.move(to: corner_point, duration: 2.0);
+        }*/
+        
+        var corner_point = CGPoint(x: -150, y: corner_y);
+        if ((opponent_node?.position.x)! <= CGFloat(0.0)) {
+            corner_point = CGPoint(x: 150, y: corner_y);
+        }
+        var goToCorner = SKAction.move(to: corner_point, duration: 2.0);
+        
+        missileNode.run(SKAction.repeatForever(SKAction.animate(with: (AnimationFramesManager?.missileItemFrames)!, timePerFrame: 0.2)));
+        
+        missileNode.run(SKAction.sequence([goToCorner]), completion: {
+            missileNode.removeFromParent();
+        })
+    }
+    
+    private func missileChaseAction(completion: @escaping ()->Void) {
         
     }
 }
