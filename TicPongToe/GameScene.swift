@@ -212,7 +212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
         border.restitution = 1
-        border.categoryBitMask = 3;
+        border.categoryBitMask = 4;
         self.physicsBody = border
         
         // Run the relevant game type
@@ -1346,12 +1346,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //ballmanager.squashBall(contact: contact);
         }
         // Contact between ball and wall
-        else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
+        else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
             //ballmanager.squashBall(contact: contact);
         }
-        
+        else if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 16)
+        {
+            (contact.bodyB.node as! Projectile).explode();
+        }
+        else if (contact.bodyA.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 16) && (contact.bodyB.categoryBitMask == 8)
+        {
+            (contact.bodyB.node as! Projectile).hit();
+        }
         
     }
     
@@ -1374,7 +1381,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             ai.enemy_hit_ball = true;
         }
-        else if (contact.bodyA.categoryBitMask == 3) && (contact.bodyB.categoryBitMask == 2)
+        else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
         {
             
         }

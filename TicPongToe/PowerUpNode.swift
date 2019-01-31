@@ -23,7 +23,7 @@ enum powerUpType {
     case missile_item;
     case big_missile_item;
     case blaster_item;
-    
+    case beam_item;
 }
 
 enum obstacleType {

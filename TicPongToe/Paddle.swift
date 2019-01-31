@@ -36,6 +36,8 @@ class Paddle: SKSpriteNode {
     
     private var shadow:SKLightNode!;
     
+    private var blaster_rounds:Int = 0;
+    
     /*
      * if direction_down == true, then it's the enemy; else if false it is the player
      */
@@ -226,6 +228,18 @@ class Paddle: SKSpriteNode {
     
     public func endBigBoyBoosterPowerUp() {
         
+    }
+    
+    public func shootBlaster() {
+        if (blaster_rounds <= 0) {return};
+        blaster_rounds = blaster_rounds - 1;
+        
+        let blaster_node = Projectile(type: .blaster_item);
+        blaster_node.launch(by: self);
+    }
+    
+    public func setBlasterAmount(amount: Int) {
+        blaster_rounds = amount;
     }
     
     public func launchMissile(missile_type: String) {

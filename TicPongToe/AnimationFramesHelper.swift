@@ -46,6 +46,8 @@ class AnimationFramesHelper {
     private var backgroundNodeA2:SKSpriteNode? = nil;
     
     public var missileItemFrames = [SKTexture]();
+    public var blasterFrames = [SKTexture]();
+    public var blasterFollowerFrames = [SKTexture]();
     
     init()
     {
@@ -78,6 +80,8 @@ class AnimationFramesHelper {
         hitPaddleCFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationC");
         timerImageFrames = buildAnimation(textureAtlasName: "TimerImage");
         missileItemFrames = buildAnimation(textureAtlasName: "MissileItem");
+        blasterFrames = buildAnimation(textureAtlasName: "BlasterRound");
+        blasterFollowerFrames = buildAnimation(textureAtlasName: "BlasterFollower");
     }
     
     // Don't add public functions any more. Just use the public variables in this class.
