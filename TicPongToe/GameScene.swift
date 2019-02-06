@@ -530,17 +530,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if (!enemy_is_dead) {
                     enemy_is_dead = true;
-                    /*animatePaddleDeath(paddle: enemy, completion: {
-                        if (self.game_over) {
-                            self.enemy.isHidden = true;
-                            self.enemy.physicsBody = nil;
-                        }
-                        else if (!self.pending_round) {
-                            self.animatePaddleGrowth(paddle: self.enemy, completion: {
-                                self.enemy_is_dead = false;
-                            })
-                        }
-                    });*/
                     enemy.animateDeath(completion: {
                         if (self.game_over) {
                             self.enemy.isHidden = true;
@@ -1165,9 +1154,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 // set the board
-                if (location.y > main_paddle_move_boundary && players_turn && !self.isPaused)
+                if (location.y > main_paddle_move_boundary)
                 {
-                    playerSetBoard(location: location);
+                    if (main.hasItems()) {
+                        main.itemsSelected(location: location);
+                    }
+                    if (players_turn && !self.isPaused) {
+                        playerSetBoard(location: location);
+                    }
                 }
                 
                 // pause the game
@@ -1176,11 +1170,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     pauseGame()
                 }
                 
-                //TODO Check if they have clicked on a powerup
-                //TODO Check if they have clicked on an obstacle
-                // level.checkTouch
-                level_controller.checkBoardTouch();
                 
+                //TODO Check if they have clicked on an obstacle
+                level_controller.checkBoardTouch();
             }
         }
         
@@ -1328,6 +1320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact)
     {
+        print("bit mask A: \(contact.bodyA.categoryBitMask), bit mask B: \(contact.bodyB.categoryBitMask)")
         // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             
@@ -1351,15 +1344,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             animateHitWall(contact_point: contact.contactPoint)
             //ballmanager.squashBall(contact: contact);
         }
-        else if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 16)
+        // Contact between ball and boundaries
+        else if (contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 2) {
+            /*print("Contact with boundaries");
+            if contact.bodyA.node?.name == "TopBoundary" {
+                animateScoreExplosion();
+                addScore(playerWhoWon: main, type: 0)
+            }
+            else if contact.bodyA.node?.name == "BottomBoundary" {
+                animateScoreExplosion();
+                addScore(playerWhoWon: enemy, type: 0);
+            }*/
+        }
+        // Contact between paddle and projectiles
+        else if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 16)
         {
             (contact.bodyB.node as! Projectile).explode();
         }
-        else if (contact.bodyA.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 16) && (contact.bodyB.categoryBitMask == 8)
+        // Contact between projectiles and boundary
+        else if ((contact.bodyA.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 16) && (contact.bodyB.categoryBitMask == 8))
         {
             (contact.bodyB.node as! Projectile).hit();
         }
-        
     }
     
     override func didSimulatePhysics() {

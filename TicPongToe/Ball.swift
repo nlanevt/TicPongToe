@@ -57,7 +57,9 @@ class Ball  {
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
         self.ball = ball;
         self.ball.physicsBody?.usesPreciseCollisionDetection = true
-        self.ball.physicsBody?.categoryBitMask = 2
+        /*self.ball.physicsBody?.categoryBitMask = 2
+        self.ball.physicsBody?.contactTestBitMask = 63;
+        self.ball.physicsBody?.collisionBitMask = 63;*/
         
         fireBallA = SKSpriteNode(imageNamed: "FireBallA1");
         fireBallA.size = CGSize(width: 30, height: 35);

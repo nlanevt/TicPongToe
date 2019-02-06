@@ -15,6 +15,7 @@ class Projectile: SKSpriteNode {
     private var type:powerUpType = powerUpType.blaster_item;
     private var power_up_size:CGSize!;
     private var paddle:Paddle!;
+    private var damage = 1;
     
     init(type: powerUpType) {
         self.type = type;
@@ -25,6 +26,18 @@ class Projectile: SKSpriteNode {
         case .blaster_item:
             image_name = "BlasterRound1";
             power_up_size = CGSize(width: 16, height: 48.0);
+            break;
+        case .beam_item:
+            image_name = "BeamRound1";
+            power_up_size = CGSize(width: 16, height: 48.0);
+            break;
+        case .bomb_item:
+            image_name = "Bomb";
+            power_up_size = CGSize(width: 48, height: 48.0);
+            break;
+        case .big_bomb_item:
+            image_name = "BigBomb";
+            power_up_size = CGSize(width: 48, height: 48.0);
             break;
         default:
             break
@@ -44,11 +57,13 @@ class Projectile: SKSpriteNode {
         self.physicsBody?.categoryBitMask = self.type == .bomb_item ? 32 : 16;
         self.physicsBody?.collisionBitMask = 63
         self.physicsBody?.mass = 0.266666680574417;
-        self.physicsBody?.linearDamping = 0.1;
-        self.physicsBody?.angularDamping = 0.1;
-        self.physicsBody?.isDynamic = false; // may change if its a bomb.
+        self.physicsBody?.linearDamping = 0;
+        self.physicsBody?.angularDamping = 0;
+        self.physicsBody?.restitution = 1;
+        self.physicsBody?.isDynamic = true; // may change if its a bomb.
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.contactTestBitMask = self.type == .bomb_item ? 63 : 59;
+        self.physicsBody?.affectedByGravity = false;
     }
     
     public func launch(by: Paddle) {
@@ -86,7 +101,7 @@ class Projectile: SKSpriteNode {
         paddle.parent?.addChild(self);
         
         self.run(SKAction.repeatForever(SKAction.animate(with: animation_frames, timePerFrame: 0.1)));
-        self.createFollowers(follower_image_name: follower_image_name, follower_animation_frames: follower_animation_frames);
+        //self.createFollowers(follower_image_name: follower_image_name, follower_animation_frames: follower_animation_frames);
         self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse));
     }
     

@@ -37,6 +37,8 @@ class Paddle: SKSpriteNode {
     private var shadow:SKLightNode!;
     
     private var blaster_rounds:Int = 0;
+    private var has_items:Bool = false;
+    private var blaster_button:SKSpriteNode!
     
     /*
      * if direction_down == true, then it's the enemy; else if false it is the player
@@ -74,7 +76,8 @@ class Paddle: SKSpriteNode {
         self.physicsBody?.angularDamping = 0.1;
         self.physicsBody?.isDynamic = false;
         self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.contactTestBitMask = down ? 2 : 1 // 2 if the enemy paddle; 1 if player
+        //self.physicsBody?.contactTestBitMask = down ? 2 : 1 // 2 if the enemy paddle; 1 if player
+        self.physicsBody?.contactTestBitMask = 2;
     }
     
     /*
@@ -238,8 +241,24 @@ class Paddle: SKSpriteNode {
         blaster_node.launch(by: self);
     }
     
-    public func setBlasterAmount(amount: Int) {
+    public func setBlasterButton(amount: Int) {
+        has_items = true;
         blaster_rounds = amount;
+        blaster_button = SKSpriteNode(imageNamed: "BlasterButton");
+        blaster_button.size = CGSize(width: 48, height: 48);
+        blaster_button.position = CGPoint(x: -120, y: -160);
+        blaster_button.zPosition = -2;
+        blaster_button.alpha = 0.0;
+        
+        self.parent?.addChild(blaster_button);
+        blaster_button.run(SKAction.fadeIn(withDuration: 0.5));
+    }
+    
+    public func itemsSelected(location: CGPoint) {
+        if (blaster_button != nil && blaster_button.contains(location)) {
+            shootBlaster();
+            return;
+        }
     }
     
     public func launchMissile(missile_type: String) {
@@ -282,5 +301,9 @@ class Paddle: SKSpriteNode {
     
     private func missileChaseAction(completion: @escaping ()->Void) {
         
+    }
+    
+    public func hasItems()->Bool {
+        return has_items;
     }
 }

@@ -57,21 +57,31 @@ class PowerUpNode: SKSpriteNode {
         case .fast_ball:
             imageName = "FastBallPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
+            break;
         case .super_fast_ball:
             imageName = "SuperFastBallPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
+            break;
         case .big_boy_booster:
             imageName = "BigBoyBoosterPowerUp";
             power_up_size = CGSize(width: 48.0, height: 48.0);
+            break;
         case .super_big_boy_booster:
             imageName = "SuperBigBoyBoosterPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
+            break;
         case .bomb_item:
             imageName = "BombItemPowerUp";
             power_up_size = CGSize(width: 48.0, height: 48.0);
+            break;
         case .missile_item:
             imageName = "MissileItemPowerUp";
             power_up_size = CGSize(width: 48.0, height: 48.0);
+            break;
+        case .blaster_item:
+            imageName = "MissileItemPowerUp";
+            power_up_size = CGSize(width: 48.0, height: 48.0);
+            break;
         default:
             break
         }
@@ -124,6 +134,9 @@ class PowerUpNode: SKSpriteNode {
         case .missile_item:
             missileItemAppear();
             break;
+        case .blaster_item:
+            blasterItemAppear();
+            break;
         default:
             break
         }
@@ -165,6 +178,9 @@ class PowerUpNode: SKSpriteNode {
         case .missile_item:
             missileItemSelected(by: paddle, completion: {completion()})
             break;
+        case .blaster_item:
+            blasterItemSelected(by: paddle, completion: {completion()})
+            break;
         default:
             break
         }
@@ -199,6 +215,9 @@ class PowerUpNode: SKSpriteNode {
             break;
         case .missile_item:
             missileItemDisappear();
+            break;
+        case .blaster_item:
+            blasterItemDisappear();
             break;
         default:
             break
@@ -492,6 +511,35 @@ class PowerUpNode: SKSpriteNode {
     }
     
     
+    private func blasterItemAppear() {
+        is_selectable = false;
+        
+        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+            self.is_selectable = true;
+            self.wait_time = 0.0;
+        });
+    }
+    
+    private func blasterItemDisappear() {
+        is_selectable = false;
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+        });
+    }
+    
+    private func blasterItemSelected(by: Paddle, completion: @escaping ()->Void) {
+        print("power up: Blaster selected");
+        is_selectable = false;
+        let scene = self.parent as! GameScene;
+
+        by.setBlasterButton(amount: 1);
+        
+        // will end up also running other background effects
+        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+            self.removeFromParent();
+            completion();
+        });
+    }
     
     public func isSelectable() -> Bool {
         return is_selectable;
