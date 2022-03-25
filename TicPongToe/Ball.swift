@@ -162,7 +162,7 @@ class Ball  {
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
-        print("paddle_speed: \(paddle_speed)")
+        //print("paddle_speed: \(paddle_speed)")
         
     
         

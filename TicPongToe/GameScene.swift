@@ -80,7 +80,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var player_starts = false;
     private var board_hits = 0;
 
-    //private var moon_timer = SKSpriteNode(); MARK
     private var timer_node = SKSpriteNode();
     private var timerLabel = SKLabelNode();
     private var seconds = 10;
@@ -116,8 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var topLevelLabel = SKLabelNode();
     private var centerLevelLabel = SKLabelNode();
     private var pending_round = false;
-    
-    
     
     override func didMove(to view: SKView)
     {
@@ -178,7 +175,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
         
-        //moon_timer = self.childNode(withName: "MoonTimer") as! SKSpriteNode; //MARK
         timer_node = self.childNode(withName: "TimerNode") as! SKSpriteNode;
         
         // Build animation frames
@@ -208,7 +204,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //TODO: Will need to increase parameters
         level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager, player: main);
 
-        
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
         border.restitution = 1
@@ -293,8 +288,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let topFadeIn = SKAction.group([SKAction.unhide(), topLabelFloatingAction, SKAction.fadeAlpha(to: 0.25, duration: 0.5)]);
         let topFadeOut = SKAction.group([topLabelFloatingAction, fadeOut, SKAction.hide()]);
         
-        
-        
         if (topLevelLabel.isHidden == false) {
             // fade out top level label
             topLevelLabel.run(topFadeOut);
@@ -307,7 +300,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         centerLevelLabel.isHidden = false;
         centerLevelLabel.alpha = 0.0;
         
-        level_controller.startLevel();
+        //Clean up Powerup item data, Set level values, and start the first powerup wave.
+        level_controller.clearLevelItems();
+        level_controller.setLevelValues();
+        level_controller.startPowerUpWave();
         
         centerLevelLabel.run(centerFadeAction, completion: {
            // self.topLevelLabel.run(topFadeIn);
@@ -381,11 +377,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy.animateRemoval();
         }
 
-        ai.removeAllLives(); // Remove all remaining ai_lives from the screen
-        
-        // Deactivated below to ensure no new scores get saved
+        // MARK: Deactivate below to ensure no new scores get saved
         if (currentGameType == gameType.high_score)
         {
+            ai.removeAllLives(); // Remove all remaining ai_lives from the screen
+            level_controller.clearLevelItems(); //Ensures powerups disappear once the game is over.
+            
             if (score > HighScore)
             {
                 HighScore = score;
@@ -477,8 +474,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 endGame();
             }
-            high_score.text = "\(score)";
             
+            high_score.text = "\(score)";
         }
         else if (type == 0) // i.e. It is Duel and its a pong score, not a tic tac toe score
         {
@@ -697,9 +694,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         explosionNode?.position.x = ballmanager.ball.position.x;
         explosionNode?.zRotation = explosion_zRotation;
         explosionNode?.position.y = explosion_position;
-        
-
-        
+                
         self.addChild(explosionNode!);
         explosionNode?.run(SKAction.animate(with: scoreExplosionFrames, timePerFrame: 0.05), completion: {
             explosionNode?.removeFromParent();
@@ -863,21 +858,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             isTimerRunning = true;
             timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(GameScene.updateTimer)), userInfo: nil, repeats: true)
-            
-            //MARK
-            /*if (moon_timer.isPaused) {
-                moon_timer.isPaused = false;
-            }
-            else {
-                moon_timer.alpha = 1.0;
-                moon_timer.removeAllActions();
-                moon_timer.run(SKAction.animate(with: (AnimationFramesManager?.moonTimerCountDownFrames)!, timePerFrame: 1.0), completion: {
-                    print("Moon Timer Complete");
-                });
-            }*/
         }
-
-       
     }
     
     @objc private func updateTimer() {
@@ -912,14 +893,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
         stopTimer()
         timerLabel.run(fadeoutAction);
-        //moon_timer.run(fadeoutAction); //MARK
         timer_node.run(fadeoutAction); //MARK
     }
     
     private func fadeInTimer(completion: @escaping ()->Void) {
         let fadeinAction = SKAction.fadeIn(withDuration: 0.25)
         timerLabel.run(fadeinAction, completion: {completion()});
-        //moon_timer.run(fadeinAction, completion: {completion()}); //MARK
         timer_node.run(fadeinAction, completion: {completion()}); //MARK
     }
     
@@ -1156,9 +1135,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // set the board
                 if (location.y > main_paddle_move_boundary)
                 {
-                    if (main.hasItems()) {
+                    /*if (main.hasItems()) { //TODO: Items not enabled
                         main.itemsSelected(location: location);
-                    }
+                    }*/
                     if (players_turn && !self.isPaused) {
                         playerSetBoard(location: location);
                     }
@@ -1170,9 +1149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     pauseGame()
                 }
                 
-                
-                //TODO Check if they have clicked on an obstacle
-                level_controller.checkBoardTouch();
             }
         }
         
@@ -1273,18 +1249,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.startBall(down: false)
                     }
                 }
-                
-                level_controller.update();
             }
             else {
                 clearBoard();
             }
-    
     }
     
     private func endTicTacToeGame(quick_fade: Bool, completion: @escaping ()->Void) {
         if (!animation_on || pending_round) {
-            
             animation_on = true;
             let fadeoutAction = SKAction.fadeOut(withDuration: 0.25);
             var wait_time = 0.0;
@@ -1320,7 +1292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact)
     {
-        print("bit mask A: \(contact.bodyA.categoryBitMask), bit mask B: \(contact.bodyB.categoryBitMask)")
+        //print("bit mask A: \(contact.bodyA.categoryBitMask), bit mask B: \(contact.bodyB.categoryBitMask)")
         // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             
@@ -1336,35 +1308,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             animateHitPaddle(contact_point: contact.contactPoint);
-            //ballmanager.squashBall(contact: contact);
         }
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
         {
             animateHitWall(contact_point: contact.contactPoint)
-            //ballmanager.squashBall(contact: contact);
-        }
-        // Contact between ball and boundaries
-        else if (contact.bodyA.categoryBitMask == 8 && contact.bodyB.categoryBitMask == 2) {
-            /*print("Contact with boundaries");
-            if contact.bodyA.node?.name == "TopBoundary" {
-                animateScoreExplosion();
-                addScore(playerWhoWon: main, type: 0)
-            }
-            else if contact.bodyA.node?.name == "BottomBoundary" {
-                animateScoreExplosion();
-                addScore(playerWhoWon: enemy, type: 0);
-            }*/
-        }
-        // Contact between paddle and projectiles
-        else if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 16)
-        {
-            (contact.bodyB.node as! Projectile).explode();
-        }
-        // Contact between projectiles and boundary
-        else if ((contact.bodyA.categoryBitMask == 32 || contact.bodyA.categoryBitMask == 16) && (contact.bodyB.categoryBitMask == 8))
-        {
-            (contact.bodyB.node as! Projectile).hit();
         }
     }
     
@@ -1387,12 +1335,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             ai.enemy_hit_ball = true;
         }
-        else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
-        {
-            
-        }
-        
-        //ballmanager.unsquashBall(contact: contact);
     }
     
     @objc func doubleTapped() {

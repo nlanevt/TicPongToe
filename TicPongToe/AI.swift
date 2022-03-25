@@ -43,8 +43,8 @@ class AI {
     private var offset2:CGFloat = 250;
     
     private var intensity:CGFloat = 0.03;
-    private var ai_lives = 6;
-    private var ai_lives_amount = 6;
+    private var ai_lives_amount = 3;
+    private var ai_lives_left = Int();
     
     private var ai_lives_y_position:CGFloat = 235.0;
     private var ai_lives_z_position:CGFloat = -1.0;
@@ -53,6 +53,10 @@ class AI {
     private var ai_life_size:CGSize = CGSize.init(width: 7, height: 20);
     
     private var game_scene:GameScene? = nil;
+    
+    init() {
+        ai_lives_left = ai_lives_amount;
+    }
     
     func setPaddleValues(ball: SKSpriteNode, ai: SKSpriteNode)
     {
@@ -89,7 +93,7 @@ class AI {
     
     // Gets the amount of lives the ai has left. 
     func getLives() -> Int {
-        return ai_lives;
+        return ai_lives_left;
     }
     
     /*
@@ -97,12 +101,12 @@ class AI {
     */
     public func decreaseLife() -> Bool{
         var result = false;
-        ai_lives = ai_lives - 1;
+        ai_lives_left = ai_lives_left - 1;
         removeLifeAnimation();
-        game_scene?.level_controller.startObstacleWave();
-        if (ai_lives <= 0) {
+        //game_scene?.level_controller.startObstacleWave(); //Obstacles currently not active
+        if (ai_lives_left <= 0) {
             result = true
-            ai_lives = ai_lives_amount;
+            ai_lives_left = ai_lives_amount;
         }
         return result;
     }
@@ -111,13 +115,13 @@ class AI {
     // Max number of lives is 21. 
     public func increaseLivesAmount() {
         ai_lives_amount = ai_lives_amount < 21 ? ai_lives_amount + 1 : ai_lives_amount
-        ai_lives = ai_lives_amount;
+        ai_lives_left = ai_lives_amount;
     }
     
     public func growLives() {
         if (currentGameType == .high_score) {
             var wait_time:TimeInterval = 0.0;
-            for i in 0..<ai_lives {
+            for i in 0..<ai_lives_left {
                 let lifeNode = SKSpriteNode(imageNamed: "AILife");
                 lifeNode.isHidden = true;
                 lifeNode.size = ai_life_size;
@@ -139,17 +143,17 @@ class AI {
     
     public func growLife(wait_time: TimeInterval) -> Bool {
         print("power up: enemy grow life.");
-        if (ai_lives >= ai_lives_amount) {return false}
+        if (ai_lives_left >= ai_lives_amount) {return false}
         
         let lifeNode = SKSpriteNode(imageNamed: "AILife");
         lifeNode.isHidden = true;
         lifeNode.size = ai_life_size;
-        lifeNode.position = CGPoint(x: 150 - CGFloat(1 + ai_lives*10), y: ai_lives_y_position)
+        lifeNode.position = CGPoint(x: 150 - CGFloat(1 + ai_lives_left*10), y: ai_lives_y_position)
         lifeNode.zPosition = ai_lives_z_position;
         ai_lives_array.append(lifeNode);
-        game_scene?.addChild(ai_lives_array[ai_lives]);
+        game_scene?.addChild(ai_lives_array[ai_lives_left]);
         growLifeHelper(lifeNode: lifeNode, wait_time: wait_time);
-        ai_lives = ai_lives + 1;
+        ai_lives_left = ai_lives_left + 1;
         
         return true;
     }
@@ -265,60 +269,18 @@ class AI {
             }
             
         }
-        self.setDifficulty();
+        self.setIntensity();
     }
     
-    private func setDifficulty() {
-        let rand = Int(arc4random_uniform(5));
-
+    private func setIntensity() {
         if (currentGameType == gameType.high_score) {
-            if (level <= 3) {
-                intensity = 0.08;
-            }
-            else if (level <= 6) {
-                if (rand < 3) {intensity = 0.07}
-                else {intensity = 0.08}
-            }
-            else if (level <= 9) {
-                intensity = 0.07;
-            }
-            else if (level <= 12) {
-                if (rand == 0) {intensity = 0.5}
-                else if (rand < 3) {intensity = 0.6}
-                else {intensity = 0.7}
-            }
-            else if (level <= 15) {
-                if (rand < 3) {intensity = 0.5}
-                else {intensity = 0.6}
-            }
-            else if (level <= 18){
-                if (rand == 0) {intensity = 0.3}
-                else if (rand < 3) {intensity = 0.5}
-                else {intensity = 0.55}
-                
-            }
-            else if (level <= 21) {
-                if (rand == 0) {intensity = 0.3}
-                else if (rand < 3) {intensity = 0.4}
-                else {intensity = 0.5}
-            }
-            else if (level <= 24) {
-                if (rand < 2) {intensity = 0.3}
-                else {intensity = 0.4}
-            }
-            else if (level <= 27) {
-                if (rand < 2) {intensity = 0.3}
-                else {intensity = 0.4}
-            }
-            else if (level <= 30) {
-                if (rand < 3) {intensity = 0.3}
-                else {intensity = 0.4}
-            }
-            else {
-                intensity = 0.3;
-            }
+            let intensities = game_scene?.level_controller.getAIIntensity();
+            
+            intensity = intensities![Int(arc4random_uniform(UInt32(intensities?.count ?? 1)))];
+            print("AI Intensity is: \(intensity)");
         }
         else {
+            let rand = Int(arc4random_uniform(5));
             if (rand == 0) {intensity = 0.03}
             else if (rand < 3) {intensity = 0.04}
             else {intensity = 0.05}

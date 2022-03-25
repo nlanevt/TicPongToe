@@ -26,13 +26,7 @@ class LevelController {
     private var pu_wave_wait_times = [TimeInterval]();
     private var pu_wave_iterator = 0;
     
-    private var obstacles = [SKSpriteNode](); //Need to replace SKSpriteNode with Obstacle class. This is used to contain all Obstacles currently active on Stage.
-    private var ob_queue = [obstacleType](); //The Queue of obstacles that are waiting to be added. Whether or not they are added (thus leaving the queue and going into the obstacles list) is dependent on how many obstacles are allowed on the level at a given time.
-    private var ob_wave_trigger = [Int](); // List of what levels the next wave of obstacles will load.
-    private var ob_wave_amount = [Int](); // List of what amount of obstacles can exist on the board during a given wave.
-    private var ob_waves = [[obstacleType]](); // List of what enemies will be added per wave.
-    private var ob_wave_wait_times = [TimeInterval](); // Wait time between waves.
-    private var ob_wave_iterator = 0; // Iterator for ob_waves, ob_wave_trigger and ob_wave_amount lists.
+    private var ai_intensity:[Double] = [0.08];
     
     private var player:Paddle!;
 
@@ -45,106 +39,118 @@ class LevelController {
         self.player = player;
     }
     
-    init() {
+    /*
+     Note: 0.03 is impossibly difficult; 0.04 is very difficult
+     */
+    public func setLevelValues() {
         
+        if (level_counter == 1) {
+            ai_intensity = [0.10, 0.09];
+            pu_waves = [[.health_booster, .full_replenish, .big_boy_booster],
+                        [.super_fast_ball, .big_boy_booster],
+                        [.full_replenish, .big_boy_booster]];
+            pu_wave_wait_times = [10, 5, 5];
+        }
+        else if (1 < level_counter && level_counter < 4) {
+            ai_intensity = [0.10, 0.09];
+            pu_waves = [[.super_health_booster, .fast_ball, .super_fast_ball],
+                        [.full_replenish, .fast_ball, .big_boy_booster],
+                        [.health_booster, .big_boy_booster]];
+            pu_wave_wait_times = [10, 10, 10];
+        }
+        else if (4 <= level_counter && level_counter < 7) {
+            ai_intensity = [0.08, 0.07];
+        }
+        else if (7 <= level_counter && level_counter < 11) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else if (12 <= level_counter && level_counter < 16) {
+            ai_intensity = [0.07, 0.06];
+        }
+        else if (16 <= level_counter && level_counter < 21) {
+            ai_intensity = [0.07, 0.06, 0.05];
+        }
+        else if (21 <= level_counter && level_counter < 26) {
+            ai_intensity = [0.06, 0.0];
+        }
+        else if (26 <= level_counter && level_counter < 31) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else if (31 <= level_counter && level_counter < 36) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else if (36 <= level_counter && level_counter < 41) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else if (41 <= level_counter && level_counter < 46) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else if (46 <= level_counter && level_counter < 51) {
+            ai_intensity = [0.08, 0.07, 0.06];
+        }
+        else {
+            ai_intensity = [0.05, 0.04, 0.03];
+        }
     }
     
-    public func startLevel() {
+    public func getAIIntensity() -> [Double] {
+        return ai_intensity;
+    }
+    
+    public func startPowerUpWave() {
+        // Don't run if pu_wave_iterator is too big - i.e. don't run any more waves once you get through all of the waves in pu_waves.
+        // Also, don't run if there are still power ups from the previous wave left.
+        if (pu_wave_iterator >= pu_waves.count || !power_ups.isEmpty) {return}
         
+        for pu_type in pu_waves[pu_wave_iterator] {
+            if (power_ups.count > game_scene.squaresArray.count) {break}; // Don't allow more than 6 powerups per wave.
+            let power_up = PowerUpNode(power_up_type: pu_type);
+            power_up.setCenterPosition(position: getFreePowerUpPosition());
+            power_up.zPosition = -1.5;
+            game_scene.addChild(power_up);
+            power_ups.append(power_up);
+            power_up.appear(wait_time: pu_wave_wait_times[pu_wave_iterator]);
+        }
+        print("power up: # of waves \(pu_waves.count), power_ups.count \(power_ups.count), wave \(pu_wave_iterator+1)");
+        pu_wave_iterator = pu_wave_iterator + 1;
+    }
+    
+    private func getFreePowerUpPosition() -> CGPoint {
+        var position = CGPoint();
+        var possible_positions = [CGPoint]();
+        
+        for square in game_scene.squaresArray {
+            possible_positions.append(square.position);
+        }
+        
+        while (possible_positions.count > 0) {
+            let rand_pos = Int(arc4random_uniform(UInt32(possible_positions.count)))
+            position = possible_positions[rand_pos];
+            var isFree = true;
+            
+            for power_up in power_ups {
+                if position.equalTo(power_up.getCenterPosition()) {
+                    isFree = false;
+                }
+            }
+            
+            if (isFree) {
+                return position;
+            }
+            possible_positions.remove(at: rand_pos);
+        }
+        
+        return position;
+    }
+    
+    
+    public func clearLevelItems() {
         if (!power_ups.isEmpty) {
             for power_up in power_ups {power_up.disappear()}
         }
         power_ups.removeAll();
         pu_wave_iterator = 0;
         pu_waves.removeAll();
-        
-        if (!obstacles.isEmpty) {
-            for obstacle in obstacles {/*obstacle.disappear();*/}
-        }
-        ob_wave_iterator = ai.getLivesAmount();
-        ob_waves.removeAll();
-        obstacles.removeAll();
-        ob_queue.removeAll();
-        ob_wave_trigger.removeAll();
-        ob_wave_amount.removeAll();
-        
-        switch level_counter {
-        case 1:
-            pu_waves = [[.health_booster, .fast_ball, .blaster_item],
-                        [.super_fast_ball, .blaster_item],
-                        [.big_boy_booster, .full_replenish]];
-            pu_wave_wait_times = [10, 5, 5];
-            ob_waves = [[.batter_bro]];
-            ob_wave_trigger = [2];
-            ob_wave_amount = [1];
-            break;
-        case 2:
-            pu_waves = [[.super_health_booster, .fast_ball, .super_fast_ball],
-                        [.full_replenish, .fast_ball, .big_boy_booster],
-                        [.health_booster, .big_boy_booster]];
-            pu_wave_wait_times = [10, 10, 10];
-            ob_waves = [[.batter_bro],[.rouge_rookie]];
-            ob_wave_trigger = [4, 2];
-            ob_wave_amount = [2, 2];
-            break;
-        default:
-            break;
-        }
-        
-        startPowerUpWave();
-    }
-    
-    private func startPowerUpWave() {
-        // Don't run if pu_wave_iterator is too big - i.e. don't run any more waves once you get through all of the waves in pu_waves.
-        if (pu_wave_iterator >= pu_waves.count) {return}
-        
-        for pu_type in pu_waves[pu_wave_iterator] {
-            let power_up = PowerUpNode(power_up_type: pu_type);
-            power_up.position = game_scene.squaresArray[Int(arc4random_uniform(UInt32(game_scene.squaresArray.count)))].position;
-            power_up.zPosition = -1.5;
-            game_scene.addChild(power_up);
-            power_ups.append(power_up);
-            power_up.appear(wait_time: pu_wave_wait_times[pu_wave_iterator]);
-        }
-        print("power up: # waves \(pu_waves.count), power_ups.count \(power_ups.count), wave \(pu_wave_iterator)");
-        pu_wave_iterator = pu_wave_iterator + 1;
-    }
-    
-    // This occurs only when AI is scored on.
-    public func startObstacleWave() {
-        if (ob_wave_iterator >= ob_waves.count ||
-            ai.getLives() != ob_wave_trigger[ob_wave_iterator]) {return}
-        
-        for ob_type in ob_waves[ob_wave_iterator] {
-            ob_queue.append(ob_type);
-        }
-        
-        ob_wave_iterator = ob_wave_iterator + 1;
-        addObstaclesToStage();
-    }
-    
-    // This occurs when a wave starts OR when an obstacle is removed from the stage at the completion of its disappear action.
-    private func addObstaclesToStage() {
-        if (ob_wave_iterator <= 0 || ob_wave_iterator > ob_waves.count) {return}
-        
-        let amount_to_add = obstacles.count - ob_wave_amount[ob_wave_iterator-1];
-        if (amount_to_add >= 0) {return}
-    
-        var i = 0;
-        while (i < amount_to_add && i < ob_queue.count) {
-            instantiateObstacle(obstacle_type: ob_queue.removeFirst());
-            i = i + 1;
-        }
-        
-    }
-    
-    private func instantiateObstacle(obstacle_type: obstacleType) {
-        // Create Obstacles node
-        // set its position accordingly.
-        // set its zPosition accordingly.
-        // game_scene.addChild(obstacle);
-        // obstacles.append(obstacle);
-        // obstacle.appear(wait_time: ob_wave_wait_times[ob_wave_iterator]);
     }
     
     public func increaseLevel() {
@@ -168,35 +174,8 @@ class LevelController {
         return level_counter;
     }
     
-    // Used when user touches the board area.
-    // Used to determine if you have touched the powerups / obstacles
-    public func checkBoardTouch() {
-        
-    }
-    
-    
     public func checkPlayerStageSelect(paddle: Paddle, square: SKSpriteNode) {
-        print("power up checking stage");
-    
         selectPowerUp(paddle: paddle, square: square);
-        
-        if (!obstacles.isEmpty) {
-            var i = 0;
-            var obstacle:SKSpriteNode!
-            while (i < obstacles.count) {
-                obstacle = obstacles[i];
-                if (square.frame.intersects(obstacle.frame) /* && obstacle.isSelectable()*/) {
-                    
-                    /* obstacle.hit(completion: {
-                            self.addObstaclesToStage();
-                       })*/
-                    // if (obstacle.getHealth() <= 0) {obstacles.remove(i)} else {i = i+1}
-                }
-                else {
-                    i = i + 1;
-                }
-            }
-        }
     }
     
     public func checkEnemyStageSelect(paddle: Paddle, square: SKSpriteNode) {
@@ -224,11 +203,5 @@ class LevelController {
                 }
             }
         }
-    }
-    
-    // Used in the game_scenes update method.
-    // Used to determine if you have hit the powerups / obstacles with the ball
-    public func update() {
-        
     }
 }

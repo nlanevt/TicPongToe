@@ -36,7 +36,6 @@ class AnimationFramesHelper {
     public var lifeDeathBFrames:[SKTexture] = [];
     public var lifeGrowAFrames:[SKTexture] = [];
     public var lifeGrowBFrames:[SKTexture] = [];
-    //public var moonTimerCountDownFrames:[SKTexture] = []; //MARK
     public var timerImageFrames:[SKTexture] = [];
     public var hitPaddleBFrames:[SKTexture] = [];
     public var hitPaddleCFrames:[SKTexture] = [];
@@ -44,10 +43,6 @@ class AnimationFramesHelper {
     private var sceneHeight:CGFloat = 0.0;
     private var backgroundNodeA1:SKSpriteNode? = nil;
     private var backgroundNodeA2:SKSpriteNode? = nil;
-    
-    public var missileItemFrames = [SKTexture]();
-    public var blasterFrames = [SKTexture]();
-    public var blasterFollowerFrames = [SKTexture]();
     
     init()
     {
@@ -75,13 +70,9 @@ class AnimationFramesHelper {
         lifeDeathBFrames = buildAnimation(textureAtlasName: "LifeDeathB");
         lifeGrowAFrames = buildAnimation(textureAtlasName: "LifeGrowA");
         lifeGrowBFrames = buildAnimation(textureAtlasName: "LifeGrowB");
-        //moonTimerCountDownFrames = buildAnimation(textureAtlasName: "MoonTimerCountDown"); //MARK
         hitPaddleBFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationB");
         hitPaddleCFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationC");
         timerImageFrames = buildAnimation(textureAtlasName: "TimerImage");
-        missileItemFrames = buildAnimation(textureAtlasName: "MissileItem");
-        blasterFrames = buildAnimation(textureAtlasName: "BlasterRound");
-        blasterFollowerFrames = buildAnimation(textureAtlasName: "BlasterFollower");
     }
     
     // Don't add public functions any more. Just use the public variables in this class.

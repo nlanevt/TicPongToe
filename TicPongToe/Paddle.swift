@@ -36,9 +36,11 @@ class Paddle: SKSpriteNode {
     
     private var shadow:SKLightNode!;
     
+    /* //TODO: Items not enabled
     private var blaster_rounds:Int = 0;
     private var has_items:Bool = false;
     private var blaster_button:SKSpriteNode!
+     */
     
     /*
      * if direction_down == true, then it's the enemy; else if false it is the player
@@ -202,7 +204,7 @@ class Paddle: SKSpriteNode {
         
         fastBallSpeed = is_super ? 75 : 60;
         
-        //TO DO: this is where you do things to animate the paddle. 
+        //TODO: this is where you do things to animate the paddle.
         self.run(SKAction.sequence([SKAction.wait(forDuration: 10), SKAction.run({self.fastBallSpeed = 0})]), withKey: "FastBallAction");
     }
     
@@ -233,7 +235,8 @@ class Paddle: SKSpriteNode {
         
     }
     
-    public func shootBlaster() {
+    //TODO: Items not enabled
+    /*public func shootBlaster() {
         if (blaster_rounds <= 0) {return};
         blaster_rounds = blaster_rounds - 1;
         
@@ -241,6 +244,7 @@ class Paddle: SKSpriteNode {
         blaster_node.launch(by: self);
     }
     
+     //TODO: Items not enabled
     public func setBlasterButton(amount: Int) {
         has_items = true;
         blaster_rounds = amount;
@@ -254,13 +258,15 @@ class Paddle: SKSpriteNode {
         blaster_button.run(SKAction.fadeIn(withDuration: 0.5));
     }
     
+     //TODO: Items not enabled
     public func itemsSelected(location: CGPoint) {
         if (blaster_button != nil && blaster_button.contains(location)) {
             shootBlaster();
             return;
         }
     }
-    
+     
+     //TODO: Items not enabled
     public func launchMissile(missile_type: String) {
         let missileNode = SKSpriteNode(imageNamed: "MissileItem1");
         missileNode.size = CGSize(width: 16, height: 26);
@@ -299,11 +305,13 @@ class Paddle: SKSpriteNode {
         })
     }
     
+     //TODO: Items not enabled
     private func missileChaseAction(completion: @escaping ()->Void) {
         
     }
     
+    //TODO: Items not enabled
     public func hasItems()->Bool {
         return has_items;
-    }
+    }*/
 }

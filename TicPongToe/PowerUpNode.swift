@@ -37,6 +37,7 @@ class PowerUpNode: SKSpriteNode {
     private var is_selectable = false;
     private var wait_time:TimeInterval = 0.0;
     private var power_up_size = CGSize(width: 48.0, height: 48.0);
+    private var center_position = CGPoint();
     
     init(power_up_type: powerUpType) {
         type = power_up_type;
@@ -69,18 +70,6 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             imageName = "SuperBigBoyBoosterPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
-            break;
-        case .bomb_item:
-            imageName = "BombItemPowerUp";
-            power_up_size = CGSize(width: 48.0, height: 48.0);
-            break;
-        case .missile_item:
-            imageName = "MissileItemPowerUp";
-            power_up_size = CGSize(width: 48.0, height: 48.0);
-            break;
-        case .blaster_item:
-            imageName = "MissileItemPowerUp";
-            power_up_size = CGSize(width: 48.0, height: 48.0);
             break;
         default:
             break
@@ -128,15 +117,6 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterAppear();
             break;
-        case .bomb_item:
-            // TO DO
-            break;
-        case .missile_item:
-            missileItemAppear();
-            break;
-        case .blaster_item:
-            blasterItemAppear();
-            break;
         default:
             break
         }
@@ -172,15 +152,6 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterSelected(by: paddle, completion: {completion()})
             break;
-        case .bomb_item:
-            // TO DO
-            break;
-        case .missile_item:
-            missileItemSelected(by: paddle, completion: {completion()})
-            break;
-        case .blaster_item:
-            blasterItemSelected(by: paddle, completion: {completion()})
-            break;
         default:
             break
         }
@@ -210,23 +181,19 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterDisappear();
             break;
-        case .bomb_item:
-            // TO DO
-            break;
-        case .missile_item:
-            missileItemDisappear();
-            break;
-        case .blaster_item:
-            blasterItemDisappear();
-            break;
         default:
             break
         }
     }
     
+    public func isSelectable() -> Bool {
+        return is_selectable;
+    }
+    
     private func healthBoosterAppear() {
         is_selectable = false;
-        
+        self.floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -261,7 +228,8 @@ class PowerUpNode: SKSpriteNode {
     
     private func superHealthBoosterAppear() {
         is_selectable = false;
-        
+        self.floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -298,7 +266,7 @@ class PowerUpNode: SKSpriteNode {
     
     private func fullReplenishAppear() {
         is_selectable = false;
-        
+        self.floatAnimation();
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -334,7 +302,8 @@ class PowerUpNode: SKSpriteNode {
     
     private func fastBallAppear() {
         is_selectable = false;
-        
+        floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -363,7 +332,8 @@ class PowerUpNode: SKSpriteNode {
     
     private func superFastBallAppear() {
         is_selectable = false;
-        
+        floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -392,7 +362,8 @@ class PowerUpNode: SKSpriteNode {
     
     private func bigBoyBoosterAppear() {
         is_selectable = false;
-        
+        floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -421,7 +392,8 @@ class PowerUpNode: SKSpriteNode {
     
     private func superBigBoyBoosterAppear() {
         is_selectable = false;
-        
+        floatAnimation();
+
         self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
@@ -448,102 +420,26 @@ class PowerUpNode: SKSpriteNode {
         });
     }
     
-    private func bombItemAppear() {
-        is_selectable = false;
+    private func floatAnimation() {
+        let floatUp = SKAction.moveTo(y: self.position.y+3, duration: 0.3);
+        let floatUpSmall = SKAction.moveTo(y: self.position.y+2, duration: 0.3);
+        let floatDown = SKAction.moveTo(y: self.position.y-3, duration: 0.3);
+        let floatDownSmall = SKAction.moveTo(y: self.position.y-2, duration: 0.3);
+        var repeatingFloat = SKAction.repeatForever(SKAction.sequence([floatUp, floatUpSmall, floatDownSmall, floatDown, floatDown, floatDownSmall, floatUpSmall, floatUp]));
         
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
-        });
-    }
-    
-    private func bombItemDisappear() {
-        is_selectable = false;
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-        });
-    }
-    
-    private func bombItemSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: Big Boy Booster selected");
-        is_selectable = false;
+        if (Int(arc4random_uniform(2)) == 0) {
+            repeatingFloat = SKAction.repeatForever(SKAction.sequence([floatDown, floatDownSmall, floatUpSmall, floatUp, floatUp, floatUpSmall, floatDownSmall, floatDown]));
+        }
         
-        // DO Stuff
-        
-        // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-            completion();
-        });
+        self.run(SKAction.sequence([SKAction.wait(forDuration: Double.random(in: 0...0.5)), repeatingFloat]));
     }
     
-    private func missileItemAppear() {
-        is_selectable = false;
-        
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
-        });
+    public func setCenterPosition(position: CGPoint) {
+        self.center_position = position;
+        self.position = center_position;
     }
     
-    private func missileItemDisappear() {
-        is_selectable = false;
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-        });
+    public func getCenterPosition() -> CGPoint {
+        return self.center_position;
     }
-    
-    private func missileItemSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: Big Boy Booster selected");
-        is_selectable = false;
-        
-        // Missile Useage Steps:
-        // (1) Create missile button
-        // (2) When missile button is pressed, a missile launches and does its behavior
-        
-        by.launchMissile(missile_type: "normal");
-        
-        // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-            completion();
-        });
-    }
-    
-    
-    private func blasterItemAppear() {
-        is_selectable = false;
-        
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
-        });
-    }
-    
-    private func blasterItemDisappear() {
-        is_selectable = false;
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-        });
-    }
-    
-    private func blasterItemSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: Blaster selected");
-        is_selectable = false;
-        let scene = self.parent as! GameScene;
-
-        by.setBlasterButton(amount: 1);
-        
-        // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
-            completion();
-        });
-    }
-    
-    public func isSelectable() -> Bool {
-        return is_selectable;
-    }
-    
-    
 }

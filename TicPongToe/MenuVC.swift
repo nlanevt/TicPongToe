@@ -437,8 +437,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     public func showAd()
     {
         ad_counter = ad_counter + 1;
-        //if (ad_counter >= ad_trigger)
-        if (true)
+        if (ad_counter >= ad_trigger)
+        //if (true)
         {
             if interstitial.isReady {
                 running = false; // should only be the MenuViewControl calling this.
@@ -476,7 +476,9 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         interstitial = createAndLoadInterstitial();
-        
+        MenuViewControl?.HighScoreButton.AnimateButton();
+        MenuViewControl?.DuelButton.AnimateButton();
+        MenuViewControl?.LeaderboardButton.AnimateButton();
         // Needed in the event that ad is still open when the user exists the app then re-enters it. The animation buttons still need to be run.
     }
     

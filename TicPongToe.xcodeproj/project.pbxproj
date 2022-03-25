@@ -21,7 +21,6 @@
 		97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ABC7DD208D2BD600B12608 /* MenuVC.swift */; };
 		97BAB39920B4FB2400499B93 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BAB39820B4FB2400499B93 /* AI.swift */; };
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
-		97C85980220289D600FD84B6 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C8597F220289D600FD84B6 /* Projectile.swift */; };
 		97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D29FD02184E18D00982FB8 /* FloatingButton.swift */; };
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
@@ -76,7 +75,6 @@
 		97ABC7DD208D2BD600B12608 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		97BAB39820B4FB2400499B93 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
-		97C8597F220289D600FD84B6 /* Projectile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		97D29FD02184E18D00982FB8 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				97F6731821AC437A00007018 /* PowerUpNode.swift */,
 				97F6731A21AC499000007018 /* LevelController.swift */,
 				97F6731E21ADE2F300007018 /* Paddle.swift */,
-				97C8597F220289D600FD84B6 /* Projectile.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -421,7 +418,6 @@
 				97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */,
 				97F15D00203B96520034C113 /* GameViewController.swift in Sources */,
 				97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */,
-				97C85980220289D600FD84B6 /* Projectile.swift in Sources */,
 				97F6A15A21A2127500CAB491 /* HexColor.swift in Sources */,
 				97263275216AEF1D00C88A38 /* VectorRotation.swift in Sources */,
 				97DC2C6021127E000027A71F /* MenuScene.swift in Sources */,

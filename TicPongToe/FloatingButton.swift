@@ -26,14 +26,21 @@ class FloatingButton: UIButton {
     }
     
     public func AnimateButton() {
+       // if UIView.animation
+        if (!self.isAnimating) {
+            print("Button Not Animated; Starting Animation...")
+            UIView.animate(withDuration: 1.0, delay: TimeInterval(delay),
+                           options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
+                           animations: {
+                            self.center.y += self.floating_value;
+            }, completion: {(complete: Bool) in
+                self.center.y = self.original_position;
+            })
+        }
+        else {
+            print("Button already animated; cannot start animating.");
+        }
         
-        UIView.animate(withDuration: 1.0, delay: TimeInterval(delay),
-                       options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
-                       animations: {
-                        self.center.y += self.floating_value;
-        }, completion: {(complete: Bool) in
-            self.center.y = self.original_position;
-        })
     }
     
     public func setDelay(delay: CGFloat) {
@@ -47,4 +54,9 @@ class FloatingButton: UIButton {
     public func setFloatingValue(value: CGFloat) {
         self.floating_value = value;
     }
+    
+    private var isAnimating: Bool {
+            return (self.layer.animationKeys()?.count ?? 0) > 0
+    }
+    
 }
