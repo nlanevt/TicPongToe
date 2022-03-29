@@ -19,7 +19,6 @@ enum chase_method {
 }
 
 class AI {
-    private var level:Int64 = 0;
     private var speed = 0.0;
     private var lives = 0;
     private var difficulty = 0;
@@ -33,9 +32,6 @@ class AI {
     private var rows = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
     private var O = 5;
     private var X = 1;
-    private var fast_ball = 0;
-    private var fast_ball_probability:UInt32 = 3;
-    private var fast_ball_position:CGFloat = 0.0;
     private var viewSize:CGSize = CGSize(width: 0, height: 0);
     public var enemy_hit_ball = false;
     
@@ -43,7 +39,6 @@ class AI {
     private var offset2:CGFloat = 250;
     
     private var intensity:CGFloat = 0.03;
-    private var ai_lives_amount = 3;
     private var ai_lives_left = Int();
     
     private var ai_lives_y_position:CGFloat = 235.0;
@@ -53,25 +48,13 @@ class AI {
     private var ai_life_size:CGSize = CGSize.init(width: 7, height: 20);
     
     private var game_scene:GameScene? = nil;
+    private var level_controller:LevelController!
     
-    init() {
-        ai_lives_left = ai_lives_amount;
-    }
-    
-    func setPaddleValues(ball: SKSpriteNode, ai: SKSpriteNode)
-    {
+    init(scene: GameScene, level_controller: LevelController, ball: SKSpriteNode, ai: SKSpriteNode) {
+        ai_lives_left = level_controller.getAILivesAmount();
+        self.level_controller = level_controller;
         self.ball = ball;
         self.ai = ai;
-    }
-    
-    func setFrameSize(view_size: CGSize)
-    {
-        viewSize = view_size;
-        offset1 = viewSize.height*0.26;
-        offset2 = viewSize.height*0.44;
-    }
-    
-    func setScene(scene: GameScene) {
         game_scene = scene;
         viewSize = (game_scene?.frame.size)!;
         offset1 = viewSize.height*0.26;
@@ -86,11 +69,6 @@ class AI {
         return speed;
     }
     
-    // Gets the amount of lives limit for that level.
-    func getLivesAmount() -> Int {
-        return ai_lives_amount;
-    }
-    
     // Gets the amount of lives the ai has left. 
     func getLives() -> Int {
         return ai_lives_left;
@@ -103,19 +81,15 @@ class AI {
         var result = false;
         ai_lives_left = ai_lives_left - 1;
         removeLifeAnimation();
-        //game_scene?.level_controller.startObstacleWave(); //Obstacles currently not active
         if (ai_lives_left <= 0) {
             result = true
-            ai_lives_left = ai_lives_amount;
+            ai_lives_left = level_controller.getAILivesAmount();
         }
         return result;
     }
     
-    // Increases lives amount
-    // Max number of lives is 21. 
-    public func increaseLivesAmount() {
-        ai_lives_amount = ai_lives_amount < 21 ? ai_lives_amount + 1 : ai_lives_amount
-        ai_lives_left = ai_lives_amount;
+    public func setLivesAmount() {
+        ai_lives_left = level_controller.getAILivesAmount();
     }
     
     public func growLives() {
@@ -136,14 +110,14 @@ class AI {
     }
     
     private func growLifeHelper(lifeNode: SKSpriteNode, wait_time: TimeInterval) {
-        var growth_frames = AnimationFramesManager?.lifeGrowFrames;
+        let growth_frames = AnimationFramesManager?.lifeGrowFrames;
         let actionSequence = SKAction.sequence([SKAction.setTexture(growth_frames![0]), SKAction.wait(forDuration: wait_time), SKAction.unhide(), SKAction.animate(with: growth_frames!, timePerFrame: 0.01), SKAction.setTexture(ai_life_texture)])
         lifeNode.run(actionSequence);
     }
     
     public func growLife(wait_time: TimeInterval) -> Bool {
         print("power up: enemy grow life.");
-        if (ai_lives_left >= ai_lives_amount) {return false}
+        if (ai_lives_left >= level_controller.getAILivesAmount()) {return false}
         
         let lifeNode = SKSpriteNode(imageNamed: "AILife");
         lifeNode.isHidden = true;
@@ -169,10 +143,6 @@ class AI {
         while (!ai_lives_array.isEmpty) {
             removeLifeAnimation();
         }
-    }
-    
-    public func setLevel(level: Int64) {
-        self.level = level;
     }
     
     // Determine what position on the board the AI will choose
@@ -216,15 +186,10 @@ class AI {
                 return position;
             }
         }
-        
     }
     
     func setNewChaseMethod()
     {
-        //fast_ball = Int(arc4random_uniform(fast_ball_probability))
-        // fast_ball must be randomly set to 0 in order to occur;
-        // right now it is set to 1 because it is disabled.
-        fast_ball = 1;
         var rand = 0;
         if ((ai?.size.width)! < paddle_width)
         {
@@ -274,9 +239,9 @@ class AI {
     
     private func setIntensity() {
         if (currentGameType == gameType.high_score) {
-            let intensities = game_scene?.level_controller.getAIIntensity();
+            let intensities = level_controller.getAIIntensity();
             
-            intensity = intensities![Int(arc4random_uniform(UInt32(intensities?.count ?? 1)))];
+            intensity = intensities[Int(arc4random_uniform(UInt32(intensities.count)))];
             print("AI Intensity is: \(intensity)");
         }
         else {
@@ -292,30 +257,23 @@ class AI {
         let offset = (ai?.position.y)! - (ball?.position.y)!;
         if (offset < offset1 && !enemy_hit_ball)
         {
-            if (fast_ball == 0)
-            {
-                fastBallHit(offset: offset)
-            }
-            else
-            {
-                speed = Double(intensity + (0.07)*(offset/offset1));
-                switch chase {
-                case .center:
-                    chaseCenter();
-                    break
-                case .close_left_edge:
-                    chaseCloseLeftEdge();
-                    break
-                case .far_left_edge:
-                    chaseFarLeftEdge();
-                    break
-                case .close_right_edge:
-                    chaseCloseRightEdge();
-                    break
-                case .far_right_edge:
-                    chaseFarRightEdge();
-                    break
-                }
+            speed = Double(intensity + (0.07)*(offset/offset1));
+            switch chase {
+            case .center:
+                chaseCenter();
+                break
+            case .close_left_edge:
+                chaseCloseLeftEdge();
+                break
+            case .far_left_edge:
+                chaseFarLeftEdge();
+                break
+            case .close_right_edge:
+                chaseCloseRightEdge();
+                break
+            case .far_right_edge:
+                chaseFarRightEdge();
+                break
             }
         }
         else if (offset >= offset1 && offset < offset2 && !enemy_hit_ball)
@@ -353,52 +311,5 @@ class AI {
     private func chaseCenter()
     {
         ai?.run(SKAction.moveTo(x: ball!.position.x, duration: speed))
-    }
-    
-    /*
-     * Currently not in use.
-     */
-    private func fastBallHit(offset: CGFloat)
-    {
-        var position:CGFloat = 0.0
-        var speed = 0.0
-        let x_offset = ball!.position.x < (ai?.position.x)!
-        
-        if (offset < 20)
-        {
-            if (fast_ball_position == 0.0)
-            {
-                fast_ball_position = ball!.position.x;
-            }
-            
-            if (x_offset)
-            {
-                position = fast_ball_position - 20;
-            }
-            else
-            {
-                position = fast_ball_position + 20;
-            }
-            speed = 0.02;
-        }
-        else
-        {
-            if (fast_ball_position != 0.0)
-            {
-                fast_ball_position = 0.0;
-            }
-            
-            if (x_offset)
-            {
-                position = ball!.position.x + 20;
-            }
-            else
-            {
-                position = ball!.position.x - 20;
-            }
-            speed = 0.1;
-        }
-        
-        ai?.run(SKAction.moveTo(x: position, duration: speed))
     }
 }

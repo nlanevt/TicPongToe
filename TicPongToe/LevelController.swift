@@ -15,11 +15,10 @@ import GameplayKit
 */
 class LevelController {
     private var level_counter:Int64 = 1;
-    private var ai = AI();
     private var scroller:InfiniteScrollingBackground? = nil;
-    private var ball_manager = Ball();
     private var game_scene:GameScene!       //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
     private var ai_lives_increase_array:[Int] = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54];
+    private var ai_lives_amount = 3;
     
     private var power_ups = [PowerUpNode]();
     private var pu_waves = [[powerUpType]]();
@@ -30,36 +29,36 @@ class LevelController {
     
     private var player:Paddle!;
 
-    init(ai: AI, scroller: InfiniteScrollingBackground, game_scene: GameScene, ball_manager: Ball, player: Paddle) {
-        self.ai = ai;
+    init(scroller: InfiniteScrollingBackground, game_scene: GameScene) {
         self.scroller = scroller;
         self.game_scene = game_scene;
-        self.ball_manager = ball_manager;
-        self.ai.setLevel(level: level_counter);
-        self.player = player;
     }
     
     /*
-     Note: 0.03 is impossibly difficult; 0.04 is very difficult
+     Note: 0.03 intensity is impossibly difficult; 0.04 is very difficult
      */
     public func setLevelValues() {
         
         if (level_counter == 1) {
             ai_intensity = [0.10, 0.09];
-            pu_waves = [[.health_booster, .full_replenish, .big_boy_booster],
-                        [.super_fast_ball, .big_boy_booster],
+            pu_waves = [[.health_booster, .super_big_boy_booster, .big_boy_booster],
+                        [.super_fast_ball, .fast_ball],
                         [.full_replenish, .big_boy_booster]];
             pu_wave_wait_times = [10, 5, 5];
         }
         else if (1 < level_counter && level_counter < 4) {
             ai_intensity = [0.10, 0.09];
-            pu_waves = [[.super_health_booster, .fast_ball, .super_fast_ball],
-                        [.full_replenish, .fast_ball, .big_boy_booster],
+            pu_waves = [[.super_health_booster, .fast_ball, .super_big_boy_booster],
+                        [.full_replenish, .super_fast_ball, .big_boy_booster],
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
         }
         else if (4 <= level_counter && level_counter < 7) {
-            ai_intensity = [0.08, 0.07];
+            ai_intensity = [0.09, 0.08];
+            pu_waves = [[.super_health_booster, .super_fast_ball, .super_big_boy_booster],
+                        [.full_replenish, .fast_ball, .big_boy_booster],
+                        [.health_booster, .big_boy_booster]];
+            pu_wave_wait_times = [10, 10, 10];
         }
         else if (7 <= level_counter && level_counter < 11) {
             ai_intensity = [0.08, 0.07, 0.06];
@@ -155,16 +154,14 @@ class LevelController {
     
     public func increaseLevel() {
         level_counter = level_counter + 1;
-        ai.setLevel(level: level_counter);
-        
         // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
         if (level_counter < 50 && (scroller?.speed)! <= CGFloat(6.0)) {
             scroller?.speed = (scroller?.speed)! + 0.25;
         }
         
-        for i in ai_lives_increase_array {
-            if level_counter == i {
-                ai.increaseLivesAmount();
+        for level in ai_lives_increase_array {
+            if level_counter == level {
+                ai_lives_amount = ai_lives_amount < 21 ? ai_lives_amount + 1 : ai_lives_amount
                 break;
             }
         }
@@ -172,6 +169,10 @@ class LevelController {
     
     public func getLevel() -> Int64 {
         return level_counter;
+    }
+    
+    public func getAILivesAmount() -> Int {
+        return ai_lives_amount;
     }
     
     public func checkPlayerStageSelect(paddle: Paddle, square: SKSpriteNode) {

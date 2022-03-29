@@ -36,6 +36,7 @@ class AnimationFramesHelper {
     public var lifeDeathBFrames:[SKTexture] = [];
     public var lifeGrowAFrames:[SKTexture] = [];
     public var lifeGrowBFrames:[SKTexture] = [];
+    public var lifeGrowFullFrames:[SKTexture] = [];
     public var timerImageFrames:[SKTexture] = [];
     public var hitPaddleBFrames:[SKTexture] = [];
     public var hitPaddleCFrames:[SKTexture] = [];
@@ -46,6 +47,14 @@ class AnimationFramesHelper {
     
     init()
     {
+        //Nothing to initialize here.
+        //However, it may be of use for anything in the MenuScene
+    }
+    
+    /*
+     This method must run before all the others, otherwise an error will occur.
+     */
+    public func buildGameFrames() {
         paddleDeathFrames = buildAnimation(textureAtlasName: "Paddle96Death");
         paddle96ShrinkFrames = buildAnimation(textureAtlasName: "Paddle96Shrink");
         paddle72ShrinkFrames = buildAnimation(textureAtlasName: "Paddle72Shrink");
@@ -70,6 +79,7 @@ class AnimationFramesHelper {
         lifeDeathBFrames = buildAnimation(textureAtlasName: "LifeDeathB");
         lifeGrowAFrames = buildAnimation(textureAtlasName: "LifeGrowA");
         lifeGrowBFrames = buildAnimation(textureAtlasName: "LifeGrowB");
+        lifeGrowFullFrames = buildAnimation(textureAtlasName: "LifeGrowFull");
         hitPaddleBFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationB");
         hitPaddleCFrames = buildAnimation(textureAtlasName: "HitPaddleAnimationC");
         timerImageFrames = buildAnimation(textureAtlasName: "TimerImage");

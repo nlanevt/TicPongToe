@@ -212,7 +212,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
-            scene.growLife();
+            scene.growLife(amount: 1);
         }
         else {
             print("power up: enemy selected health booster");
@@ -248,8 +248,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
-            scene.growLife();
-            scene.growLife();
+            scene.growLife(amount: 2);
         }
         else {
             print("power up: enemy selected super health booster");
@@ -285,7 +284,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
-            while (scene.growLife()) {}
+            scene.growLife(amount: scene.getLivesLeft());
         }
         else {
             print("power up: enemy selected super health booster");
@@ -321,7 +320,7 @@ class PowerUpNode: SKSpriteNode {
         print("power up: fast ball selected");
         is_selectable = false;
  
-        by.startFastBallPowerUp(is_super: false);
+        by.runFastBallPowerUp(is_super: false);
 
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
@@ -351,7 +350,7 @@ class PowerUpNode: SKSpriteNode {
         print("power up: fast ball selected");
         is_selectable = false;
         
-        by.startFastBallPowerUp(is_super: true);
+        by.runFastBallPowerUp(is_super: true);
         
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
@@ -381,7 +380,7 @@ class PowerUpNode: SKSpriteNode {
         print("power up: Big Boy Booster selected");
         is_selectable = false;
         
-        by.startBigBoyBoosterPowerUp(is_super: false);
+        by.runBigBoyBoosterPowerUp(is_super: false);
         
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
@@ -411,7 +410,7 @@ class PowerUpNode: SKSpriteNode {
         print("power up: Big Boy Booster selected");
         is_selectable = false;
         
-        by.startBigBoyBoosterPowerUp(is_super: true);
+        by.runBigBoyBoosterPowerUp(is_super: true);
         
         // will end up also running other background effects
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {

@@ -24,9 +24,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     public var score: Int64 = 0;
     public var level_controller:LevelController!
     
-    private var score_increase_array:[Int64] = [500, 1000, 2500, 5000, 10000]
-    private var score_increase_iterator = 0;
-    
     public var life = 6;
     private var max_lives = 6;
     public var player_score_counter:Int64 = 0;
@@ -88,14 +85,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private var main_paddle_move_boundary:CGFloat = -175;
     private var enemy_is_dead = false; // Used when paddle is complete deleted and user scores.
-    
-    private var ballStartFrames: [SKTexture] = [];
-    private var lifeShrinkFrames:[SKTexture] = [];
-    private var lifeGrowFrames:[SKTexture] = [];
     private var hitWallFrames:[SKTexture] = [];
     private var hitPaddleFrames:[SKTexture] = [];
     
-    var ai = AI();
+    public var ai:AI!
     
     private var animation_on = false;
     
@@ -124,6 +117,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
         view.addGestureRecognizer(tap)
+        // Build animation frames
+        AnimationFramesManager?.buildGameFrames();
+        hitWallFrames = (AnimationFramesManager?.getHitWallFrames())!;
+        hitPaddleFrames = (AnimationFramesManager?.getHitPaddleFrames())!;
         
         high_score = self.childNode(withName: "high_score") as! SKLabelNode;
         player_score = self.childNode(withName: "player_score") as! SKLabelNode;
@@ -176,18 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameFrame = self.childNode(withName: "Frame") as! SKSpriteNode
         
         timer_node = self.childNode(withName: "TimerNode") as! SKSpriteNode;
-        
-        // Build animation frames
-        ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
-        lifeShrinkFrames = (AnimationFramesManager?.getLifeShrinkFrames())!;
-        lifeGrowFrames = (AnimationFramesManager?.getLifeGrowFrames())!;
-        hitWallFrames = (AnimationFramesManager?.getHitWallFrames())!;
-        hitPaddleFrames = (AnimationFramesManager?.getHitPaddleFrames())!;
-        
-        // Switch game types. Currently we are just using easy, medium and hard as types.
-        ai.setPaddleValues(ball: ball, ai: enemy);
-        ai.setScene(scene: self);
-        
+
         main.setAnimationFrames();
         enemy.setAnimationFrames();
         
@@ -201,9 +187,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scroller?.scroll()
         scroller?.zPosition = -3
         
-        //TODO: Will need to increase parameters
-        level_controller = LevelController.init(ai: ai, scroller: scroller!, game_scene: self, ball_manager: ballmanager, player: main);
-
+        level_controller = LevelController.init(scroller: scroller!, game_scene: self);
+        ai = AI(scene: self, level_controller: level_controller, ball: ball, ai: enemy);
+        
         let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         border.friction = 0
         border.restitution = 1
@@ -322,6 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         });
         
         level_controller.increaseLevel();
+        ai.setLivesAmount();
         
         startLevel(completion: {
             self.pending_round = false;
@@ -432,12 +419,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let repeatScoreIncreaseAction = SKAction.repeat(SKAction.sequence([increaseScoreAction, waitAction]), count: Int(amount));
                 high_score.run(repeatScoreIncreaseAction, completion: {
                     self.high_score.fontColor = UIColor.white;
-                    if (self.score_increase_iterator < self.score_increase_array.count && self.score >= self.score_increase_array[self.score_increase_iterator])
-                    {
-                        self.score_increase_iterator = self.score_increase_iterator + 1;
-                        self.growLife()
-                    }
-                    
                 });
                 /* End Score Increase Animation */
                 
@@ -461,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // Decreases the ai's life and checks to see if ai's life is depleted. IF it is we increase the level
                 if (ai.decreaseLife()) {
-                    increaseLevel();
+                    self.increaseLevel();
                 }
                 
             }
@@ -569,7 +550,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 enemy.shrink();
                 
-                if (main.size.width < main.paddle_width)
+                if (main.size.width < Paddle.default_paddle_width)
                 {
                     main.grow();
                 }
@@ -601,7 +582,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Shrink main paddle
                 main.shrink();
                 
-                if (enemy.size.width < enemy.paddle_width)
+                if (enemy.size.width < Paddle.default_paddle_width)
                 {
                     enemy.grow();
                 }
@@ -828,29 +809,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life = life - 1; // remove life from player
     }
     
-    public func growLife() -> Bool {
-        
+    public func growLife(amount: Int) -> Bool {
         if (life >= max_lives) {return false}
         
-        life = life + 1;
-        let index = (life / 2) + (life % 2) - 1;
+        var life_counter = life;
+        if (life + amount > max_lives) {
+            life = max_lives;
+        }
+        else {
+            life = life + amount;
+        }
         
-        var frames = AnimationFramesManager?.lifeGrowAFrames;
-        
-        if (life % 2 == 0) {frames = AnimationFramesManager?.lifeGrowBFrames}
-        
-        // create and run grow life animation
-        let growAction = SKAction.animate(with: frames!, timePerFrame: 0.1);
-        let finalTexture = SKAction.setTexture((frames?.last)!)
-        var growthSequence:[SKAction] = []
-        
-        for _ in 0 ..< 8 {growthSequence.append(growAction)}
-        
-        growthSequence.append(finalTexture)
-        
-        lives[index].run(SKAction.sequence(growthSequence));
+        while (life_counter < life) {
+            life_counter = life_counter + 1;
+            let index = (life_counter / 2) + (life_counter % 2) - 1;
+            var frames = AnimationFramesManager?.lifeGrowAFrames;
+            
+            if (life_counter % 2 == 0) {
+                frames = AnimationFramesManager?.lifeGrowBFrames
+            }
+            else if (life_counter + 1 <= life) {
+                frames = AnimationFramesManager?.lifeGrowFullFrames
+                life_counter = life_counter + 1;
+            }
+            
+            // create and run grow life animation
+            let growAction = SKAction.animate(with: frames!, timePerFrame: 0.1);
+            let finalTexture = SKAction.setTexture((frames?.last)!) //MARK: May need to replace frames?.last with the lives texture
+            var growthSequence:[SKAction] = []
+            
+            for _ in 0 ..< 8 {growthSequence.append(growAction)}
+            
+            growthSequence.append(finalTexture)
+            
+            lives[index].run(SKAction.sequence(growthSequence));
+        }
         
         return true;
+    }
+    
+    public func getLivesLeft() -> Int {
+        return max_lives - life;
     }
     
     public func runTimer() {
