@@ -39,6 +39,8 @@ class Paddle: SKSpriteNode {
     public var down = false; //if down == true, then it's the enemy; else if false it is the player
     public var paddle_speed = CGFloat.init(0);
     private var fastBallSpeed:CGFloat = 0.0;
+    private var isDying = false;
+    private var isGrowing = false;
     
     public static var default_paddle_width = CGFloat.init(96);
     private static var fastBallDefaultSpeed:CGFloat = 60;
@@ -108,24 +110,24 @@ class Paddle: SKSpriteNode {
      */
     public func animateDeath(completion: @escaping ()->Void)
     {
-        if (self.hasActions()) {
-            self.removeAllActions();
-        }
-        
+        resetPaddle();
+        isDying = true;
         self.texture = paddleDeathFrames[0];
         self.size.width = 256;
         self.run(SKAction.sequence([SKAction.unhide(), SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025)]), completion: {
-            //self.size.width = self.default_paddle_width;
             self.resetPaddle();
+            self.isDying = false;
             completion();
         })
     }
     
     // Grow the paddle
     public func animateGrowth(completion: @escaping ()->Void) {
-        //resetPaddle() //Might be redundant since animateDeath already runs this at completion
+        resetPaddle();
+        isGrowing = true;
         self.run(SKAction.sequence([SKAction.unhide(), SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01), SKAction.setTexture(default_texture)]), completion: {
-            self.size.width = Paddle.default_paddle_width;
+            self.resetPaddle();
+            self.isGrowing = false;
             self.applyPhysicsBody();
             completion();
         })
@@ -141,17 +143,17 @@ class Paddle: SKSpriteNode {
         if (self.size.width == Paddle.default_paddle_width)
         {
             shrinkAction = SKAction.animate(with: paddle96ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(smallA_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else if (self.size.width == Paddle.smallA_paddle_width)
         {
             shrinkAction = SKAction.animate(with: paddle72ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(smallB_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else if (self.size.width == Paddle.smallB_paddle_width)
         {
             shrinkAction = SKAction.animate(with: paddle48ShrinkFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(smallC_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else if (self.size.width == Paddle.smallC_paddle_width)
         {
@@ -181,17 +183,17 @@ class Paddle: SKSpriteNode {
         if (self.size.width == Paddle.smallA_paddle_width)
         {
             growAction = SKAction.animate(with: paddle72GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(default_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else if (self.size.width == Paddle.smallB_paddle_width)
         {
             growAction = SKAction.animate(with: paddle48GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(smallA_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else if (self.size.width == Paddle.smallC_paddle_width)
         {
             growAction = SKAction.animate(with: paddle24GrowFrames, timePerFrame: 0.015);
-            setFinalPaddleTextureAction = SKAction.setTexture(smallB_texture);
+            setFinalPaddleTextureAction = SKAction.setTexture(self.getCurrentPaddleSprite());
         }
         else
         {
@@ -211,14 +213,22 @@ class Paddle: SKSpriteNode {
     }
     
     public func runFastBallPowerUp(is_super: Bool) {
+        if (isDying || isGrowing) {return}
+        
         if (fastBallSpeed > 0) {
             self.removeAction(forKey: FastBallActionKey)
         }
         
         fastBallSpeed = is_super ? Paddle.superFastBallDefaultSpeed : Paddle.fastBallDefaultSpeed;
         
-        //TODO: this is where you do things to animate the paddle.
-        self.run(SKAction.sequence([SKAction.wait(forDuration: 10), SKAction.run({self.fastBallSpeed = 0})]), withKey: FastBallActionKey);
+        //let flashingAction = SKAction.setTexture(SKTexture.init(imageNamed: "Paddle96Flash")); //replace with method that gets the flashing paddle for the given size.
+        let flashingAction = SKAction.run({self.texture = self.getFlashSprite()});
+        let setTextureAction = SKAction.run({self.texture = self.getCurrentPaddleSprite()});
+        let waitAction = SKAction.wait(forDuration: 0.1);
+        
+        let appearingAction = SKAction.sequence([flashingAction, waitAction, setTextureAction]);
+    
+        self.run(SKAction.sequence([appearingAction, waitAction, appearingAction, SKAction.wait(forDuration: 10), appearingAction, waitAction, flashingAction, waitAction, SKAction.run({self.fastBallSpeed = 0}), setTextureAction]), withKey: FastBallActionKey);
     }
     
     public func checkIfFastBall() -> Bool {
@@ -230,45 +240,46 @@ class Paddle: SKSpriteNode {
     }
     
     public func runBigBoyBoosterPowerUp(is_super: Bool) {
+        if (isDying || isGrowing) {return}
+        
         if (self.size.width > Paddle.default_paddle_width) {
             self.removeAction(forKey: BigBoyActionKey);
         }
         
-        var textureAction = SKAction.setTexture(bigBoy_texture)
         self.size.width = Paddle.bigBoy_width;
         var flashingAction = SKAction.setTexture(SKTexture.init(imageNamed: "Paddle192Flash"));
 
         if (is_super) {
             self.size.width = Paddle.superBigBoy_width
-            textureAction = SKAction.setTexture(superBigBoy_texture)
             flashingAction = SKAction.setTexture(SKTexture.init(imageNamed: "Paddle288Flash"));
         }
-                
-        self.applyPhysicsBody()
         
+        self.applyPhysicsBody()
         let waitAction = SKAction.wait(forDuration: 0.1);
         let defaultTextureFlashAction = SKAction.setTexture(SKTexture.init(imageNamed: "Paddle96Flash"));
-        let slowWaitAction = SKAction.wait(forDuration: 0.3);
+        let slowWaitAction = SKAction.wait(forDuration: 0.2);
         let flashingPaddleAction = SKAction.sequence([flashingAction, waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
-                                                 waitAction, textureAction])
+                                                 waitAction, SKAction.run({self.texture = self.getCurrentPaddleSprite()})])
         let disappearingAction = SKAction.sequence([flashingAction, slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(),
                                                  slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(),
                                                  slowWaitAction, SKAction.hide(), slowWaitAction])
-        let reappearingDefaultAction = SKAction.sequence([SKAction.run({self.size.width = Paddle.default_paddle_width; self.applyPhysicsBody()}), defaultTextureFlashAction, SKAction.unhide(), slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(), slowWaitAction, SKAction.setTexture(default_texture)])
+        let reappearingDefaultAction = SKAction.sequence([SKAction.run({self.size.width = Paddle.default_paddle_width; self.applyPhysicsBody()}), defaultTextureFlashAction, SKAction.unhide(), slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(), slowWaitAction, SKAction.run({self.texture = self.getCurrentPaddleSprite()})])
         
         self.run(SKAction.sequence([flashingPaddleAction, SKAction.wait(forDuration: 9), disappearingAction, reappearingDefaultAction]), withKey: BigBoyActionKey)
     }
     
     public func resetPaddle() {
-        /*if (self.hasActions()) {
+        if (self.hasActions()) {
             self.removeAllActions();
-        }*/
+        }
         
         self.size.width = Paddle.default_paddle_width
         fastBallSpeed = 0;
+        isDying = false;
+        isGrowing = false;
     }
     
     private func getCurrentPaddleSprite() -> SKTexture {
@@ -277,10 +288,10 @@ class Paddle: SKSpriteNode {
                 return default_texture;
             }
             else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                // return fast ball paddle of this size
+                return SKTexture.init(imageNamed: "Paddle96Fast");
             }
             else { //Paddle.superFastBallDefaultSpeed
-                // return superfast ball paddle of this size
+                return SKTexture.init(imageNamed: "Paddle96SuperFast");
             }
         }
         else if (self.size.width < Paddle.default_paddle_width) { //Shrunk sizes
@@ -289,10 +300,10 @@ class Paddle: SKSpriteNode {
                     return smallA_texture;
                 }
                 else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                    // return fast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle72Fast");
                 }
                 else { //Paddle.superFastBallDefaultSpeed
-                    // return superfast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle72SuperFast");
                 }
             }
             else if (self.size.width == Paddle.smallB_paddle_width) {
@@ -300,10 +311,10 @@ class Paddle: SKSpriteNode {
                     return smallB_texture;
                 }
                 else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                    // return fast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle48Fast");
                 }
                 else { //Paddle.superFastBallDefaultSpeed
-                    // return superfast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle48SuperFast");
                 }
             }
             else { //Paddle.smallC_paddle_width
@@ -311,10 +322,10 @@ class Paddle: SKSpriteNode {
                     return smallC_texture;
                 }
                 else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                    // return fast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle24Fast");
                 }
                 else { //Paddle.superFastBallDefaultSpeed
-                    // return superfast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle24SuperFast");
                 }
             }
         }
@@ -324,10 +335,10 @@ class Paddle: SKSpriteNode {
                     return bigBoy_texture;
                 }
                 else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                    // return fast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle192Fast");
                 }
                 else { //Paddle.superFastBallDefaultSpeed
-                    // return superfast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle192SuperFast");
                 }
             }
             else { //SuperBigBoy width
@@ -335,14 +346,31 @@ class Paddle: SKSpriteNode {
                     return superBigBoy_texture;
                 }
                 else if (fastBallSpeed == Paddle.fastBallDefaultSpeed) {
-                    // return fast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle288Fast");
                 }
                 else { //Paddle.superFastBallDefaultSpeed
-                    // return superfast ball paddle of this size
+                    return SKTexture.init(imageNamed: "Paddle288SuperFast");
                 }
             }
         }
-        
-        return default_texture;
+    }
+    
+    private func getFlashSprite() -> SKTexture {
+        switch self.size.width {
+        case Paddle.default_paddle_width:
+            return SKTexture.init(imageNamed: "Paddle96Flash");
+        case Paddle.bigBoy_width:
+            return SKTexture.init(imageNamed: "Paddle192Flash");
+        case Paddle.superBigBoy_width:
+            return SKTexture.init(imageNamed: "Paddle288Flash")
+        case Paddle.smallA_paddle_width:
+            return SKTexture.init(imageNamed: "Paddle72Flash");
+        case Paddle.smallB_paddle_width:
+            return SKTexture.init(imageNamed: "Paddle48Flash");
+        case Paddle.smallC_paddle_width:
+            return SKTexture.init(imageNamed: "Paddle24Flash");
+        default:
+            return SKTexture.init(imageNamed: "Paddle96Flash");
+        }
     }
 }

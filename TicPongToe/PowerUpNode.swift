@@ -208,14 +208,14 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func healthBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: health booster selected");
+        //print("power up: health booster selected");
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
             scene.growLife(amount: 1);
         }
         else {
-            print("power up: enemy selected health booster");
+           // print("power up: enemy selected health booster");
             scene.ai.growLife(wait_time: 0.0);
         }
         
@@ -244,14 +244,14 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func superHealthBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: super health booster selected");
+        //print("power up: super health booster selected");
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
             scene.growLife(amount: 2);
         }
         else {
-            print("power up: enemy selected super health booster");
+            //print("power up: enemy selected super health booster");
             scene.ai.growLife(wait_time: 0.0);
             scene.ai.growLife(wait_time: 0.2);
         }
@@ -280,14 +280,14 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func fullReplenishSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: super health booster selected");
+        //print("power up: super health booster selected");
         is_selectable = false;
         let scene = self.parent as! GameScene;
         if (by.name == "main") {
             scene.growLife(amount: scene.getLivesLeft());
         }
         else {
-            print("power up: enemy selected super health booster");
+            //print("power up: enemy selected super health booster");
             var wait_time = 0.0;
             while (scene.ai.growLife(wait_time: wait_time)) {wait_time = wait_time + 0.2}
         }
@@ -317,7 +317,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func fastBallSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: fast ball selected");
+        //print("power up: fast ball selected");
         is_selectable = false;
  
         by.runFastBallPowerUp(is_super: false);
@@ -347,7 +347,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func superFastBallSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: fast ball selected");
+        //print("power up: fast ball selected");
         is_selectable = false;
         
         by.runFastBallPowerUp(is_super: true);
@@ -377,7 +377,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func bigBoyBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: Big Boy Booster selected");
+        //print("power up: Big Boy Booster selected");
         is_selectable = false;
         
         by.runBigBoyBoosterPowerUp(is_super: false);
@@ -407,7 +407,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     private func superBigBoyBoosterSelected(by: Paddle, completion: @escaping ()->Void) {
-        print("power up: Big Boy Booster selected");
+        //print("power up: Big Boy Booster selected");
         is_selectable = false;
         
         by.runBigBoyBoosterPowerUp(is_super: true);

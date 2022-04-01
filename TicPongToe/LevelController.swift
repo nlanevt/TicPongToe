@@ -41,8 +41,8 @@ class LevelController {
         
         if (level_counter == 1) {
             ai_intensity = [0.10, 0.09];
-            pu_waves = [[.health_booster, .super_big_boy_booster, .big_boy_booster],
-                        [.super_fast_ball, .fast_ball],
+            pu_waves = [[.super_big_boy_booster, .super_fast_ball, .big_boy_booster],
+                        [.super_big_boy_booster, .fast_ball, .super_fast_ball],
                         [.full_replenish, .big_boy_booster]];
             pu_wave_wait_times = [10, 5, 5];
         }
