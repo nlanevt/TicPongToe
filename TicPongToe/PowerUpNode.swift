@@ -18,12 +18,6 @@ enum powerUpType {
     case super_fast_ball;
     case big_boy_booster;
     case super_big_boy_booster;
-    case bomb_item;
-    case big_bomb_item;
-    case missile_item;
-    case big_missile_item;
-    case blaster_item;
-    case beam_item;
 }
 
 enum obstacleType {
@@ -193,8 +187,7 @@ class PowerUpNode: SKSpriteNode {
     private func healthBoosterAppear() {
         is_selectable = false;
         self.floatAnimation();
-
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "HealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -220,7 +213,7 @@ class PowerUpNode: SKSpriteNode {
         }
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "HealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -229,8 +222,7 @@ class PowerUpNode: SKSpriteNode {
     private func superHealthBoosterAppear() {
         is_selectable = false;
         self.floatAnimation();
-
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "SuperHealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -257,7 +249,7 @@ class PowerUpNode: SKSpriteNode {
         }
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "SuperHealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -266,7 +258,7 @@ class PowerUpNode: SKSpriteNode {
     private func fullReplenishAppear() {
         is_selectable = false;
         self.floatAnimation();
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "FullReplenishPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -293,7 +285,7 @@ class PowerUpNode: SKSpriteNode {
         }
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "FullReplenishPowerUp", flashName: "HealthBoosterFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -303,7 +295,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         floatAnimation();
 
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "FastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -323,7 +315,7 @@ class PowerUpNode: SKSpriteNode {
         by.runFastBallPowerUp(is_super: false);
 
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "FastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -333,7 +325,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         floatAnimation();
 
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "SuperFastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -353,7 +345,7 @@ class PowerUpNode: SKSpriteNode {
         by.runFastBallPowerUp(is_super: true);
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "SuperFastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -363,7 +355,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         floatAnimation();
 
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "BigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -383,7 +375,7 @@ class PowerUpNode: SKSpriteNode {
         by.runBigBoyBoosterPowerUp(is_super: false);
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "BigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -393,7 +385,7 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         floatAnimation();
 
-        self.run(SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeIn(withDuration: 1.0)]), completion: {
+        self.run(getAppearenceAction(textureName: "SuperBigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
             self.is_selectable = true;
             self.wait_time = 0.0;
         });
@@ -413,7 +405,7 @@ class PowerUpNode: SKSpriteNode {
         by.runBigBoyBoosterPowerUp(is_super: true);
         
         // will end up also running other background effects
-        self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
+        self.run(getDisappearenceAction(textureName: "SuperBigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
             self.removeFromParent();
             completion();
         });
@@ -440,5 +432,19 @@ class PowerUpNode: SKSpriteNode {
     
     public func getCenterPosition() -> CGPoint {
         return self.center_position;
+    }
+    
+    private func getAppearenceAction(textureName: String, flashName: String) -> SKAction {
+        let setFlashAction = SKAction.setTexture(SKTexture.init(imageNamed: flashName));
+        let setTextureAction = SKAction.setTexture(SKTexture.init(imageNamed: textureName));
+        let appearingSequenceAction = SKAction.sequence([SKAction.wait(forDuration: wait_time), SKAction.fadeAlpha(to: 0.25, duration: 0.3), setFlashAction, SKAction.wait(forDuration: 0.2), setTextureAction, SKAction.wait(forDuration: 0.2), setFlashAction, SKAction.fadeAlpha(to: 0.5, duration: 0.1), SKAction.wait(forDuration: 0.1), setTextureAction, SKAction.wait(forDuration: 0.2), setFlashAction, SKAction.fadeAlpha(to: 1.0, duration: 0.1), SKAction.wait(forDuration: 0.1), setTextureAction]);
+        return appearingSequenceAction;
+    }
+    
+    private func getDisappearenceAction(textureName: String, flashName: String) -> SKAction {
+        let setFlashAction = SKAction.setTexture(SKTexture.init(imageNamed: flashName));
+        let setTextureAction = SKAction.setTexture(SKTexture.init(imageNamed: textureName));
+        let appearingSequenceAction = SKAction.sequence([setFlashAction, SKAction.wait(forDuration: 0.05), SKAction.fadeAlpha(to: 0.5, duration: 0.05), setTextureAction, SKAction.wait(forDuration: 0.1), setFlashAction, SKAction.wait(forDuration: 0.1), setTextureAction, SKAction.wait(forDuration: 0.1), setFlashAction, SKAction.wait(forDuration: 0.05), SKAction.fadeAlpha(to: 0.0, duration: 0.05)]);
+        return appearingSequenceAction;
     }
 }

@@ -216,8 +216,8 @@
             timestampString = "571032795.670182"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "fastBallSelected(by:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -233,8 +233,8 @@
             timestampString = "571032795.670233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
             landmarkName = "fastBallSelected(by:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -284,8 +284,8 @@
             timestampString = "571032795.67038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "init(power_up_type:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -301,8 +301,8 @@
             timestampString = "571032795.670429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "init(power_up_type:)"
             landmarkType = "7">
          </BreakpointContent>
