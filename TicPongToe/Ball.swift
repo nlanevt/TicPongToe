@@ -148,9 +148,9 @@ class Ball  {
         let ballGrowAction = SKAction.animate(with: ballStartFrames, timePerFrame: 0.01)
         let startBallSequence = SKAction.sequence([waitAction, unHideAction, ballGrowAction, setBallTextureAction, waitAction]);
         
-        ball.run(startBallSequence, completion: {
-            self.ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse))
-            self.setFireBall();
+        ball.run(startBallSequence, completion: {[weak self] in
+            self!.ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse))
+            self!.setFireBall();
         })
     }
     
@@ -162,10 +162,6 @@ class Ball  {
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
     {
-        //print("paddle_speed: \(paddle_speed)")
-        
-    
-        
         var return_speed = noFastBallSpeed;
         
         
@@ -227,31 +223,32 @@ class Ball  {
         if (contact.bodyA.node?.name == "main") {
             ball.size = squashed_paddle_size;
             can_ordinate = false;
-            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleBottomTexture), SKAction.wait(forDuration: 0.015)]), completion: {
-                self.ball.size = self.default_size;
-                self.ball.texture = self.defaultBallTexture;
-                self.can_ordinate = true;
-                self.ordinateBall();
+            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleBottomTexture), SKAction.wait(forDuration: 0.015)]), completion: {[weak self] in
+                self!.ball.size = self!.default_size;
+                self!.ball.texture = self!.defaultBallTexture;
+                self!.can_ordinate = true;
+                self!.ordinateBall();
             })
         }
         else if (contact.bodyA.node?.name == "enemy") {
             ball.size = squashed_paddle_size;
             can_ordinate = false;
-            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleTopTexture), SKAction.wait(forDuration: 0.015)]), completion: {
-                self.ball.size = self.default_size;
-                self.ball.texture = self.defaultBallTexture;
-                self.can_ordinate = true;
-                self.ordinateBall();
+            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleTopTexture), SKAction.wait(forDuration: 0.015)]), completion: {[weak self] in
+                self!.ball.size = self!.default_size;
+                self!.ball.texture = self!.defaultBallTexture;
+                self!.can_ordinate = true;
+                self!.ordinateBall();
             })
         }
         else if (contact.bodyA.categoryBitMask == 3) { //MARK Wall squashing Disabled
             ball.size = squashed_wall_size;
             can_ordinate = false;
             ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(contact.contactPoint.x >= 0 ? squashedBallWallRightTexture : squashedBallWallLeftTexture), SKAction.wait(forDuration: 0.015)]), completion: {
-                self.ball.size = self.default_size;
-                self.ball.texture = self.defaultBallTexture;
-                self.can_ordinate = true;
-                self.ordinateBall();
+                [weak self] in
+                self!.ball.size = self!.default_size;
+                self!.ball.texture = self!.defaultBallTexture;
+                self!.can_ordinate = true;
+                self!.ordinateBall();
             })
         }
         else {

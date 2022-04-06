@@ -20,8 +20,14 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     private var menuFrame = SKSpriteNode();
     private var menuAnimationTop:SKSpriteNode? = nil;
     private var menuAnimationFrame:SKSpriteNode? = nil;
-    private var running = false;
+    private var running = false; //TODO: 'running' does literally nothing. may need to be removed in the future.
     private var scroller : InfiniteScrollingBackground?
+    
+    deinit {
+        //print("Deinit MenuScene")
+        self.removeAllActions()
+        self.removeAllChildren()
+    }
     
     override func didMove(to view: SKView)
     {
@@ -79,6 +85,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     
     public func updateLabels()
     {
+        //print("Menu Scene Player Labels Updated");
         HighScoreLabel.text = "\(HighScore)";
         GamesWonLabel.text = "\(NumberOfGamesWon)";
     }
@@ -111,8 +118,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             SKAction.fadeIn(withDuration: 3.0),
             SKAction.fadeOut(withDuration: 3.0)]);
         node.run(menuAnimationFramesAction,
-                                      completion: {
-                                        self.animateBackground(node: node);
+                                      completion: { [weak self] in
+                                        self!.animateBackground(node: node);
         })
     }
     

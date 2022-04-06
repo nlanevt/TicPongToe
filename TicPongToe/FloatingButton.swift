@@ -28,7 +28,7 @@ class FloatingButton: UIButton {
     public func AnimateButton() {
        // if UIView.animation
         if (!self.isAnimating) {
-            print("Button Not Animated; Starting Animation...")
+            //print("Button Not Animated; Starting Animation...")
             UIView.animate(withDuration: 1.0, delay: TimeInterval(delay),
                            options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
                            animations: {
@@ -38,7 +38,7 @@ class FloatingButton: UIButton {
             })
         }
         else {
-            print("Button already animated; cannot start animating.");
+            //print("Button already animated; cannot start animating.");
         }
         
     }

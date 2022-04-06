@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,8 +33,8 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="eLf-uQ-BjD">
                         <barButtonItem key="leftBarButtonItem" title="Quit" id="9aO-1t-PJQ">
@@ -75,30 +73,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TicPongToeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-wy-OBD">
-                                <rect key="frame" x="12.5" y="123" width="295" height="66"/>
+                                <rect key="frame" x="12.5" y="103" width="295" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="HK3-DY-coc"/>
                                     <constraint firstAttribute="width" constant="295" id="iNX-B9-3Ze"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="60" y="237" width="200" height="32"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
+                                <rect key="frame" x="60" y="217" width="200" height="32"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
                                 <state key="normal" title="Play High Score"/>
                                 <connections>
                                     <action selector="High_Score:" destination="kah-ot-ka5" eventType="touchUpInside" id="TeB-LC-khh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="86.5" y="329" width="147" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
+                                <rect key="frame" x="86.5" y="309" width="147" height="32"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
                                 <state key="normal" title="Leaderboard"/>
                                 <connections>
                                     <action selector="CheckLeaderboard:" destination="kah-ot-ka5" eventType="touchUpInside" id="NbW-er-fAo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="100" y="283" width="120" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
+                                <rect key="frame" x="100" y="263" width="120" height="32"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
                                 <state key="normal" title="Play Duel"/>
                                 <connections>
@@ -106,6 +104,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -118,7 +117,6 @@
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VRZ-7p-tyz"/>
                             <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="pRb-Xs-3Lj"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="8di-Xp-PQW"/>
                     </view>
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
                     <connections>
@@ -139,7 +137,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="314" height="212"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HsZ-X7-9Qz" userLabel="ContinueGameButton">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HsZ-X7-9Qz" userLabel="ContinueGameButton">
                                 <rect key="frame" x="52" y="127" width="211" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
@@ -150,7 +148,7 @@
                                     <action selector="ContinueGame:" destination="pS6-eI-uXl" eventType="touchUpInside" id="ldG-LG-VaF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E08-lm-SVS" userLabel="QuitGameButton">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E08-lm-SVS" userLabel="QuitGameButton">
                                 <rect key="frame" x="52" y="59" width="211" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
@@ -182,7 +180,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8r-FJ-bXN" userLabel="ReturnHomeHighScoreButton" customClass="FloatingButton" customModule="TicPongToe">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8r-FJ-bXN" userLabel="ReturnHomeHighScoreButton" customClass="FloatingButton" customModule="TicPongToe">
                                 <rect key="frame" x="16" y="162" width="282" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
@@ -193,7 +191,7 @@
                                     <action selector="ReturnHomeHighScore:" destination="pS6-eI-uXl" eventType="touchUpInside" id="oDt-zc-Z5m"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmg-kg-sRw" userLabel="ReturnHomeDuelButton" customClass="FloatingButton" customModule="TicPongToe">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmg-kg-sRw" userLabel="ReturnHomeDuelButton" customClass="FloatingButton" customModule="TicPongToe">
                                 <rect key="frame" x="16" y="91" width="282" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>

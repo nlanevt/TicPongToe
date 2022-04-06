@@ -32,6 +32,7 @@ class PowerUpNode: SKSpriteNode {
     private var wait_time:TimeInterval = 0.0;
     private var power_up_size = CGSize(width: 48.0, height: 48.0);
     private var center_position = CGPoint();
+    private var board_position:Int = -1;
     
     init(power_up_type: powerUpType) {
         type = power_up_type;
@@ -65,8 +66,6 @@ class PowerUpNode: SKSpriteNode {
             imageName = "SuperBigBoyBoosterPowerUp";
             power_up_size = CGSize(width: 64.0, height: 64.0);
             break;
-        default:
-            break
         }
         let texture = SKTexture(imageNamed: imageName);
         super.init(texture: texture, color: .clear, size: power_up_size)
@@ -82,7 +81,7 @@ class PowerUpNode: SKSpriteNode {
     }
     
     public func appear(wait_time: TimeInterval) {
-        print("power up appear: wait time \(wait_time)");
+        //print("power up appear: wait time \(wait_time)");
         self.wait_time = wait_time;
         appear();
     }
@@ -111,8 +110,6 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterAppear();
             break;
-        default:
-            break
         }
     }
     
@@ -121,7 +118,7 @@ class PowerUpNode: SKSpriteNode {
     // If its an item, assigns it to the paddle.
     // @by is the paddle/player that selected the powerup
     public func select(by: Paddle, completion: @escaping ()->Void) {
-        print("power up selected: \(type)");
+        //print("power up selected: \(type)");
         let paddle = by;
         switch self.type {
         case .health_booster:
@@ -146,8 +143,6 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterSelected(by: paddle, completion: {completion()})
             break;
-        default:
-            break
         }
     }
     
@@ -175,28 +170,28 @@ class PowerUpNode: SKSpriteNode {
         case .super_big_boy_booster:
             superBigBoyBoosterDisappear();
             break;
-        default:
-            break
         }
     }
     
     public func isSelectable() -> Bool {
-        return is_selectable;
+        return is_selectable && board_position != -1;
     }
     
     private func healthBoosterAppear() {
         is_selectable = false;
         self.floatAnimation();
         self.run(getAppearenceAction(textureName: "HealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func healthBoosterDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -214,7 +209,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "HealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -223,15 +219,17 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         self.floatAnimation();
         self.run(getAppearenceAction(textureName: "SuperHealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func superHealthBoosterDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -250,7 +248,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "SuperHealthBoosterPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -259,15 +258,17 @@ class PowerUpNode: SKSpriteNode {
         is_selectable = false;
         self.floatAnimation();
         self.run(getAppearenceAction(textureName: "FullReplenishPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func fullReplenishDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -286,7 +287,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "FullReplenishPowerUp", flashName: "HealthBoosterFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -296,15 +298,17 @@ class PowerUpNode: SKSpriteNode {
         floatAnimation();
 
         self.run(getAppearenceAction(textureName: "FastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func fastBallDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -316,7 +320,8 @@ class PowerUpNode: SKSpriteNode {
 
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "FastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -326,15 +331,17 @@ class PowerUpNode: SKSpriteNode {
         floatAnimation();
 
         self.run(getAppearenceAction(textureName: "SuperFastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func superFastBallDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -346,7 +353,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "SuperFastBallPowerUp", flashName: "FastBallPowerUpFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -356,15 +364,17 @@ class PowerUpNode: SKSpriteNode {
         floatAnimation();
 
         self.run(getAppearenceAction(textureName: "BigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func bigBoyBoosterDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -376,7 +386,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "BigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -386,15 +397,17 @@ class PowerUpNode: SKSpriteNode {
         floatAnimation();
 
         self.run(getAppearenceAction(textureName: "SuperBigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
-            self.is_selectable = true;
-            self.wait_time = 0.0;
+            [weak self] in
+            self!.is_selectable = true;
+            self!.wait_time = 0.0;
         });
     }
     
     private func superBigBoyBoosterDisappear() {
         is_selectable = false;
         self.run(SKAction.fadeOut(withDuration: 1.0), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
         });
     }
     
@@ -406,7 +419,8 @@ class PowerUpNode: SKSpriteNode {
         
         // will end up also running other background effects
         self.run(getDisappearenceAction(textureName: "SuperBigBoyBoosterPowerUp", flashName: "BigBoyBoosterPowerUpFlash"), completion: {
-            self.removeFromParent();
+            [weak self] in
+            self!.removeFromParent();
             completion();
         });
     }
@@ -430,8 +444,16 @@ class PowerUpNode: SKSpriteNode {
         self.position = center_position;
     }
     
+    public func setBoardPosition(position: Int) {
+        self.board_position = position;
+    }
+    
     public func getCenterPosition() -> CGPoint {
         return self.center_position;
+    }
+    
+    public func getBoardPosition() -> Int {
+        return board_position;
     }
     
     private func getAppearenceAction(textureName: String, flashName: String) -> SKAction {

@@ -47,8 +47,8 @@ class AI {
     private var ai_life_texture:SKTexture = SKTexture.init(imageNamed: "AILife");
     private var ai_life_size:CGSize = CGSize.init(width: 7, height: 20);
     
-    private var game_scene:GameScene? = nil;
-    private var level_controller:LevelController!
+    private weak var game_scene:GameScene? = nil;
+    private weak var level_controller:LevelController!
     
     init(scene: GameScene, level_controller: LevelController, ball: SKSpriteNode, ai: SKSpriteNode) {
         ai_lives_left = level_controller.getAILivesAmount();
@@ -148,7 +148,18 @@ class AI {
     // Determine what position on the board the AI will choose
     func selectBoardPosition(board: inout [Int]) -> Int
     {
+        //Start by checking and getting a powerup node
         var position = 0;
+        if (level_controller.mayAISelectPowerUp()) {
+            position = getRandomPowerUpPosition(board: board, power_ups: level_controller.getCurrentPowerUps(), squaresArray: game_scene!.squaresArray);
+            if (position != -1) {
+                return position;
+            }
+            else {
+                position = 0;
+            }
+        }
+        
         var b = [0, 0, 0];
         let selections = rows.shuffled();
         for r in selections {
@@ -311,5 +322,19 @@ class AI {
     private func chaseCenter()
     {
         ai?.run(SKAction.moveTo(x: ball!.position.x, duration: speed))
+    }
+    
+    private func getRandomPowerUpPosition(board: [Int], power_ups: [PowerUpNode], squaresArray: [SKSpriteNode]) -> Int {
+        if (squaresArray.count != board.count) {return -1};
+        
+        let shuffledPowerUps = power_ups.shuffled();
+        for power_up in shuffledPowerUps {
+            let position = power_up.getBoardPosition();
+            if (power_up.isSelectable() && board[position] == 0) {
+                return position;
+            }
+        }
+        
+        return -1;
     }
 }

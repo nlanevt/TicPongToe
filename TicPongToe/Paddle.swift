@@ -100,8 +100,9 @@ class Paddle: SKSpriteNode {
         let deathAction = SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025);
         self.size.width = 256;
         self.run(deathAction, completion: {
-            self.isHidden = true;
-            self.physicsBody = nil;
+            [weak self] in
+            self!.isHidden = true;
+            self!.physicsBody = nil;
         })
     }
     
@@ -115,8 +116,9 @@ class Paddle: SKSpriteNode {
         self.texture = paddleDeathFrames[0];
         self.size.width = 256;
         self.run(SKAction.sequence([SKAction.unhide(), SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025)]), completion: {
-            self.resetPaddle();
-            self.isDying = false;
+            [weak self] in
+            self!.resetPaddle();
+            self!.isDying = false;
             completion();
         })
     }
@@ -126,9 +128,10 @@ class Paddle: SKSpriteNode {
         resetPaddle();
         isGrowing = true;
         self.run(SKAction.sequence([SKAction.unhide(), SKAction.animate(with: paddleGrowthFrames, timePerFrame: 0.01), SKAction.setTexture(default_texture)]), completion: {
-            self.resetPaddle();
-            self.isGrowing = false;
-            self.applyPhysicsBody();
+            [weak self] in
+            self!.resetPaddle();
+            self!.isGrowing = false;
+            self!.applyPhysicsBody();
             completion();
         })
     }
@@ -168,8 +171,9 @@ class Paddle: SKSpriteNode {
         
         let shrinkSequence = SKAction.sequence([shrinkAction!, setFinalPaddleTextureAction!]);
         self.run(shrinkSequence, completion: {
-            self.size.width = self.size.width - self.paddle_size_decrement;
-            self.applyPhysicsBody();
+            [weak self] in
+            self!.size.width = self!.size.width - self!.paddle_size_decrement;
+            self!.applyPhysicsBody();
         })
     }
     
@@ -202,7 +206,8 @@ class Paddle: SKSpriteNode {
         self.size.width = self.size.width + self.paddle_size_decrement;
         let growSequence = SKAction.sequence([growAction!, setFinalPaddleTextureAction!]);
         self.run(growSequence, completion: {
-            self.applyPhysicsBody();
+            [weak self] in
+            self!.applyPhysicsBody();
         })
     }
     
@@ -221,14 +226,13 @@ class Paddle: SKSpriteNode {
         
         fastBallSpeed = is_super ? Paddle.superFastBallDefaultSpeed : Paddle.fastBallDefaultSpeed;
         
-        //let flashingAction = SKAction.setTexture(SKTexture.init(imageNamed: "Paddle96Flash")); //replace with method that gets the flashing paddle for the given size.
-        let flashingAction = SKAction.run({self.texture = self.getFlashSprite()});
-        let setTextureAction = SKAction.run({self.texture = self.getCurrentPaddleSprite()});
+        let flashingAction = SKAction.run({[weak self] in self!.texture = self!.getFlashSprite()});
+        let setTextureAction = SKAction.run({[weak self] in self!.texture = self!.getCurrentPaddleSprite()});
         let waitAction = SKAction.wait(forDuration: 0.1);
         
         let appearingAction = SKAction.sequence([flashingAction, waitAction, setTextureAction]);
     
-        self.run(SKAction.sequence([appearingAction, waitAction, appearingAction, SKAction.wait(forDuration: 10), appearingAction, waitAction, flashingAction, waitAction, SKAction.run({self.fastBallSpeed = 0}), setTextureAction]), withKey: FastBallActionKey);
+        self.run(SKAction.sequence([appearingAction, waitAction, appearingAction, SKAction.wait(forDuration: 10), appearingAction, waitAction, flashingAction, waitAction, SKAction.run({[weak self] in self!.fastBallSpeed = 0}), setTextureAction]), withKey: FastBallActionKey);
     }
     
     public func checkIfFastBall() -> Bool {
@@ -262,11 +266,11 @@ class Paddle: SKSpriteNode {
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
                                                  waitAction, SKAction.hide(), waitAction, SKAction.unhide(),
-                                                 waitAction, SKAction.run({self.texture = self.getCurrentPaddleSprite()})])
+                                                 waitAction, SKAction.run({[weak self] in self!.texture = self!.getCurrentPaddleSprite()})])
         let disappearingAction = SKAction.sequence([flashingAction, slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(),
                                                  slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(),
                                                  slowWaitAction, SKAction.hide(), slowWaitAction])
-        let reappearingDefaultAction = SKAction.sequence([SKAction.run({self.size.width = Paddle.default_paddle_width; self.applyPhysicsBody()}), defaultTextureFlashAction, SKAction.unhide(), slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(), slowWaitAction, SKAction.run({self.texture = self.getCurrentPaddleSprite()})])
+        let reappearingDefaultAction = SKAction.sequence([SKAction.run({[weak self] in self!.size.width = Paddle.default_paddle_width; self!.applyPhysicsBody()}), defaultTextureFlashAction, SKAction.unhide(), slowWaitAction, SKAction.hide(), slowWaitAction, SKAction.unhide(), slowWaitAction, SKAction.run({[weak self] in self!.texture = self!.getCurrentPaddleSprite()})])
         
         self.run(SKAction.sequence([flashingPaddleAction, SKAction.wait(forDuration: 9), disappearingAction, reappearingDefaultAction]), withKey: BigBoyActionKey)
     }

@@ -16,16 +16,18 @@ import GameplayKit
 class LevelController {
     private var level_counter:Int64 = 1;
     private var scroller:InfiniteScrollingBackground? = nil;
-    private var game_scene:GameScene!       //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
+    private weak var game_scene:GameScene!       //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
     private var ai_lives_increase_array:[Int] = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54];
     private var ai_lives_amount = 3;
+    private var ai_intensity:[Double] = [0.08];
+    private var ai_may_select_powerup = false;
     
     private var power_ups = [PowerUpNode]();
     private var pu_waves = [[powerUpType]]();
     private var pu_wave_wait_times = [TimeInterval]();
     private var pu_wave_iterator = 0;
     
-    private var ai_intensity:[Double] = [0.08];
+    
     
     private var player:Paddle!;
 
@@ -45,47 +47,64 @@ class LevelController {
                         [.super_fast_ball, .full_replenish, .big_boy_booster],
                         [.full_replenish, .big_boy_booster]];
             pu_wave_wait_times = [10, 5, 5];
+            ai_may_select_powerup = true;
         }
-        else if (1 < level_counter && level_counter < 4) {
+        else if (level_counter <= 3) {
             ai_intensity = [0.10, 0.09];
             pu_waves = [[.super_health_booster, .fast_ball, .super_big_boy_booster],
                         [.full_replenish, .super_fast_ball, .big_boy_booster],
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
+            ai_may_select_powerup = false;
         }
-        else if (4 <= level_counter && level_counter < 7) {
+        else if (level_counter <= 6) {
             ai_intensity = [0.09, 0.08];
             pu_waves = [[.super_health_booster, .super_fast_ball, .super_big_boy_booster],
                         [.full_replenish, .fast_ball, .big_boy_booster],
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
         }
-        else if (7 <= level_counter && level_counter < 11) {
+        else if (level_counter <= 9) {
             ai_intensity = [0.08, 0.07, 0.06];
         }
-        else if (12 <= level_counter && level_counter < 16) {
+        else if (level_counter == 10) {
+            
+        }
+        else if (level_counter <= 15) {
             ai_intensity = [0.07, 0.06];
         }
-        else if (16 <= level_counter && level_counter < 21) {
+        else if (level_counter <= 19) {
             ai_intensity = [0.07, 0.06, 0.05];
         }
-        else if (21 <= level_counter && level_counter < 26) {
-            ai_intensity = [0.06, 0.0];
+        else if (level_counter == 20) {
+            
         }
-        else if (26 <= level_counter && level_counter < 31) {
-            ai_intensity = [0.08, 0.07, 0.06];
+        else if (level_counter <= 25) {
+            ai_intensity = [0.07, 0.06];
         }
-        else if (31 <= level_counter && level_counter < 36) {
-            ai_intensity = [0.08, 0.07, 0.06];
+        else if (level_counter <= 29) {
+            ai_intensity = [0.07, 0.06, 0.05];
         }
-        else if (36 <= level_counter && level_counter < 41) {
-            ai_intensity = [0.08, 0.07, 0.06];
+        else if (level_counter == 30) {
+            
         }
-        else if (41 <= level_counter && level_counter < 46) {
-            ai_intensity = [0.08, 0.07, 0.06];
+        else if (level_counter <= 35) {
+            ai_intensity = [0.07, 0.06];
         }
-        else if (46 <= level_counter && level_counter < 51) {
-            ai_intensity = [0.08, 0.07, 0.06];
+        else if (level_counter <= 39) {
+            ai_intensity = [0.07, 0.06, 0.05];
+        }
+        else if (level_counter == 40) {
+            
+        }
+        else if (level_counter <= 45) {
+            ai_intensity = [0.07, 0.06];
+        }
+        else if (level_counter <= 49) {
+            ai_intensity = [0.07, 0.06, 0.05];
+        }
+        else if (level_counter == 50) {
+            
         }
         else {
             ai_intensity = [0.05, 0.04, 0.03];
@@ -102,9 +121,12 @@ class LevelController {
         if (pu_wave_iterator >= pu_waves.count || !power_ups.isEmpty) {return}
         
         for pu_type in pu_waves[pu_wave_iterator] {
-            if (power_ups.count > game_scene.squaresArray.count) {break}; // Don't allow more than 6 powerups per wave.
+            if (power_ups.count > game_scene.squaresArray.count) {break}; // Don't allow more than 9 powerups per wave.
             let power_up = PowerUpNode(power_up_type: pu_type);
             power_up.setCenterPosition(position: getFreePowerUpPosition());
+            let board_position = getPowerUpBoardPosition(power_up: power_up);
+            if (board_position < 0) {break}; // Don't allow bad board positions to be added
+            power_up.setBoardPosition(position: board_position);
             power_up.zPosition = -1.5;
             game_scene.addChild(power_up);
             power_ups.append(power_up);
@@ -142,6 +164,19 @@ class LevelController {
         return position;
     }
     
+    /*
+     * Needed for now but may need refactoring with getFreePowerUpPosition, since it seems its doing exxcess work.
+     */
+    private func getPowerUpBoardPosition(power_up: PowerUpNode) -> Int {
+        for (index,square) in game_scene.squaresArray.enumerated() {
+            if (square.position.equalTo(power_up.getCenterPosition())) {
+                return index;
+            }
+        }
+        
+        return -1;
+    }
+    
     
     public func clearLevelItems() {
         if (!power_ups.isEmpty) {
@@ -175,12 +210,16 @@ class LevelController {
         return ai_lives_amount;
     }
     
-    public func checkPlayerStageSelect(paddle: Paddle, square: SKSpriteNode) {
+    public func mayAISelectPowerUp() -> Bool {
+        return ai_may_select_powerup;
+    }
+    
+    public func checkStageSelect(paddle: Paddle, square: SKSpriteNode) {
         selectPowerUp(paddle: paddle, square: square);
     }
     
-    public func checkEnemyStageSelect(paddle: Paddle, square: SKSpriteNode) {
-        selectPowerUp(paddle: paddle, square: square);
+    public func getCurrentPowerUps() -> [PowerUpNode] {
+        return power_ups;
     }
     
     private func selectPowerUp(paddle: Paddle, square: SKSpriteNode) {

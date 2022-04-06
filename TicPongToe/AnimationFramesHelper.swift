@@ -12,34 +12,34 @@ import GameplayKit
 import UIKit
 
 class AnimationFramesHelper {
-    private var paddleDeathFrames: [SKTexture] = [];
-    private var paddle96ShrinkFrames: [SKTexture] = [];
-    private var paddle72ShrinkFrames: [SKTexture] = [];
-    private var paddle48ShrinkFrames: [SKTexture] = [];
-    private var paddle24GrowFrames: [SKTexture] = [];
-    private var paddle48GrowFrames: [SKTexture] = [];
-    private var paddle72GrowFrames: [SKTexture] = [];
-    private var ballStartFrames: [SKTexture] = [];
-    public var lifeShrinkFrames:[SKTexture] = [];
-    public var lifeGrowFrames:[SKTexture] = [];
-    private var hitWallFrames:[SKTexture] = [];
-    private var hitPaddleFrames:[SKTexture] = [];
-    private var paddleGrowthFrames:[SKTexture] = [];
-    private var fireBallAFrames:[SKTexture] = [];
-    private var fireBallBFrames:[SKTexture] = [];
-    public var fireBallCFrames:[SKTexture] = [];
-    public var scoreExplosionAFrames:[SKTexture] = [];
-    public var scoreExplosionBFrames:[SKTexture] = [];
-    public var hitWallBFrames:[SKTexture] = [];
-    public var hitWallCFrames:[SKTexture] = [];
-    public var lifeDeathAFrames:[SKTexture] = [];
-    public var lifeDeathBFrames:[SKTexture] = [];
-    public var lifeGrowAFrames:[SKTexture] = [];
-    public var lifeGrowBFrames:[SKTexture] = [];
-    public var lifeGrowFullFrames:[SKTexture] = [];
-    public var timerImageFrames:[SKTexture] = [];
-    public var hitPaddleBFrames:[SKTexture] = [];
-    public var hitPaddleCFrames:[SKTexture] = [];
+    private var paddleDeathFrames:[SKTexture]? = [];
+    private var paddle96ShrinkFrames:[SKTexture]? = [];
+    private var paddle72ShrinkFrames:[SKTexture]? = [];
+    private var paddle48ShrinkFrames:[SKTexture]? = [];
+    private var paddle24GrowFrames:[SKTexture]? = [];
+    private var paddle48GrowFrames:[SKTexture]? = [];
+    private var paddle72GrowFrames:[SKTexture]? = [];
+    private var ballStartFrames:[SKTexture]? = [];
+    public var lifeShrinkFrames:[SKTexture]? = [];
+    public var lifeGrowFrames:[SKTexture]? = [];
+    private var hitWallFrames:[SKTexture]? = [];
+    private var hitPaddleFrames:[SKTexture]? = [];
+    private var paddleGrowthFrames:[SKTexture]? = [];
+    private var fireBallAFrames:[SKTexture]? = [];
+    private var fireBallBFrames:[SKTexture]? = [];
+    public var fireBallCFrames:[SKTexture]? = [];
+    public var scoreExplosionAFrames:[SKTexture]? = [];
+    public var scoreExplosionBFrames:[SKTexture]? = [];
+    public var hitWallBFrames:[SKTexture]? = [];
+    public var hitWallCFrames:[SKTexture]? = [];
+    public var lifeDeathAFrames:[SKTexture]? = [];
+    public var lifeDeathBFrames:[SKTexture]? = [];
+    public var lifeGrowAFrames:[SKTexture]? = [];
+    public var lifeGrowBFrames:[SKTexture]? = [];
+    public var lifeGrowFullFrames:[SKTexture]? = [];
+    public var timerImageFrames:[SKTexture]? = [];
+    public var hitPaddleBFrames:[SKTexture]? = [];
+    public var hitPaddleCFrames:[SKTexture]? = [];
 
     private var sceneHeight:CGFloat = 0.0;
     private var backgroundNodeA1:SKSpriteNode? = nil;
@@ -59,12 +59,12 @@ class AnimationFramesHelper {
         paddle96ShrinkFrames = buildAnimation(textureAtlasName: "Paddle96Shrink");
         paddle72ShrinkFrames = buildAnimation(textureAtlasName: "Paddle72Shrink");
         paddle48ShrinkFrames = buildAnimation(textureAtlasName: "Paddle48Shrink");
-        paddle24GrowFrames = paddle48ShrinkFrames.reversed();
-        paddle48GrowFrames = paddle72ShrinkFrames.reversed();
-        paddle72GrowFrames = paddle96ShrinkFrames.reversed();
+        paddle24GrowFrames = paddle48ShrinkFrames!.reversed();
+        paddle48GrowFrames = paddle72ShrinkFrames!.reversed();
+        paddle72GrowFrames = paddle96ShrinkFrames!.reversed();
         ballStartFrames = buildAnimation(textureAtlasName: "BallStart");
         lifeShrinkFrames = buildAnimation(textureAtlasName: "LifeShrink");
-        lifeGrowFrames = lifeShrinkFrames.reversed();
+        lifeGrowFrames = lifeShrinkFrames!.reversed();
         hitWallFrames = buildAnimation(textureAtlasName: "HitWallAnimation");
         hitWallBFrames = buildAnimation(textureAtlasName: "HitWallAnimationB");
         hitWallCFrames = buildAnimation(textureAtlasName: "HitWallAnimationC");
@@ -89,82 +89,82 @@ class AnimationFramesHelper {
     
     public func getScoreExplosionAFrames() -> [SKTexture]
     {
-        return scoreExplosionAFrames;
+        return scoreExplosionAFrames!;
     }
     
     public func getFireBallBFrames() -> [SKTexture]
     {
-        return fireBallBFrames;
+        return fireBallBFrames!;
     }
     
     public func getFireBallAFrames() -> [SKTexture]
     {
-        return fireBallAFrames;
+        return fireBallAFrames!;
     }
     
     public func getPaddleGrowthFrames() -> [SKTexture]
     {
-        return paddleGrowthFrames;
+        return paddleGrowthFrames!;
     }
     
     public func getPaddleDeathFrames() -> [SKTexture]
     {
-        return paddleDeathFrames;
+        return paddleDeathFrames!;
     }
     
     public func getHitPaddleFrames() -> [SKTexture]
     {
-        return hitPaddleFrames;
+        return hitPaddleFrames!;
     }
     
     public func getHitWallFrames() -> [SKTexture]
     {
-        return hitWallFrames;
+        return hitWallFrames!;
     }
     
     public func getLifeGrowFrames() -> [SKTexture]
     {
-        return lifeGrowFrames;
+        return lifeGrowFrames!;
     }
     
     public func getLifeShrinkFrames() -> [SKTexture]
     {
-        return lifeShrinkFrames
+        return lifeShrinkFrames!;
     }
     
     public func getBallStartFrames() -> [SKTexture]
     {
-        return ballStartFrames
+        return ballStartFrames!;
     }
     
     public func getPaddle72GrowFrames() -> [SKTexture]
     {
-        return paddle72GrowFrames;
+        return paddle72GrowFrames!;
     }
     
     public func getPaddle48GrowFrames() -> [SKTexture]
     {
-        return paddle48GrowFrames;
+        return paddle48GrowFrames!;
     }
     
     public func getPaddle24GrowFrames() -> [SKTexture]
     {
-        return paddle24GrowFrames;
+        return paddle24GrowFrames!;
     }
     
     public func getPaddle48ShrinkFrames() -> [SKTexture]
     {
-        return paddle48ShrinkFrames;
+        return paddle48ShrinkFrames!;
     }
     
     public func getPaddle96ShrinkFrames() -> [SKTexture]
     {
-        return paddle96ShrinkFrames;
+        return paddle96ShrinkFrames!;
     }
     
     public func getPaddle72ShrinkFrames() -> [SKTexture]
     {
-        return paddle72ShrinkFrames
+        return paddle72ShrinkFrames!;
     }
     
     private func buildAnimation(textureAtlasName: String) -> [SKTexture]
@@ -178,5 +178,36 @@ class AnimationFramesHelper {
         }
         
         return frames;
+    }
+    
+    public func cleanGameSceneAnimations() {
+        paddleDeathFrames = nil;
+        paddle96ShrinkFrames = nil;
+        paddle72ShrinkFrames = nil;
+        paddle48ShrinkFrames = nil;
+        paddle24GrowFrames = nil;
+        paddle48GrowFrames = nil;
+        paddle72GrowFrames = nil;
+        ballStartFrames = nil;
+        lifeShrinkFrames = nil;
+        lifeGrowFrames = nil;
+        hitWallFrames = nil;
+        hitWallBFrames = nil;
+        hitWallCFrames = nil;
+        hitPaddleFrames = nil;
+        paddleGrowthFrames = nil;
+        fireBallAFrames = nil;
+        fireBallBFrames = nil;
+        fireBallCFrames = nil;
+        scoreExplosionAFrames = nil;
+        scoreExplosionBFrames = nil;
+        lifeDeathAFrames = nil;
+        lifeDeathBFrames = nil;
+        lifeGrowAFrames = nil;
+        lifeGrowBFrames = nil;
+        lifeGrowFullFrames = nil;
+        hitPaddleBFrames = nil;
+        hitPaddleCFrames = nil;
+        timerImageFrames = nil;
     }
 }

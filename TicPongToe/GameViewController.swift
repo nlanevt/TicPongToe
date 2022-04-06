@@ -10,14 +10,11 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-var currentGameType = gameType.high_score;
-var GameViewControl:GameViewController? = nil;
-
 class GameViewController: UIViewController {
 
 
     @IBOutlet weak var PauseView: UIView!
-    private var gameScene:GameScene? = nil;
+    private weak var gameScene:GameScene? = nil;
     private var gameScenePaused = false;
     
     override func viewDidLoad() {
@@ -48,7 +45,7 @@ class GameViewController: UIViewController {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFit
 
-                GameViewControl = self;
+                //GameViewControl = self;
                 gameScene = scene as? GameScene;
                 
                 PauseView.isHidden = true;
@@ -127,6 +124,13 @@ class GameViewController: UIViewController {
         UIView.animate(withDuration: 0.25, animations: {
             self.PauseView.alpha = 1.0
         })
+    }
+    
+    public func cleanGameScene() {
+        gameScene?.removeAllActions()
+        gameScene?.removeAllChildren()
+        gameScene?.removeFromParent()
+        gameScene = nil;
     }
     
     //override func applicationD

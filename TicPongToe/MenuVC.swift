@@ -23,24 +23,15 @@ var NumberOfGamesWon:Int64 = 0;
 var NumberOfGamesPlayed:Int64 = 0;
 var isPurchased = false;
 
-var HighScoreButtonPosition:CGPoint? = nil;
-var DuelButtonPosition:CGPoint? = nil;
-var LeaderboardButtonPosition:CGPoint? = nil;
-
-var ReturnHomeHighScoreButtonPosition:CGPoint? = nil;
-var ReturnHomeDuelButtonPosition:CGPoint? = nil;
-
-var homescreen = false;
-
-var ad_counter = 0;
-var ad_trigger = 1;
+weak var GameViewControl:GameViewController? = nil;
+var currentGameType = gameType.high_score;
 
 enum gameType {
     case duel
     case high_score
 }
 
-class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitialDelegate {
+class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
     /* Variables */
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
@@ -48,11 +39,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "com.ticpongtoe.highscore"
     
-    private var menuScene:MenuScene? = nil;
-    public var running = false;
+    public var menuScene:MenuScene? = nil;
+    public var running = false; //TODO: 'running' does literally nothing. may need to be removed in the future.
+    private var homescreen = false;
     
-    public var interstitial: GADInterstitial!
-    public var request: GADRequest!
+    //Ad information
+    private var banner: GADBannerView!
+    private var BANNER_AD_ID = "ca-app-pub-2893925630884266/5717842874";
+    private var BANNER_TEST_ID = "ca-app-pub-3940256099942544/2934735716";
     
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -79,18 +73,10 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         {
             NotificationCenter.default.addObserver(
                 self,
-                selector: #selector(applicationDidBecomeActive(notification:)),
-                name: NSNotification.Name.UIApplicationDidBecomeActive,
-                object: nil)
-            
-            NotificationCenter.default.addObserver(
-                self,
                 selector: #selector(applicationDidEnterBackground(notification:)),
                 name: NSNotification.Name.UIApplicationDidEnterBackground,
                 object: nil)
-            
-            interstitial = createAndLoadInterstitial(); // MARK
-            
+                        
             MenuViewControl = self;
             loadScores(); // Get the scores from CORE Data
             AnimationFramesManager = AnimationFramesHelper();
@@ -111,6 +97,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
             
             homescreen = true;
+            createAndLoadBanner();
             
             MenuViewControl?.HighScoreButton.setDelay(delay: 0.0);
             MenuViewControl?.DuelButton.setDelay(delay: 0.25);
@@ -204,10 +191,9 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
     func moveToGame(game : gameType) {
         self.view.layer.removeAllAnimations()
         homescreen = false;
-        menuScene?.stopMenuAnimations(); // Doesn't really do anything
-        let gameVC = self.storyboard?.instantiateViewController(withIdentifier: "gameVC") as! GameViewController;
+        GameViewControl = self.storyboard?.instantiateViewController(withIdentifier: "gameVC") as? GameViewController;
         currentGameType = game;
-        self.navigationController?.pushViewController(gameVC, animated: true)
+        self.navigationController?.pushViewController(GameViewControl!, animated: true)
     }
     
     public func setUpPauseView()
@@ -253,11 +239,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         }
     }
     
-    public func updateMenuSceneLabels()
-    {
-        menuScene?.updateLabels()
-    }
-    
     public func loadScores()
     {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
@@ -296,6 +277,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         }
         else
         {
+            //print("Player data loaded");
             player = players.last;
             HighScore = (player?.value(forKeyPath: "high_score") as? Int64)!;
             NumberOfGamesWon = (player?.value(forKeyPath: "games_won") as? Int64)!;
@@ -372,12 +354,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         self.navigationController?.popViewController(animated: true);
         
         homescreen = true;
+        GameViewControl?.cleanGameScene();
         GameViewControl = nil;
-    
-        MenuViewControl?.updateMenuSceneLabels();
-        menuScene?.startMenuAnimations();
-    
-        MenuViewControl?.showAd(); // needs to occur after MenuViewControl?.AnimateButtons(); otherwise there will be an issue where 'running' boolean will be set to true, causing the animations to run when they shouldn't, freezing the buttons after dismissing the ad.
+        AnimationFramesManager?.cleanGameSceneAnimations();
+        
+        MenuViewControl!.menuScene?.updateLabels()
+        MenuViewControl!.menuScene?.startMenuAnimations();
     }
     
     private func IncreaseNumberOfGamesPlayed()
@@ -419,67 +401,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
-    @objc func applicationDidBecomeActive(notification: NSNotification) {
-        if (MenuViewControl?.running == false && homescreen == true)
-        {
-            if (MenuViewControl?.interstitial.hasBeenUsed == false && MenuViewControl?.interstitial.isReady == false)
-            {
-                MenuViewControl?.request = GADRequest();
-                MenuViewControl?.interstitial.load(request);
-            }
-        }
-    }
-    
     @objc func applicationDidEnterBackground(notification: NSNotification) {
         MenuViewControl?.running = false;
-    }
-    
-    public func showAd()
-    {
-        ad_counter = ad_counter + 1;
-        if (ad_counter >= ad_trigger)
-        //if (true)
-        {
-            if interstitial.isReady {
-                running = false; // should only be the MenuViewControl calling this.
-                ad_counter = 0;
-                ad_trigger = Int(arc4random_uniform(2)) + 1;
-                interstitial.present(fromRootViewController: self)
-            } else {
-                print("Ad wasn't ready")
-                request = GADRequest();
-                interstitial.load(request);
-            }
-        }
-    }
-    
-    public func createAndLoadInterstitial() -> GADInterstitial {
-        //print("loading interstitial ad")
-        request = GADRequest();
-        
-        // Possibley will be used later for localizing ads.
-        /*if let currentLocation = locationManager.location {
-            request.setLocationWithLatitude(CGFloat(currentLocation.coordinate.latitude),
-                                            longitude: CGFloat(currentLocation.coordinate.longitude),
-                                            accuracy: CGFloat(currentLocation.horizontalAccuracy))
-        }*/
-        
-        // The Real Home Screen Full Page Promo ID: ca-app-pub-2893925630884266/1391968647
-        // The Test ID: ca-app-pub-3940256099942544/4411468910
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910"); // DeployMark
-       // let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2893925630884266/1391968647");
-        interstitial.delegate = self
-        interstitial.load(request);
-        
-        return interstitial;
-    }
-    
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        interstitial = createAndLoadInterstitial();
-        MenuViewControl?.HighScoreButton.AnimateButton();
-        MenuViewControl?.DuelButton.AnimateButton();
-        MenuViewControl?.LeaderboardButton.AnimateButton();
-        // Needed in the event that ad is still open when the user exists the app then re-enters it. The animation buttons still need to be run.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -487,5 +410,44 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADInterstitial
         MenuViewControl?.HighScoreButton.AnimateButton();
         MenuViewControl?.DuelButton.AnimateButton();
         MenuViewControl?.LeaderboardButton.AnimateButton();
+    }
+    
+    private func createAndLoadBanner() {
+        //instantiate the banner with random ad size.
+        if (!homescreen) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
+        banner = GADBannerView(adSize: Int(arc4random_uniform(UInt32(2))) > 0 ? GADAdSizeMediumRectangle : GADAdSizeLargeBanner)
+        banner.delegate = self;
+        banner.adUnitID = BANNER_TEST_ID;
+        banner.rootViewController = self;
+        banner.load(GADRequest())
+    }
+    
+    private func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        view.addConstraints(
+          [NSLayoutConstraint(item: bannerView,
+                              attribute: .bottom,
+                              relatedBy: .equal,
+                              toItem: bottomLayoutGuide,
+                              attribute: .top,
+                              multiplier: 1,
+                              constant: 0),
+           NSLayoutConstraint(item: bannerView,
+                              attribute: .centerX,
+                              relatedBy: .equal,
+                              toItem: view,
+                              attribute: .centerX,
+                              multiplier: 1,
+                              constant: 0)
+          ])
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+      bannerView.alpha = 0
+      addBannerViewToView(banner);
+      UIView.animate(withDuration: 1, animations: {
+        bannerView.alpha = 1
+      })
     }
 }
