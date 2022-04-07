@@ -21,6 +21,8 @@
 		97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ABC7DD208D2BD600B12608 /* MenuVC.swift */; };
 		97BAB39920B4FB2400499B93 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BAB39820B4FB2400499B93 /* AI.swift */; };
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
+		97CDC09E27FF2E67001A3D35 /* PowerUpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */; };
+		97CDC0A027FF316C001A3D35 /* BounceSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC09F27FF316C001A3D35 /* BounceSound.wav */; };
 		97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D29FD02184E18D00982FB8 /* FloatingButton.swift */; };
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
@@ -75,6 +77,8 @@
 		97ABC7DD208D2BD600B12608 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		97BAB39820B4FB2400499B93 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
+		97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PowerUpSound.wav; sourceTree = "<group>"; };
+		97CDC09F27FF316C001A3D35 /* BounceSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BounceSound.wav; sourceTree = "<group>"; };
 		97D29FD02184E18D00982FB8 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -159,6 +163,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		97CDC09C27FF2E34001A3D35 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				97CDC09F27FF316C001A3D35 /* BounceSound.wav */,
+				97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		97F15CEB203B96520034C113 = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +196,7 @@
 		97F15CF6203B96520034C113 /* TicPongToe */ = {
 			isa = PBXGroup;
 			children = (
+				97CDC09C27FF2E34001A3D35 /* Audio */,
 				9798EC262159D51300099502 /* InfiniteScrollingBackground.swift */,
 				97097E702118F0F6005CB2EA /* Images */,
 				97BD9F6A20FBFAF9008D8E46 /* Extensions */,
@@ -354,9 +368,11 @@
 				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
 				97F15D03203B96520034C113 /* Main.storyboard in Resources */,
+				97CDC09E27FF2E67001A3D35 /* PowerUpSound.wav in Resources */,
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
 				97097E6C2118E4B7005CB2EA /* LaunchScreen.storyboard in Resources */,
 				97F15CFA203B96520034C113 /* GameScene.sks in Resources */,
+				97CDC0A027FF316C001A3D35 /* BounceSound.wav in Resources */,
 				97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */,
 				978AD0832118BD720017173D /* manaspc.ttf in Resources */,
 				978AD0822118BD6F0017173D /* ARCADECLASSIC.TTF in Resources */,

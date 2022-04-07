@@ -16,7 +16,7 @@ import GameplayKit
 class LevelController {
     private var level_counter:Int64 = 1;
     private var scroller:InfiniteScrollingBackground? = nil;
-    private weak var game_scene:GameScene!       //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
+    private weak var game_scene:GameScene!  //   4  5  6  7   8   9   10  11  12  13  14  15  16  17  18  19  20  21
     private var ai_lives_increase_array:[Int] = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54];
     private var ai_lives_amount = 3;
     private var ai_intensity:[Double] = [0.08];
@@ -48,6 +48,7 @@ class LevelController {
                         [.full_replenish, .big_boy_booster]];
             pu_wave_wait_times = [10, 5, 5];
             ai_may_select_powerup = true;
+            ai_lives_amount = 3;
         }
         else if (level_counter <= 3) {
             ai_intensity = [0.10, 0.09];
@@ -56,6 +57,7 @@ class LevelController {
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
             ai_may_select_powerup = false;
+            ai_lives_amount = 3;
         }
         else if (level_counter <= 6) {
             ai_intensity = [0.09, 0.08];
@@ -63,53 +65,70 @@ class LevelController {
                         [.full_replenish, .fast_ball, .big_boy_booster],
                         [.health_booster, .big_boy_booster]];
             pu_wave_wait_times = [10, 10, 10];
+            ai_lives_amount = 4;
         }
         else if (level_counter <= 9) {
-            ai_intensity = [0.08, 0.07, 0.06];
+            ai_intensity = [0.09, 0.08];
+            ai_lives_amount = 5;
         }
         else if (level_counter == 10) {
-            
+            ai_lives_amount = 6;
+            ai_may_select_powerup = true;
         }
         else if (level_counter <= 15) {
             ai_intensity = [0.07, 0.06];
+            ai_lives_amount = 6;
         }
         else if (level_counter <= 19) {
             ai_intensity = [0.07, 0.06, 0.05];
+            ai_lives_amount = 6;
         }
         else if (level_counter == 20) {
-            
+            ai_lives_amount = 7;
+            ai_may_select_powerup = true;
         }
         else if (level_counter <= 25) {
             ai_intensity = [0.07, 0.06];
+            ai_lives_amount = 7;
         }
         else if (level_counter <= 29) {
             ai_intensity = [0.07, 0.06, 0.05];
+            ai_lives_amount = 7;
         }
         else if (level_counter == 30) {
-            
+            ai_lives_amount = 8;
+            ai_may_select_powerup = true;
         }
         else if (level_counter <= 35) {
             ai_intensity = [0.07, 0.06];
+            ai_lives_amount = 8;
         }
         else if (level_counter <= 39) {
             ai_intensity = [0.07, 0.06, 0.05];
+            ai_lives_amount = 8;
         }
         else if (level_counter == 40) {
-            
+            ai_lives_amount = 9;
+            ai_may_select_powerup = true;
         }
         else if (level_counter <= 45) {
             ai_intensity = [0.07, 0.06];
+            ai_lives_amount = 9;
         }
         else if (level_counter <= 49) {
             ai_intensity = [0.07, 0.06, 0.05];
+            ai_lives_amount = 9;
         }
         else if (level_counter == 50) {
-            
+            ai_lives_amount = 10;
+            ai_may_select_powerup = true;
         }
         else {
             ai_intensity = [0.05, 0.04, 0.03];
         }
     }
+    
+   // private func assignLevelDetails(aiIntensity: [Double], puWaves: [[powerUpType]], )
     
     public func getAIIntensity() -> [Double] {
         return ai_intensity;

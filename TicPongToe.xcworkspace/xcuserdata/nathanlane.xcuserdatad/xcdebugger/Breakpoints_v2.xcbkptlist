@@ -7,23 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CA779AB2-F7D3-4323-AFAF-DB375D8AC7D4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/GameScene.swift"
-            timestampString = "571032795.669776"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "988"
-            endingLineNumber = "988"
-            landmarkName = "winRoundAnimation(player:winning_squares:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "45B0B57D-64B6-45D9-AC2F-E1101E48DC0B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -32,8 +15,8 @@
             timestampString = "571032795.669847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1351"
-            endingLineNumber = "1351"
+            startingLineNumber = "1360"
+            endingLineNumber = "1360"
             landmarkName = "GameScene"
             landmarkType = "3">
          </BreakpointContent>
@@ -49,8 +32,8 @@
             timestampString = "571032795.6699049"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "703"
-            endingLineNumber = "703"
+            startingLineNumber = "706"
+            endingLineNumber = "706"
             landmarkName = "animateHitWall(contact_point:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -182,8 +165,8 @@
             timestampString = "571032795.670072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "didMove(to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -199,8 +182,8 @@
             timestampString = "571032795.6701289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "startPowerUpWave()"
             landmarkType = "7">
          </BreakpointContent>
@@ -216,8 +199,8 @@
             timestampString = "571032795.670182"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "fastBallSelected(by:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -233,8 +216,8 @@
             timestampString = "571032795.670233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
             landmarkName = "fastBallSelected(by:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,8 +233,8 @@
             timestampString = "571032795.670283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "selectPowerUp(paddle:square:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -267,43 +250,9 @@
             timestampString = "571032795.670332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "startPowerUpWave()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FBB642A4-A750-4261-AB6F-498D712979BA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "571032795.67038"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "init(power_up_type:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DD6DE43A-DF28-4CB9-832A-7D821B85E282"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TicPongToe/PowerUpNode.swift"
-            timestampString = "571032795.670429"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "init(power_up_type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -368,8 +317,8 @@
             filePath = "TicPongToe/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "835"
-            endingLineNumber = "835"
+            startingLineNumber = "838"
+            endingLineNumber = "838"
             landmarkName = "growLife(amount:)"
             landmarkType = "7">
          </BreakpointContent>

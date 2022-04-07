@@ -33,6 +33,7 @@ class PowerUpNode: SKSpriteNode {
     private var power_up_size = CGSize(width: 48.0, height: 48.0);
     private var center_position = CGPoint();
     private var board_position:Int = -1;
+    private let powerUpSound = SKAction.playSoundFileNamed("PowerUpSound", waitForCompletion: false);
     
     init(power_up_type: powerUpType) {
         type = power_up_type;
@@ -144,6 +145,8 @@ class PowerUpNode: SKSpriteNode {
             superBigBoyBoosterSelected(by: paddle, completion: {completion()})
             break;
         }
+        
+        self.run(powerUpSound);
     }
     
     // Runs the animation to disappear and remove the powerup from the screen as well as producing any background effects made by the power up / item selection

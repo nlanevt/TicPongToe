@@ -107,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var centerLevelLabel = SKLabelNode();
     private var pending_round = false;
     
+    private let bounceSound = SKAction.playSoundFileNamed("BounceSound", waitForCompletion: false);
+    
     deinit {
         print("Deinit GameScene")
         self.removeAllActions()
@@ -121,6 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
         view.addGestureRecognizer(tap)
+        
         // Build animation frames
         AnimationFramesManager?.buildGameFrames();
         hitWallFrames = (AnimationFramesManager?.getHitWallFrames())!;
@@ -1308,6 +1311,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Contact between ball and paddles
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             
+            //Prevents excess bouncing sound when ball gets locked beneath the paddles.
+            if (ballmanager.ball.position.y > main.position.y && ballmanager.ball.position.y < enemy.position.y) {
+                self.run(bounceSound);
+            }
+            
             if (contact.bodyA.node?.name == "main")
             {
                 main.updateSpeed();
@@ -1324,6 +1332,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
         {
+            self.run(bounceSound);
             animateHitWall(contact_point: contact.contactPoint)
         }
     }
