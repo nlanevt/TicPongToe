@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Ball  {
+class Ball : SKSpriteNode {
     public var ballspeed:CGFloat = 40.0;
     public var ball_speed_minimum:CGFloat = 40.0;
     public var ball_speed_maximum:CGFloat = 75.0;
@@ -26,7 +26,6 @@ class Ball  {
     private var squashedBallWallLeftTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallWallLeft");
     private var squashedBallWallRightTexture:SKTexture = SKTexture.init(imageNamed: "SquashedBallWallRight");
     private var defaultBallTexture:SKTexture = SKTexture.init(imageNamed: "Ball");
-    //private var ballBounceAnimationTextures:[SKTexture] = [
     
     private var fireBallA = SKSpriteNode();
     private var fireBallB = SKSpriteNode();
@@ -39,8 +38,8 @@ class Ball  {
     private var balldx:CGFloat = 0.0;
     private var balldy:CGFloat = 0.0;
     private var ball_start_position:CGPoint = CGPoint(x: 0, y: 30);
+    private var ball_size:CGSize = CGSize(width: 20, height: 20);
     private var ballStartSpeed:CGFloat = 40.0;
-    public var ball = SKSpriteNode();
     private var angle_offset = CGFloat(Double.pi / 2);
     
     private var default_size:CGSize = CGSize(width: 20.0, height: 20.0)
@@ -49,18 +48,38 @@ class Ball  {
     private var can_ordinate = true;
     private var fastBallPaddle:Paddle?;
     
-    public func setUp(ball: inout SKSpriteNode)
-    {
+    init () {
+        super.init(texture: defaultBallTexture, color: .clear, size: ball_size);
+        // All the speed settings get set to the minimum ball speed upon
+        // start of the ball.
+        ballspeed = ball_speed_minimum;
+        noFastBallSpeed = ball_speed_minimum;
+        ballStartSpeed = ball_speed_minimum;
+        
+        self.position = ball_start_position
+        self.physicsBody?.usesPreciseCollisionDetection = true
+        
+        /*self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2);
+        self.physicsBody?.isDynamic = true;
+        self.physicsBody?.restitution = 1;
+        self.physicsBody?.mass = 0.0566371232271194;
+        self.physicsBody?.categoryBitMask = 2;
+        self.physicsBody?.collisionBitMask = 55;*/
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    /*
+     Setting animations must come after init since the ANimationFramesManager doesn't buildFrames()
+     until the after init() is called. This is due to ball existing in the GameScene.sks
+     */
+    public func setAnimationFrames() {
         fireBallAFrames = (AnimationFramesManager?.getFireBallAFrames())!;
         fireBallBFrames = (AnimationFramesManager?.getFireBallBFrames())!;
         fireBallCFrames = (AnimationFramesManager?.fireBallCFrames)!;
         ballStartFrames = (AnimationFramesManager?.getBallStartFrames())!;
-        self.ball = ball;
-        self.ball.physicsBody?.usesPreciseCollisionDetection = true
-        /*self.ball.physicsBody?.categoryBitMask = 2
-        self.ball.physicsBody?.contactTestBitMask = 63;
-        self.ball.physicsBody?.collisionBitMask = 63;*/
-        
         fireBallA = SKSpriteNode(imageNamed: "FireBallA1");
         fireBallA.size = CGSize(width: 30, height: 35);
         fireBallA.zPosition = 0.5;
@@ -75,18 +94,12 @@ class Ball  {
         fireBallC.size = CGSize(width: 30, height: 35);
         fireBallC.zPosition = 0.5;
         fireBallC.position = CGPoint(x: 0.0, y: -5.0)
-        
-        // All the speed settings get set to the minimum ball speed upon
-        // start of the ball. 
-        ballspeed = ball_speed_minimum;
-        noFastBallSpeed = ball_speed_minimum;
-        ballStartSpeed = ball_speed_minimum;
     }
     
     private func animateFireBall(ball_type: Int)
     {
         if (ball_type == 0) {
-            ball.removeAllChildren();
+            self.removeAllChildren();
         }
         else if (ball_type == 1 && fireBallA.parent == nil) {
             fireBallB.removeFromParent();
@@ -96,7 +109,7 @@ class Ball  {
                 fireBallA.run(SKAction.repeatForever(SKAction.animate(with: fireBallAFrames, timePerFrame: 0.2)))
             }
         
-            ball.addChild(fireBallA);
+            self.addChild(fireBallA);
         }
         else if (ball_type == 2 && fireBallB.parent == nil) {
             fireBallA.removeFromParent();
@@ -106,7 +119,7 @@ class Ball  {
                 fireBallB.run(SKAction.repeatForever(SKAction.animate(with: fireBallBFrames, timePerFrame: 0.2)))
             }
             
-            ball.addChild(fireBallB);
+            self.addChild(fireBallB);
         }
         else if (ball_type == 3 && fireBallC.parent == nil) {
             fireBallA.removeFromParent();
@@ -116,15 +129,15 @@ class Ball  {
                 fireBallC.run(SKAction.repeatForever(SKAction.animate(with: fireBallCFrames, timePerFrame: 0.2)))
             }
             
-            ball.addChild(fireBallC);
+            self.addChild(fireBallC);
         }
     }
     
     public func ordinateBall()
     {
-        if let body = ball.physicsBody {
+        if let body = self.physicsBody {
             if (body.velocity.speed() > 0.01 && can_ordinate) {
-                ball.zRotation = body.velocity.angle() - angle_offset;
+                self.zRotation = body.velocity.angle() - angle_offset;
             }
         }
     }
@@ -132,10 +145,10 @@ class Ball  {
     // This function animates and times ball properly whenever it starts
     public func startBall(down: Bool)
     {
-        ball.removeAllChildren();
-        ball.isHidden = true;
-        ball.position = ball_start_position
-        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+        self.removeAllChildren();
+        self.isHidden = true;
+        self.position = ball_start_position
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
         var impulse = ballStartSpeed;
         if (down == true)
         {
@@ -148,16 +161,16 @@ class Ball  {
         let ballGrowAction = SKAction.animate(with: ballStartFrames, timePerFrame: 0.01)
         let startBallSequence = SKAction.sequence([waitAction, unHideAction, ballGrowAction, setBallTextureAction, waitAction]);
         
-        ball.run(startBallSequence, completion: {[weak self] in
-            self!.ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse))
+        self.run(startBallSequence, completion: {[weak self] in
+            self!.physicsBody?.applyImpulse(CGVector(dx: 0, dy: impulse))
             self!.setFireBall();
         })
     }
     
     public func hideBall() {
-        ball.isHidden = true;
-        ball.position = ball_start_position
-        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+        self.isHidden = true;
+        self.position = ball_start_position
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
     }
     
     private func getBallReturnSpeed(paddle_speed: CGFloat) -> CGFloat
@@ -195,8 +208,8 @@ class Ball  {
         ballspeed = return_speed;
         noFastBallSpeed = paddle.checkIfFastBall() ? noFastBallSpeed : return_speed;
         
-        ball.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
-        ball.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
+        self.physicsBody?.velocity = CGVector(dx: 0, dy: 0);
+        self.physicsBody?.applyImpulse(CGVector(dx: balldx, dy: balldy))
         
         setFireBall();
     }
@@ -217,63 +230,6 @@ class Ball  {
             animateFireBall(ball_type: 3);
         }
     }
-    
-    public func squashBall(contact: SKPhysicsContact) {
-        
-        if (contact.bodyA.node?.name == "main") {
-            ball.size = squashed_paddle_size;
-            can_ordinate = false;
-            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleBottomTexture), SKAction.wait(forDuration: 0.015)]), completion: {[weak self] in
-                self!.ball.size = self!.default_size;
-                self!.ball.texture = self!.defaultBallTexture;
-                self!.can_ordinate = true;
-                self!.ordinateBall();
-            })
-        }
-        else if (contact.bodyA.node?.name == "enemy") {
-            ball.size = squashed_paddle_size;
-            can_ordinate = false;
-            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(squashedBallPaddleTopTexture), SKAction.wait(forDuration: 0.015)]), completion: {[weak self] in
-                self!.ball.size = self!.default_size;
-                self!.ball.texture = self!.defaultBallTexture;
-                self!.can_ordinate = true;
-                self!.ordinateBall();
-            })
-        }
-        else if (contact.bodyA.categoryBitMask == 3) { //MARK Wall squashing Disabled
-            ball.size = squashed_wall_size;
-            can_ordinate = false;
-            ball.run(SKAction.sequence([SKAction.rotate(toAngle: 0.0, duration: 0.0), SKAction.setTexture(contact.contactPoint.x >= 0 ? squashedBallWallRightTexture : squashedBallWallLeftTexture), SKAction.wait(forDuration: 0.015)]), completion: {
-                [weak self] in
-                self!.ball.size = self!.default_size;
-                self!.ball.texture = self!.defaultBallTexture;
-                self!.can_ordinate = true;
-                self!.ordinateBall();
-            })
-        }
-        else {
-            ball.size = default_size;
-            ball.texture = defaultBallTexture;
-            can_ordinate = true;
-        }
-    }
-    
-    public func unsquashBall(contact: SKPhysicsContact) {
-        if (contact.bodyA.node?.name == "main") {
-            //ball.size = default_size;
-            //ball.texture = defaultBallTexture;
-        }
-        else if (contact.bodyA.node?.name == "enemy") {
-            //ball.size = default_size;
-            //ball.texture = defaultBallTexture;
-        }
-        else if (contact.bodyA.categoryBitMask == 3) { //MARK Wall squashing Disabled
-            //ball.size = default_size;
-            //ball.texture = defaultBallTexture;
-        }
-    }
-    
-
 }
 
 

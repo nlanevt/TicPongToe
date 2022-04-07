@@ -11,9 +11,7 @@ import GameplayKit
 import UIKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    private var ballmanager = Ball();
-    private var ball = SKSpriteNode();
-    
+    private var ball = Ball();
     private var enemy:Paddle = Paddle(direction_down: true);
     private var main:Paddle = Paddle(direction_down: false);
     private var main_boundary_position:CGFloat = -194;
@@ -139,9 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy_score_animation.alpha = 0.0;
         enemy_score_animation.fontColor = UIColor.yellow;
         
-        ball = self.childNode(withName: "ball") as! SKSpriteNode
-        ballmanager.setUp(ball: &ball);
-        
+        ball = self.childNode(withName: "ball") as! Ball;
         enemy = self.childNode(withName: "enemy") as! Paddle
         main = self.childNode(withName: "main") as! Paddle
         
@@ -181,6 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         timer_node = self.childNode(withName: "TimerNode") as! SKSpriteNode;
 
+        ball.setAnimationFrames();
         main.setAnimationFrames();
         enemy.setAnimationFrames();
         
@@ -269,16 +266,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let centerLabelfadeIn = SKAction.fadeIn(withDuration: 0.25);
         let centerWait = SKAction.wait(forDuration: 3.0);
         let fadeOut = SKAction.fadeOut(withDuration: 0.25);
-        /*var centerLabelFloatUp = SKAction.move(by: CGVector(dx: 0, dy: 10), duration: 0.25)
-        var centerLabelFloatDown = centerLabelFloatUp.reversed();
-        var centerLabelFloatingSequence = SKAction.repeatForever(SKAction.sequence([centerLabelFloatUp, centerLabelFloatDown]))*/
         
         let centerFadeAction = SKAction.sequence([SKAction.unhide(), centerLabelfadeIn, centerWait, fadeOut, SKAction.hide()])
         
         let topLabelFloatUp = SKAction.move(by: CGVector(dx: 0, dy: 10), duration: 0.75)
         let topLabelFloatDown = topLabelFloatUp.reversed();
         let topLabelFloatingAction = SKAction.repeatForever(SKAction.sequence([topLabelFloatUp, topLabelFloatDown]))
-        let topFadeIn = SKAction.group([SKAction.unhide(), topLabelFloatingAction, SKAction.fadeAlpha(to: 0.25, duration: 0.5)]);
         let topFadeOut = SKAction.group([topLabelFloatingAction, fadeOut, SKAction.hide()]);
         
         if (topLevelLabel.isHidden == false) {
@@ -299,7 +292,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level_controller.startPowerUpWave();
         
         centerLevelLabel.run(centerFadeAction, completion: {
-           // self.topLevelLabel.run(topFadeIn);
             completion();
         })
     }
@@ -345,7 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         if (game_over) {return};
         ai.enemy_hit_ball = down;
-        ballmanager.startBall(down: down);
+        ball.startBall(down: down);
     }
     
     private func endGame()
@@ -442,10 +434,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 scorelabelnode.horizontalAlignmentMode = .center;
                 scorelabelnode.verticalAlignmentMode = .top;
                 scorelabelnode.text = "+\(amount)";
-                scorelabelnode.position = ballmanager.ball.position.x > abs(120) ?  CGPoint(x: sign(Double(ballmanager.ball.position.x))*120, y: 245.0) : CGPoint(x: ballmanager.ball.position.x, y: 245.0)
+                scorelabelnode.position = ball.position.x > abs(120) ?  CGPoint(x: sign(Double(ball.position.x))*120, y: 245.0) : CGPoint(x: ball.position.x, y: 245.0)
                 self.addChild(scorelabelnode);
                 
-                let moveVector = ballmanager.ball.position.x < 0 ? CGVector(dx: 4, dy: -6) : CGVector(dx: -4, dy: -6);
+                let moveVector = ball.position.x < 0 ? CGVector(dx: 4, dy: -6) : CGVector(dx: -4, dy: -6);
                 let scoreLabelActionSequence = SKAction.sequence([SKAction.move(by: moveVector, duration: 1.0), SKAction.fadeOut(withDuration: 0.25)]);
                 
                 scorelabelnode.run(scoreLabelActionSequence, completion: {scorelabelnode.removeFromParent()});
@@ -641,8 +633,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score_counter = score_counter + 200;
         }
         
-        if (ballmanager.ballspeed >= 50) { // You need the ball to go fast if you want the extra points
-            score_counter = score_counter + Int64(ballmanager.ballspeed);
+        if (ball.ballspeed >= 50) { // You need the ball to go fast if you want the extra points
+            score_counter = score_counter + Int64(ball.ballspeed);
         }
         
         return score_counter;
@@ -670,13 +662,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var explosion_position:CGFloat = 0.0;
         var explosion_zRotation:CGFloat = 0.0;
-        if (ballmanager.ball.position.y <= main.position.y) {
+        if (ball.position.y <= main.position.y) {
             scoreExplosionFrames = (AnimationFramesManager?.scoreExplosionAFrames)!;
         
             explosion_position = main_boundary_position + (scoreExplosionFrames[0].size().height / 2);
             
         }
-        else if (ballmanager.ball.position.y >= enemy.position.y) {
+        else if (ball.position.y >= enemy.position.y) {
             scoreExplosionFrames = (AnimationFramesManager?.scoreExplosionBFrames)!;
             explosion_zRotation = CGFloat.pi;
             explosion_position = enemy_boundary_position - (scoreExplosionFrames[0].size().height / 2);
@@ -687,7 +679,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var explosionNode:SKSpriteNode? = SKSpriteNode(texture: scoreExplosionFrames[0], size: scoreExplosionFrames[0].size());
         explosionNode?.zPosition = 0.0;
-        explosionNode?.position.x = ballmanager.ball.position.x;
+        explosionNode?.position.x = ball.position.x;
         explosionNode?.zRotation = explosion_zRotation;
         explosionNode?.position.y = explosion_position;
                 
@@ -714,7 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Use small wall hit explosion
-        if (ballmanager.ballspeed >= 42 && ballmanager.ballspeed < 48) {
+        if (ball.ballspeed >= 42 && ball.ballspeed < 48) {
             let hitWallSparkNode = SKSpriteNode(texture: hitPaddleFrames[0], size: hitPaddleFrames[0].size());
             hitWallSparkNode.position = (hitWallNode?.position)!;
             hitWallSparkNode.zPosition = (hitWallNode?.zPosition)!;
@@ -728,7 +720,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var frames = AnimationFramesManager?.hitWallBFrames;
             
             // otherwise if ballspeed >= 55 use the big hit explosion
-            if (ballmanager.ballspeed >= 55) {
+            if (ball.ballspeed >= 55) {
                 frames = AnimationFramesManager?.hitWallCFrames;
             }
             
@@ -768,13 +760,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hitPaddleNode.zPosition = 0.0;
         hitPaddleNode.position = contact_point
         
-        if (ballmanager.ballspeed < 48) {
+        if (ball.ballspeed < 48) {
             self.addChild(hitPaddleNode);
             hitPaddleNode.run(SKAction.animate(with: hitPaddleFrames, timePerFrame: 0.025), completion: {
                 hitPaddleNode.removeFromParent();
             })
         }
-        else if (ballmanager.ballspeed >= 48 && ballmanager.ballspeed < 55) {
+        else if (ball.ballspeed >= 48 && ball.ballspeed < 55) {
             hitPaddleNode = SKSpriteNode(texture: AnimationFramesManager?.hitPaddleBFrames?[0], size: (AnimationFramesManager?.hitPaddleBFrames?[0].size())!);
             hitPaddleNode.zPosition = 0.0;
             hitPaddleNode.position = contact_point
@@ -789,7 +781,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hitPaddleNode.position.x = contact_point.x;
             hitPaddleNode.position.y = contact_point.y + (hitPaddleNode.size.height/2);
             
-            if (ballmanager.ball.position.y >= 0) {
+            if (ball.position.y >= 0) {
                 hitPaddleNode.zRotation = .pi;
                 hitPaddleNode.position.y = contact_point.y - (hitPaddleNode.size.height/2);
             }
@@ -1004,8 +996,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             
-            
-            
             wait_time = wait_time + 0.25;
             for i in 0..<winning_squares.count {
                 squaresArray[winning_squares[i]].alpha = 1.0
@@ -1195,7 +1185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if (!ball.isHidden && !game_over) {
-            ballmanager.hideBall();
+            ball.hideBall();
         }
     }
     
@@ -1312,19 +1302,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask == 1) && (contact.bodyB.categoryBitMask == 2) {
             
             //Prevents excess bouncing sound when ball gets locked beneath the paddles.
-            if (ballmanager.ball.position.y > main.position.y && ballmanager.ball.position.y < enemy.position.y) {
+            if (ball.position.y > main.position.y && ball.position.y < enemy.position.y) {
                 self.run(bounceSound);
             }
             
             if (contact.bodyA.node?.name == "main")
             {
                 main.updateSpeed();
-                ballmanager.bounceBall(contact, paddle: main, paddle_speed: main.paddle_speed)
+                ball.bounceBall(contact, paddle: main, paddle_speed: main.paddle_speed)
             }
             else
             {
                 enemy.updateSpeed()
-                ballmanager.bounceBall(contact, paddle: enemy, paddle_speed: enemy.paddle_speed)
+                ball.bounceBall(contact, paddle: enemy, paddle_speed: enemy.paddle_speed)
             }
             
             animateHitPaddle(contact_point: contact.contactPoint);
@@ -1338,11 +1328,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didSimulatePhysics() {
-        ballmanager.ordinateBall();
+        ball.ordinateBall();
         main.updateSpeed();
         enemy.updateSpeed();
     }
-    
     
     func didEnd(_ contact: SKPhysicsContact) {
         if (contact.bodyA.node?.name == "main") &&
@@ -1362,7 +1351,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (self.isPaused == true)
         {
             GameViewControl?.pauseGame(pause: false);
-            //(self.view?.window?.rootViewController as? GameViewController)?.pauseGame(pause: false);
         }
     }
     
@@ -1371,7 +1359,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (self.isPaused == false && self.game_over == false) {
             pauseButton.run(SKAction.sequence([SKAction.setTexture(pauseButtonAnimationTexture), SKAction.wait(forDuration: 0.25)]), completion: {[weak self] in
                 GameViewControl?.pauseGame(pause: true)
-                //(self.view?.window?.rootViewController as? GameViewController)?.pauseGame(pause: false);
                 self!.pauseButton.texture = self!.pauseButtonTexture;
             });
         }

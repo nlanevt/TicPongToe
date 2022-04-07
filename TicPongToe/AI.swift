@@ -25,7 +25,7 @@ class AI {
     private var high_score:Int64 = 0;
     private var enemy_score = 0;
     private var player_score = 0;
-    private var ball:SKSpriteNode?
+    private var ball:Ball?
     private var ai:SKSpriteNode?
     private var chase = chase_method.center;
     private var paddle_width = CGFloat.init(100);
@@ -50,7 +50,7 @@ class AI {
     private weak var game_scene:GameScene? = nil;
     private weak var level_controller:LevelController!
     
-    init(scene: GameScene, level_controller: LevelController, ball: SKSpriteNode, ai: SKSpriteNode) {
+    init(scene: GameScene, level_controller: LevelController, ball: Ball, ai: SKSpriteNode) {
         ai_lives_left = level_controller.getAILivesAmount();
         self.level_controller = level_controller;
         self.ball = ball;
