@@ -144,14 +144,7 @@ class GameViewController: UIViewController {
         }
         else if ((gameScene?.game_over)!) // if the game is over reanimate the buttons
         {
-            if (currentGameType == gameType.high_score)
-            {
-                MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
-            }
-            else
-            {
-                //MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
-            }
+            MenuViewControl?.ReturnHomeButton.AnimateButton();
         }
     }
     

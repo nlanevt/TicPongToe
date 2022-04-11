@@ -22,12 +22,6 @@ var HighScore:Int64 = 0;
 var HighestLevel:Int64 = 0;
 
 weak var GameViewControl:GameViewController? = nil;
-var currentGameType = gameType.high_score;
-
-enum gameType {
-    case duel
-    case high_score
-}
 
 class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
     /* Variables */
@@ -55,7 +49,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     @IBOutlet weak var ContinueGameButton: UIButton!
     @IBOutlet weak var QuitGameButton: UIButton!
-    @IBOutlet weak var ReturnHomeHighScoreButton: FloatingButton!
+    @IBOutlet weak var ReturnHomeButton: FloatingButton!
     
     @IBOutlet weak var PlayGameButton: FloatingButton!
     @IBOutlet weak var LeaderboardButton: FloatingButton!
@@ -106,7 +100,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         MenuViewControl?.ContinueGameButton = self.ContinueGameButton;
         MenuViewControl?.QuitGameButton = self.QuitGameButton;
         
-        MenuViewControl?.ReturnHomeHighScoreButton = self.ReturnHomeHighScoreButton;
+        MenuViewControl?.ReturnHomeButton = self.ReturnHomeButton;
         
         if (MenuViewControl?.YourScoreLabel != nil) {
             MenuViewControl?.YourScoreLabel.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
@@ -120,8 +114,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             MenuViewControl?.ContinueGameButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
         }
         
-        if (MenuViewControl?.ReturnHomeHighScoreButton != nil) {
-            MenuViewControl?.ReturnHomeHighScoreButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
+        if (MenuViewControl?.ReturnHomeButton != nil) {
+            MenuViewControl?.ReturnHomeButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
         }
         
         if (MenuViewControl?.PlayGameButton != nil) {
@@ -147,7 +141,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     @IBAction func High_Score(_ sender: Any) {
         MenuViewControl?.running = false;
-        moveToGame(game : .high_score);
+        moveToGame();
     }
     
     @IBAction func ContinueGame(_ sender: Any) {
@@ -155,18 +149,17 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     }
     
     @IBAction func QuitGame(_ sender: Any) {
-        returnHome();
+        returnToMenu();
     }
     
-    @IBAction func ReturnHomeHighScore(_ sender: Any) {
-        returnHome();
+    @IBAction func ReturnHome(_ sender: Any) {
+        returnToMenu();
     }
     
-    func moveToGame(game : gameType) {
+    func moveToGame() {
         self.view.layer.removeAllAnimations()
         homescreen = false;
         GameViewControl = self.storyboard?.instantiateViewController(withIdentifier: "gameVC") as? GameViewController;
-        currentGameType = game;
         self.navigationController?.pushViewController(GameViewControl!, animated: true)
     }
     
@@ -176,7 +169,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         ScoreLabel.isHidden = true;
         GameOverLabelImage.isHidden = true;
         GameOverLabel.isHidden = true;
-        ReturnHomeHighScoreButton.isHidden = true;
+        ReturnHomeButton.isHidden = true;
         ContinueGameButton.isHidden = false;
         QuitGameButton.isHidden = false;
     }
@@ -185,28 +178,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     {
         ContinueGameButton.isHidden = true;
         QuitGameButton.isHidden = true;
-        if (currentGameType == gameType.high_score)
-        {
-            YourScoreLabel.isHidden = false;
-            ScoreLabel.isHidden = false;
-            GameOverLabelImage.isHidden = false;
-            GameOverLabel.isHidden = true;
-            ReturnHomeHighScoreButton.isHidden = false;
-            MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
-            ContinueGameButton.isHidden = true;
-            QuitGameButton.isHidden = true;
-        }
-        else
-        {
-            GameOverLabelImage.isHidden = true;
-            GameOverLabel.isHidden = false;
-            ReturnHomeHighScoreButton.isHidden = true;
-            YourScoreLabel.isHidden = true;
-            ScoreLabel.isHidden = true;
-            ContinueGameButton.isHidden = true;
-            QuitGameButton.isHidden = true;
-            // Game Over Label text to show "You Lose" or "You won" is manipulated in GameScene.swift
-        }
+        YourScoreLabel.isHidden = false;
+        ScoreLabel.isHidden = false;
+        GameOverLabelImage.isHidden = false;
+        GameOverLabel.isHidden = true;
+        ReturnHomeButton.isHidden = false;
+        MenuViewControl?.ReturnHomeButton.AnimateButton();
+        ContinueGameButton.isHidden = true;
+        QuitGameButton.isHidden = true;
     }
     
     public func loadScores()
@@ -328,7 +307,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         }
     }
     
-    private func returnHome()
+    private func returnToMenu()
     {
         self.navigationController?.popViewController(animated: true);
         

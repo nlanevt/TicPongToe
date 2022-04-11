@@ -20,10 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         // see notes below for the meaning of Atomic / Non-Atomic
         
-        //MARK
-        // Initialize the Google Mobile Ads SDK.
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~1458002511
-        //GADMobileAds.configure(withApplicationID: GOOGLE_AD_APP_ID);
+        //MARK: Initialize the Google Mobile Ads SDK.
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true

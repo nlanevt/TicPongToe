@@ -1,5 +1,5 @@
 
-/* Class = "UIButton"; normalTitle = "Play High Score"; ObjectID = "28u-Yq-jdc"; */
+/* Class = "UIButton"; normalTitle = "Play Game"; ObjectID = "28u-Yq-jdc"; */
 "28u-Yq-jdc.normalTitle" = "게임 시작";
 
 /* Class = "UILabel"; text = "0"; ObjectID = "5KD-4H-08t"; */
@@ -22,9 +22,6 @@
 
 /* Class = "UILabel"; text = "YOUR SCORE"; ObjectID = "VAH-04-moT"; */
 "VAH-04-moT.text" = "현재점수";
-
-/* Class = "UIButton"; normalTitle = "Return Home"; ObjectID = "bmg-kg-sRw"; */
-"bmg-kg-sRw.normalTitle" = "홈으로";
 
 /* Class = "UIButton"; normalTitle = "Leaderboard"; ObjectID = "e77-KA-Tc6"; */
 "e77-KA-Tc6.normalTitle" = "점수판";

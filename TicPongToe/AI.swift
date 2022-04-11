@@ -24,7 +24,6 @@ class AI {
     private var difficulty = 0;
     private var high_score:Int64 = 0;
     private var enemy_score = 0;
-    private var player_score = 0;
     private var ball:Ball?
     private var ai:SKSpriteNode?
     private var chase = chase_method.center;
@@ -93,19 +92,17 @@ class AI {
     }
     
     public func growLives() {
-        if (currentGameType == .high_score) {
-            var wait_time:TimeInterval = 0.0;
-            for i in 0..<ai_lives_left {
-                let lifeNode = SKSpriteNode(imageNamed: "AILife");
-                lifeNode.isHidden = true;
-                lifeNode.size = ai_life_size;
-                lifeNode.position = CGPoint(x: 150 - CGFloat(1 + i*10), y: ai_lives_y_position)
-                lifeNode.zPosition = ai_lives_z_position;
-                ai_lives_array.append(lifeNode);
-                game_scene?.addChild(ai_lives_array[i]);
-                growLifeHelper(lifeNode: lifeNode, wait_time: wait_time);
-                wait_time = wait_time + 0.2;
-            }
+        var wait_time:TimeInterval = 0.0;
+        for i in 0..<ai_lives_left {
+            let lifeNode = SKSpriteNode(imageNamed: "AILife");
+            lifeNode.isHidden = true;
+            lifeNode.size = ai_life_size;
+            lifeNode.position = CGPoint(x: 150 - CGFloat(1 + i*10), y: ai_lives_y_position)
+            lifeNode.zPosition = ai_lives_z_position;
+            ai_lives_array.append(lifeNode);
+            game_scene?.addChild(ai_lives_array[i]);
+            growLifeHelper(lifeNode: lifeNode, wait_time: wait_time);
+            wait_time = wait_time + 0.2;
         }
     }
     
@@ -249,18 +246,8 @@ class AI {
     }
     
     private func setIntensity() {
-        if (currentGameType == gameType.high_score) {
-            let intensities = level_controller.getAIIntensity();
-            
-            intensity = intensities[Int(arc4random_uniform(UInt32(intensities.count)))];
-            //print("AI Intensity is: \(intensity)");
-        }
-        else {
-            let rand = Int(arc4random_uniform(5));
-            if (rand == 0) {intensity = 0.03}
-            else if (rand < 3) {intensity = 0.04}
-            else {intensity = 0.05}
-        }
+        let intensities = level_controller.getAIIntensity();
+        intensity = intensities[Int(arc4random_uniform(UInt32(intensities.count)))];
     }
     
     public func move()

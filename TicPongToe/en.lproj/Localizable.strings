@@ -5,13 +5,10 @@
   Created by Nathan Lane on 11/12/18.
   Copyright © 2018 Nathan Lane. All rights reserved.
 */
-"Play High Score" = "Play High Score";
 "Play Game" = "Play Game";
 "Leaderboard" = "Leaderboard";
 "HIGH SCORE" = "HIGH SCORE";
 "TOP LEVEL" = "TOP LEVEL";
-"YOU WON!" = "YOU WON!";
-"YOU LOSE" = "YOU LOSE";
 "GAME OVER" = "GAME OVER";
 "YOUR SCORE" = "YOUR SCORE";
 "Return Home" = "Return Home";

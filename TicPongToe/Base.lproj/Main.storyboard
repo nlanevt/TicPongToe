@@ -169,7 +169,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8r-FJ-bXN" userLabel="ReturnHomeHighScoreButton" customClass="FloatingButton" customModule="TicPongToe">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8r-FJ-bXN" userLabel="ReturnHomeButton" customClass="FloatingButton" customModule="TicPongToe">
                                 <rect key="frame" x="16" y="162" width="282" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
@@ -177,7 +177,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="ReturnHomeHighScore:" destination="pS6-eI-uXl" eventType="touchUpInside" id="oDt-zc-Z5m"/>
+                                    <action selector="ReturnHome:" destination="pS6-eI-uXl" eventType="touchUpInside" id="XeJ-oM-hSO"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GameOverLabelImage" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-ve-hhg">
@@ -192,7 +192,7 @@
                         <outlet property="GameOverLabel" destination="Tte-mg-6S9" id="0pd-zE-D5V"/>
                         <outlet property="GameOverLabelImage" destination="h4W-ve-hhg" id="xHm-yl-4JG"/>
                         <outlet property="QuitGameButton" destination="E08-lm-SVS" id="wp7-vs-jmh"/>
-                        <outlet property="ReturnHomeHighScoreButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
+                        <outlet property="ReturnHomeButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
                         <outlet property="ScoreLabel" destination="5KD-4H-08t" id="np8-Xo-wqd"/>
                         <outlet property="YourScoreLabel" destination="VAH-04-moT" id="a6w-P7-7f3"/>
                     </connections>

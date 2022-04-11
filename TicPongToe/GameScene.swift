@@ -26,10 +26,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     public var enemy_score_counter:Int64 = 0;
     
     private var high_score = SKLabelNode();
-    private var player_score_animation = SKLabelNode();
-    private var player_score = SKLabelNode();
-    private var enemy_score_animation = SKLabelNode();
-    private var enemy_score = SKLabelNode();
     private var player_won = false;
     public var game_over = false;
     
@@ -128,19 +124,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hitPaddleFrames = (AnimationFramesManager?.getHitPaddleFrames())!;
         
         high_score = self.childNode(withName: "high_score") as! SKLabelNode;
-        player_score = self.childNode(withName: "player_score") as! SKLabelNode;
-        enemy_score = self.childNode(withName: "enemy_score") as! SKLabelNode;
-        player_score_animation = self.childNode(withName: "player_score_animation") as! SKLabelNode;
-        player_score_animation.alpha = 0.0;
-        player_score_animation.fontColor = UIColor.yellow;
-        enemy_score_animation = self.childNode(withName: "enemy_score_animation") as! SKLabelNode;
-        enemy_score_animation.alpha = 0.0;
-        enemy_score_animation.fontColor = UIColor.yellow;
-        
         ball = self.childNode(withName: "ball") as! Ball;
         enemy = self.childNode(withName: "enemy") as! Paddle
         main = self.childNode(withName: "main") as! Paddle
-        
         timerLabel = self.childNode(withName: "timer") as! SKLabelNode;
         
         square1 = self.childNode(withName: "square1") as! SKSpriteNode
@@ -214,49 +200,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player_won = false;
         game_over = false;
         resetTimer();
-        if (currentGameType == gameType.high_score)
-        {
-            pending_round = true;
-            high_score.isHidden = false;
-            player_score.isHidden = true;
-            enemy_score.isHidden = true;
-            player_score_animation.isHidden = true;
-            enemy_score_animation.isHidden = true;
-            high_score.text = "\(score)";
-            ball.isHidden = true;
-            
-            self.startLevel { [weak self] in
-                self!.ai.growLives();
-                self!.pending_round = false;
-                self!.startBall(down: false)
-                self!.ai.setNewChaseMethod();
-                self!.runTimer();
-            }
-            
-            for i in 0..<Int(life/2) {
-                let lifeNode = SKSpriteNode(texture: lifeTexture, size: lifeSize);
-                
-                lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(30 + i*28), y: pauseButton.position.y)
-                lifeNode.zPosition = pauseButton.zPosition;
-                lives.append(lifeNode);
-                self.addChild(lives[i]);
-            }
+        
+        pending_round = true;
+        high_score.isHidden = false;
+        high_score.text = "\(score)";
+        ball.isHidden = true;
+        
+        self.startLevel { [weak self] in
+            self!.ai.growLives();
+            self!.pending_round = false;
+            self!.startBall(down: false)
+            self!.ai.setNewChaseMethod();
+            self!.runTimer();
         }
-        else // Play Duel!!!
-        {
-            high_score.isHidden = true;
-            player_score.isHidden = false;
-            enemy_score.isHidden = false;
-            player_score_animation.isHidden = false;
-            enemy_score_animation.isHidden = false;
-            player_score.text = "\(player_score_counter)";
-            enemy_score.text = "\(enemy_score_counter)";
-            player_score_animation.text = "\(player_score_counter)";
-            enemy_score_animation.text = "\(enemy_score_counter)";
+        
+        for i in 0..<Int(life/2) {
+            let lifeNode = SKSpriteNode(texture: lifeTexture, size: lifeSize);
             
-            startBall(down: false)
-            ai.setNewChaseMethod();
-            runTimer();
+            lifeNode.position = CGPoint(x: pauseButton.position.x + CGFloat(30 + i*28), y: pauseButton.position.y)
+            lifeNode.zPosition = pauseButton.zPosition;
+            lives.append(lifeNode);
+            self.addChild(lives[i]);
         }
     }
     
@@ -364,38 +328,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         ball.hideBall(); // Remove ball from stage
-
-        // MARK: Deactivate below to ensure no new scores get saved
-        if (currentGameType == gameType.high_score)
+        ai.removeAllLives(); // Remove all remaining ai_lives from the screen
+        level_controller.clearLevelItems(); //Ensures powerups disappear once the game is over.
+        
+        if (score > HighScore)
         {
-            ai.removeAllLives(); // Remove all remaining ai_lives from the screen
-            level_controller.clearLevelItems(); //Ensures powerups disappear once the game is over.
-            
-            if (score > HighScore)
-            {
-                HighScore = score;
-                MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
-            }
-            
-            let levels_beaten = level_controller.getLevel()-1;
-            if (levels_beaten > 0 && levels_beaten > HighestLevel) {
-                HighestLevel = levels_beaten;
-                //MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel); //TODO: highest level Leaderboard not yet enabled.
-            }
-            
-            MenuViewControl?.ScoreLabel.text = "\(score)";
+            HighScore = score;
+            MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
         }
-        else
-        {
-            if (player_won)
-            {
-                MenuViewControl?.GameOverLabel.text = "YOU WON!";
-            }
-            else
-            {
-                MenuViewControl?.GameOverLabel.text = "YOU LOSE";
-            }
+        
+        let levels_beaten = level_controller.getLevel()-1;
+        if (levels_beaten > 0 && levels_beaten > HighestLevel) {
+            HighestLevel = levels_beaten;
+            //MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel); //TODO: highest level Leaderboard not yet enabled.
         }
+        
+        MenuViewControl?.ScoreLabel.text = "\(score)";
         
         MenuViewControl?.deleteCoreData(); // Remove any current core data.
         MenuViewControl?.save(high_score: HighScore, highest_level: HighestLevel) // Save new info to Core Data
@@ -408,97 +356,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Type == 1 is Tic-Tac-Toe
     private func setScore(playerWhoWon: SKSpriteNode, amount: Int64, type: Int)
     {
-        if (currentGameType == gameType.high_score)
+        
+        if (playerWhoWon == main && type == 0)
         {
-            if (playerWhoWon == main && type == 0)
-            {
-                // run increase score animation
-                var score_counter = score;
-                score = score + amount;
-                let waitAction = SKAction.wait(forDuration: 0.01);
-                let increaseScoreAction = SKAction.run({
-                    [weak self] in
-                    self!.high_score.fontColor = UIColor.yellow;
-                    score_counter = score_counter + 1;
-                    self!.high_score.text = "\(score_counter)";
-                })
-                
-                /* Start Score Increase Animation */
-                let repeatScoreIncreaseAction = SKAction.repeat(SKAction.sequence([increaseScoreAction, waitAction]), count: Int(amount));
-                high_score.run(repeatScoreIncreaseAction, completion: {
-                    [weak self] in
-                    self!.high_score.fontColor = UIColor.white;
-                });
-                /* End Score Increase Animation */
-                
-                /* +Score sign animation */
-                let scorelabelnode = SKLabelNode(fontNamed: "RixVideoGame3D");
-                scorelabelnode.alpha = 1.0;
-                scorelabelnode.zPosition = 1.0;
-                scorelabelnode.fontColor = UIColor.init(red: 73, green: 170, blue: 16);
-                scorelabelnode.fontSize = 32;
-                scorelabelnode.horizontalAlignmentMode = .center;
-                scorelabelnode.verticalAlignmentMode = .top;
-                scorelabelnode.text = "+\(amount)";
-                scorelabelnode.position = ball.position.x > abs(120) ?  CGPoint(x: sign(Double(ball.position.x))*120, y: 245.0) : CGPoint(x: ball.position.x, y: 245.0)
-                self.addChild(scorelabelnode);
-                
-                let moveVector = ball.position.x < 0 ? CGVector(dx: 4, dy: -6) : CGVector(dx: -4, dy: -6);
-                let scoreLabelActionSequence = SKAction.sequence([SKAction.move(by: moveVector, duration: 1.0), SKAction.fadeOut(withDuration: 0.25)]);
-                
-                scorelabelnode.run(scoreLabelActionSequence, completion: {scorelabelnode.removeFromParent()});
-                /* End +Score sign animation */
-                
-                // Decreases the ai's life and checks to see if ai's life is depleted. IF it is we increase the level
-                if (ai.decreaseLife()) {
-                    self.increaseLevel();
-                }
-                
-            }
-            else if (type == 0) // Enemy scored a pong score, not a tic-tac-toe score (which shouldn't take away the players life). Only a Pong score does that.
-            {
-                removeLife();
-            }
+            // run increase score animation
+            var score_counter = score;
+            score = score + amount;
+            let waitAction = SKAction.wait(forDuration: 0.01);
+            let increaseScoreAction = SKAction.run({
+                [weak self] in
+                self!.high_score.fontColor = UIColor.yellow;
+                score_counter = score_counter + 1;
+                self!.high_score.text = "\(score_counter)";
+            })
             
-            if (life == 0)
-            {
-                endGame();
-            }
+            /* Start Score Increase Animation */
+            let repeatScoreIncreaseAction = SKAction.repeat(SKAction.sequence([increaseScoreAction, waitAction]), count: Int(amount));
+            high_score.run(repeatScoreIncreaseAction, completion: {
+                [weak self] in
+                self!.high_score.fontColor = UIColor.white;
+            });
+            /* End Score Increase Animation */
             
-            high_score.text = "\(score)";
-        }
-        else if (type == 0) // i.e. It is Duel and its a pong score, not a tic tac toe score
-        {
-            if (playerWhoWon == main)
-            {
-                player_score_counter = player_score_counter + 1
-                player_score.text = "\(player_score_counter)";
-                player_score_animation.text = "\(player_score_counter)";
-                
-                player_score_animation.alpha = 1.0;
-                player_score_animation.run(SKAction.fadeOut(withDuration: 1.0));
-            }
-            else
-            {
-                enemy_score_counter = enemy_score_counter + 1
-                enemy_score.text = "\(enemy_score_counter)";
-                enemy_score_animation.text = "\(enemy_score_counter)";
-                enemy_score_animation.alpha = 1.0;
-                enemy_score_animation.run(SKAction.fadeOut(withDuration: 1.0));
-            }
+            /* +Score sign animation */
+            let scorelabelnode = SKLabelNode(fontNamed: "RixVideoGame3D");
+            scorelabelnode.alpha = 1.0;
+            scorelabelnode.zPosition = 1.0;
+            scorelabelnode.fontColor = UIColor.init(red: 73, green: 170, blue: 16);
+            scorelabelnode.fontSize = 32;
+            scorelabelnode.horizontalAlignmentMode = .center;
+            scorelabelnode.verticalAlignmentMode = .top;
+            scorelabelnode.text = "+\(amount)";
+            scorelabelnode.position = ball.position.x > abs(120) ?  CGPoint(x: sign(Double(ball.position.x))*120, y: 245.0) : CGPoint(x: ball.position.x, y: 245.0)
+            self.addChild(scorelabelnode);
             
-            if (player_score_counter == 11)
-            {
-                player_won = true;
-                endGame();
-            }
+            let moveVector = ball.position.x < 0 ? CGVector(dx: 4, dy: -6) : CGVector(dx: -4, dy: -6);
+            let scoreLabelActionSequence = SKAction.sequence([SKAction.move(by: moveVector, duration: 1.0), SKAction.fadeOut(withDuration: 0.25)]);
             
-            if (enemy_score_counter == 11)
-            {
-                player_won = false;
-                endGame();
+            scorelabelnode.run(scoreLabelActionSequence, completion: {scorelabelnode.removeFromParent()});
+            /* End +Score sign animation */
+            
+            // Decreases the ai's life and checks to see if ai's life is depleted. IF it is we increase the level
+            if (ai.decreaseLife()) {
+                self.increaseLevel();
             }
         }
+        else if (type == 0) // Enemy scored a pong score, not a tic-tac-toe score (which shouldn't take away the players life). Only a Pong score does that.
+        {
+            removeLife();
+        }
+        
+        if (life == 0)
+        {
+            endGame();
+        }
+        
+        high_score.text = "\(score)";
     }
     
     
@@ -620,8 +533,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Set new way of moving enemy paddle
         ai.setNewChaseMethod();
-        
-        // Score needs to be animated properly when changed.
     }
     
     private func calculateScore() -> Int64 {
@@ -889,7 +800,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         isTimerRunning = false;
         timer.invalidate()
-        //moon_timer.isPaused = true; //MARK
     }
     
     private func resetTimer()
