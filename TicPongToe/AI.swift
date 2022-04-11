@@ -116,7 +116,7 @@ class AI {
     }
     
     public func growLife(wait_time: TimeInterval) -> Bool {
-        print("power up: enemy grow life.");
+        //print("power up: enemy grow life.");
         if (ai_lives_left >= level_controller.getAILivesAmount()) {return false}
         
         let lifeNode = SKSpriteNode(imageNamed: "AILife");
@@ -253,7 +253,7 @@ class AI {
             let intensities = level_controller.getAIIntensity();
             
             intensity = intensities[Int(arc4random_uniform(UInt32(intensities.count)))];
-            print("AI Intensity is: \(intensity)");
+            //print("AI Intensity is: \(intensity)");
         }
         else {
             let rand = Int(arc4random_uniform(5));

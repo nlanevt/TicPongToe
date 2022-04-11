@@ -14,9 +14,9 @@ import UIKit
 class MenuScene: SKScene, SKPhysicsContactDelegate {
     
     private var HighScoreDisplayLabel = SKLabelNode();
-    private var GamesWonDisplayLabel = SKLabelNode();
+    private var HighestLevelDisplayLabel = SKLabelNode();
     private var HighScoreLabel = SKLabelNode();
-    private var GamesWonLabel = SKLabelNode();
+    private var LevelsBeatenLabel = SKLabelNode();
     private var menuFrame = SKSpriteNode();
     private var menuAnimationTop:SKSpriteNode? = nil;
     private var menuAnimationFrame:SKSpriteNode? = nil;
@@ -41,11 +41,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         HighScoreLabel = self.childNode(withName: "HighScoreLabel") as! SKLabelNode;
         
         
-        GamesWonDisplayLabel = self.childNode(withName: "GamesWonDisplayLabel") as! SKLabelNode;
-        GamesWonDisplayLabel.text = String.localizedStringWithFormat(NSLocalizedString("GAMES WON", comment: "Your top score so far."));
-        GamesWonDisplayLabel.fontName = String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font"));
-        GamesWonDisplayLabel.fontSize = CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize2", comment: "The localized font size")) as NSString).floatValue);
-        GamesWonLabel = self.childNode(withName: "GamesWonLabel") as! SKLabelNode;
+        HighestLevelDisplayLabel = self.childNode(withName: "HighestLevelDisplayLabel") as! SKLabelNode;
+        HighestLevelDisplayLabel.text = String.localizedStringWithFormat(NSLocalizedString("TOP LEVEL", comment: "Your highest level so far."));
+        HighestLevelDisplayLabel.fontName = String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font"));
+        HighestLevelDisplayLabel.fontSize = CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize2", comment: "The localized font size")) as NSString).floatValue);
+        LevelsBeatenLabel = self.childNode(withName: "LevelsBeatenLabel") as! SKLabelNode;
         
         menuFrame = self.childNode(withName: "MenuFrame") as! SKSpriteNode;
         
@@ -62,7 +62,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         
         self.addChild(menuAnimationTop!);
         self.addChild(menuAnimationFrame!);
-        
         
         startMenuAnimations()
         
@@ -87,7 +86,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     {
         //print("Menu Scene Player Labels Updated");
         HighScoreLabel.text = "\(HighScore)";
-        GamesWonLabel.text = "\(NumberOfGamesWon)";
+        LevelsBeatenLabel.text = "\(HighestLevel)";
     }
     
     public func setHighScoreLabel(score: Int64)
@@ -95,9 +94,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         HighScoreLabel.text = "\(score)";
     }
     
-    public func setGamesWonLabel(score: Int64)
+    public func setGamesWonLabel(level: Int64)
     {
-        GamesWonLabel.text = "\(score)";
+        LevelsBeatenLabel.text = "\(level)";
     }
     
     // Unused here but useful to show you how to animate something.

@@ -150,7 +150,7 @@ class GameViewController: UIViewController {
             }
             else
             {
-                MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
+                //MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
             }
         }
     }

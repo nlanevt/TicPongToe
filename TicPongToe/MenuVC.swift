@@ -19,9 +19,7 @@ var MenuViewControl:MenuVC? = nil;
 var AnimationFramesManager:AnimationFramesHelper? = nil;
 
 var HighScore:Int64 = 0;
-var NumberOfGamesWon:Int64 = 0;
-var NumberOfGamesPlayed:Int64 = 0;
-var isPurchased = false;
+var HighestLevel:Int64 = 0;
 
 weak var GameViewControl:GameViewController? = nil;
 var currentGameType = gameType.high_score;
@@ -38,7 +36,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     var isProduction = false;
     
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
-    let LEADERBOARD_ID = "com.ticpongtoe.highscore"
+    let LB_HIGHSCORE_ID = "com.ticpongtoe.highscore"
+    let LB_HIGHESTLEVEL_ID = "com.ticpongtoe.highestlevel"
     
     public var menuScene:MenuScene? = nil;
     public var running = false; //TODO: 'running' does literally nothing. may need to be removed in the future.
@@ -56,12 +55,9 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     @IBOutlet weak var ContinueGameButton: UIButton!
     @IBOutlet weak var QuitGameButton: UIButton!
-
     @IBOutlet weak var ReturnHomeHighScoreButton: FloatingButton!
-    @IBOutlet weak var ReturnHomeDuelButton: FloatingButton!
     
-    @IBOutlet weak var HighScoreButton: FloatingButton!
-    @IBOutlet weak var DuelButton: FloatingButton!
+    @IBOutlet weak var PlayGameButton: FloatingButton!
     @IBOutlet weak var LeaderboardButton: FloatingButton!
     
     override func viewDidLoad() {
@@ -93,15 +89,13 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
                     view.presentScene(scene)
                 }
             }
-            MenuViewControl?.HighScoreButton = self.HighScoreButton;
-            MenuViewControl?.DuelButton = self.DuelButton;
+            MenuViewControl?.PlayGameButton = self.PlayGameButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
             
             homescreen = true;
             createAndLoadBanner();
             
-            MenuViewControl?.HighScoreButton.setDelay(delay: 0.0);
-            MenuViewControl?.DuelButton.setDelay(delay: 0.25);
+            MenuViewControl?.PlayGameButton.setDelay(delay: 0.0);
             MenuViewControl?.LeaderboardButton.setDelay(delay: 0.5);
         }
         
@@ -113,7 +107,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         MenuViewControl?.QuitGameButton = self.QuitGameButton;
         
         MenuViewControl?.ReturnHomeHighScoreButton = self.ReturnHomeHighScoreButton;
-        MenuViewControl?.ReturnHomeDuelButton = self.ReturnHomeDuelButton;
         
         if (MenuViewControl?.YourScoreLabel != nil) {
             MenuViewControl?.YourScoreLabel.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
@@ -131,22 +124,13 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             MenuViewControl?.ReturnHomeHighScoreButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
         }
         
-        if (MenuViewControl?.ReturnHomeDuelButton != nil) {
-            MenuViewControl?.ReturnHomeDuelButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize3", comment: "The localized font size")) as NSString).floatValue))
-        }
-        
-        if (MenuViewControl?.HighScoreButton != nil) {
-            MenuViewControl?.HighScoreButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
-        }
-        
-        if (MenuViewControl?.DuelButton != nil) {
-            MenuViewControl?.DuelButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
+        if (MenuViewControl?.PlayGameButton != nil) {
+            MenuViewControl?.PlayGameButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
         }
         
         if (MenuViewControl?.LeaderboardButton != nil) {
             MenuViewControl?.LeaderboardButton.titleLabel?.font = UIFont(name: String.localizedStringWithFormat(NSLocalizedString("fontName", comment: "The localized font")), size: CGFloat((String.localizedStringWithFormat(NSLocalizedString("fontSize1", comment: "The localized font size")) as NSString).floatValue))
         }
-        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -157,19 +141,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .default;
-        gcVC.leaderboardIdentifier = LEADERBOARD_ID
+        gcVC.leaderboardIdentifier = LB_HIGHSCORE_ID
         present(gcVC, animated: true, completion: nil)
-    }
-    
-    @IBAction func Duel(_ sender: Any) {
-        MenuViewControl?.running = false;
-        IncreaseNumberOfGamesPlayed()
-        moveToGame(game : .duel);
     }
     
     @IBAction func High_Score(_ sender: Any) {
         MenuViewControl?.running = false;
-        IncreaseNumberOfGamesPlayed()
         moveToGame(game : .high_score);
     }
     
@@ -182,10 +159,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     }
     
     @IBAction func ReturnHomeHighScore(_ sender: Any) {
-        returnHome();
-    }
-    
-    @IBAction func ReturnHomeDuel(_ sender: Any) {
         returnHome();
     }
     
@@ -204,7 +177,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         GameOverLabelImage.isHidden = true;
         GameOverLabel.isHidden = true;
         ReturnHomeHighScoreButton.isHidden = true;
-        ReturnHomeDuelButton.isHidden = true;
         ContinueGameButton.isHidden = false;
         QuitGameButton.isHidden = false;
     }
@@ -221,7 +193,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             GameOverLabel.isHidden = true;
             ReturnHomeHighScoreButton.isHidden = false;
             MenuViewControl?.ReturnHomeHighScoreButton.AnimateButton();
-            ReturnHomeDuelButton.isHidden = true;
             ContinueGameButton.isHidden = true;
             QuitGameButton.isHidden = true;
         }
@@ -230,8 +201,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             GameOverLabelImage.isHidden = true;
             GameOverLabel.isHidden = false;
             ReturnHomeHighScoreButton.isHidden = true;
-            ReturnHomeDuelButton.isHidden = false;
-            MenuViewControl?.ReturnHomeDuelButton.AnimateButton();
             YourScoreLabel.isHidden = true;
             ScoreLabel.isHidden = true;
             ContinueGameButton.isHidden = true;
@@ -260,20 +229,16 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         if (players.isEmpty)
         {
             HighScore = 0;
-            NumberOfGamesWon = 0;
-            NumberOfGamesPlayed = 0;
-            isPurchased = false;
-            save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased)
+            HighestLevel = 0;
+            save(high_score: HighScore, highest_level: HighestLevel)
         }
         else if (players.count > 1) // if there is for some reason more than one record
         {
             player = players.last;
             HighScore = (player?.value(forKeyPath: "high_score") as? Int64)!;
-            NumberOfGamesWon = (player?.value(forKeyPath: "games_won") as? Int64)!;
-            NumberOfGamesPlayed = (player?.value(forKeyPath: "games_played") as? Int64)!;
-            isPurchased = (player?.value(forKeyPath: "is_purchased") as? Bool)!;
+            HighestLevel = (player?.value(forKeyPath: "highest_level") as? Int64)!;
             deleteCoreData();
-            save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased)
+            save(high_score: HighScore, highest_level: HighestLevel)
             loadScores();
         }
         else
@@ -281,9 +246,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             //print("Player data loaded");
             player = players.last;
             HighScore = (player?.value(forKeyPath: "high_score") as? Int64)!;
-            NumberOfGamesWon = (player?.value(forKeyPath: "games_won") as? Int64)!;
-            NumberOfGamesPlayed = (player?.value(forKeyPath: "games_played") as? Int64)!;
-            isPurchased = (player?.value(forKeyPath: "is_purchased") as? Bool)!;
+            HighestLevel = (player?.value(forKeyPath: "highest_level") as? Int64)!;
         }
     }
     
@@ -308,7 +271,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         }
     }
     
-    public func save(high_score: Int64, games_won: Int64, games_played: Int64, is_purchased: Bool) {
+    public func save(high_score: Int64, highest_level: Int64) {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
@@ -322,9 +285,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         
         // 3
         player.setValue(high_score, forKeyPath: "high_score")
-        player.setValue(games_won, forKeyPath: "games_won")
-        player.setValue(games_played, forKeyPath: "games_played")
-        player.setValue(is_purchased, forKeyPath: "is_purchased")
+        player.setValue(highest_level, forKey: "highest_level")
         
         // 4
         do {
@@ -335,16 +296,33 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     }
     
     public func addScoreToLeaderBoard(score: Int64) {
-        
         if (self.gcEnabled && self.isProduction)
         {
-            let ScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+            let ScoreInt = GKScore(leaderboardIdentifier: LB_HIGHSCORE_ID)
             ScoreInt.value = Int64(HighScore)
             GKScore.report([ScoreInt]) { (error) in
                 if error != nil {
                     print(error!.localizedDescription)
                 } else {
                     print("Your high score was submitted to the High Score Leaderboard!")
+                }
+            }
+        }
+    }
+    
+    /*
+     TODO: Not in use currently. Had issues making a new leaderboard on appstoreconnect
+     */
+    public func addLevelToLeaderBoard(level: Int64) {
+        if (self.gcEnabled && self.isProduction)
+        {
+            let ScoreInt = GKScore(leaderboardIdentifier: LB_HIGHESTLEVEL_ID)
+            ScoreInt.value = Int64(HighestLevel)
+            GKScore.report([ScoreInt]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Your highest level was submitted to the Highest Level Leaderboard!")
                 }
             }
         }
@@ -361,13 +339,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         
         MenuViewControl!.menuScene?.updateLabels()
         MenuViewControl!.menuScene?.startMenuAnimations();
-    }
-    
-    private func IncreaseNumberOfGamesPlayed()
-    {
-        NumberOfGamesPlayed = NumberOfGamesPlayed + 1;
-        deleteCoreData();
-        save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased)
     }
     
     // MARK: - AUTHENTICATE LOCAL PLAYER
@@ -408,8 +379,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        MenuViewControl?.HighScoreButton.AnimateButton();
-        MenuViewControl?.DuelButton.AnimateButton();
+        MenuViewControl?.PlayGameButton.AnimateButton();
         MenuViewControl?.LeaderboardButton.AnimateButton();
     }
     

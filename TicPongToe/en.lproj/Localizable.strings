@@ -6,10 +6,10 @@
   Copyright © 2018 Nathan Lane. All rights reserved.
 */
 "Play High Score" = "Play High Score";
-"Play Duel" = "Play Duel";
+"Play Game" = "Play Game";
 "Leaderboard" = "Leaderboard";
 "HIGH SCORE" = "HIGH SCORE";
-"GAMES WON" = "GAMES WON";
+"TOP LEVEL" = "TOP LEVEL";
 "YOU WON!" = "YOU WON!";
 "YOU LOSE" = "YOU LOSE";
 "GAME OVER" = "GAME OVER";
@@ -18,6 +18,6 @@
 "Quit Game" = "Quit Game";
 "Continue" = "Continue";
 "fontName" = "Manaspace";
-"fontSize1" = "20"; // Home Screen Buttons
+"fontSize1" = "25"; // Home Screen Buttons
 "fontSize2" = "16"; // High Score and Games Won labels
 "fontSize3" = "24"; // Pause and End game buttons

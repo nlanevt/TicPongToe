@@ -206,7 +206,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func startGame()
     {
-        //level = 1;
         score = 0;
         life = max_lives;
         tictactoeboard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -214,7 +213,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player_starts = false;
         player_won = false;
         game_over = false;
-        //timerLabel.text = "\(seconds)";
         resetTimer();
         if (currentGameType == gameType.high_score)
         {
@@ -376,16 +374,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (score > HighScore)
             {
                 HighScore = score;
+                MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
             }
+            
+            let levels_beaten = level_controller.getLevel()-1;
+            if (levels_beaten > 0 && levels_beaten > HighestLevel) {
+                HighestLevel = levels_beaten;
+                //MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel); //TODO: highest level Leaderboard not yet enabled.
+            }
+            
             MenuViewControl?.ScoreLabel.text = "\(score)";
-            MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
         }
         else
         {
             if (player_won)
             {
                 MenuViewControl?.GameOverLabel.text = "YOU WON!";
-                NumberOfGamesWon = NumberOfGamesWon + 1;
             }
             else
             {
@@ -394,7 +398,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         MenuViewControl?.deleteCoreData(); // Remove any current core data.
-        MenuViewControl?.save(high_score: HighScore, games_won: NumberOfGamesWon, games_played: NumberOfGamesPlayed, is_purchased: isPurchased) // Save new info to Core Data
+        MenuViewControl?.save(high_score: HighScore, highest_level: HighestLevel) // Save new info to Core Data
         MenuViewControl?.loadScores();
         GameViewControl?.endGame(); // load game over screen
     }

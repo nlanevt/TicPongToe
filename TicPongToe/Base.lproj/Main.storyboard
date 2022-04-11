@@ -80,27 +80,19 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="60" y="217" width="200" height="32"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
-                                <state key="normal" title="Play High Score"/>
+                                <rect key="frame" x="85" y="221" width="150" height="37"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
+                                <state key="normal" title="Play Game"/>
                                 <connections>
                                     <action selector="High_Score:" destination="kah-ot-ka5" eventType="touchUpInside" id="TeB-LC-khh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="86.5" y="309" width="147" height="32"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
+                                <rect key="frame" x="68" y="294" width="184" height="37"/>
+                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
                                 <state key="normal" title="Leaderboard"/>
                                 <connections>
                                     <action selector="CheckLeaderboard:" destination="kah-ot-ka5" eventType="touchUpInside" id="NbW-er-fAo"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvX-Ur-s4A" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="100" y="263" width="120" height="32"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="20"/>
-                                <state key="normal" title="Play Duel"/>
-                                <connections>
-                                    <action selector="Duel:" destination="kah-ot-ka5" eventType="touchUpInside" id="dUj-sm-YLK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -108,21 +100,18 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="14" id="2lW-a7-Gvp"/>
-                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="uvX-Ur-s4A" secondAttribute="bottom" constant="14" id="42A-JY-mLL"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="103" id="85d-v5-QJc"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="48" id="O6e-WE-Oh3"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="52" id="JpF-bl-s2H"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="P36-i1-LuZ"/>
+                            <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="36" id="T3W-8r-Caw"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VNQ-6s-C6c"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VRZ-7p-tyz"/>
-                            <constraint firstItem="uvX-Ur-s4A" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="pRb-Xs-3Lj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
                     <connections>
-                        <outlet property="DuelButton" destination="uvX-Ur-s4A" id="hCj-Gs-t2U"/>
-                        <outlet property="HighScoreButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
                         <outlet property="LeaderboardButton" destination="e77-KA-Tc6" id="vVm-id-6aa"/>
+                        <outlet property="PlayGameButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-A0-Z3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -191,17 +180,6 @@
                                     <action selector="ReturnHomeHighScore:" destination="pS6-eI-uXl" eventType="touchUpInside" id="oDt-zc-Z5m"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmg-kg-sRw" userLabel="ReturnHomeDuelButton" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="16" y="91" width="282" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="24"/>
-                                <state key="normal" title="Return Home">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="ReturnHomeDuel:" destination="pS6-eI-uXl" eventType="touchUpInside" id="uSU-8w-uO6"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GameOverLabelImage" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-ve-hhg">
                                 <rect key="frame" x="8" y="0.0" width="298" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -214,7 +192,6 @@
                         <outlet property="GameOverLabel" destination="Tte-mg-6S9" id="0pd-zE-D5V"/>
                         <outlet property="GameOverLabelImage" destination="h4W-ve-hhg" id="xHm-yl-4JG"/>
                         <outlet property="QuitGameButton" destination="E08-lm-SVS" id="wp7-vs-jmh"/>
-                        <outlet property="ReturnHomeDuelButton" destination="bmg-kg-sRw" id="lI4-vP-jME"/>
                         <outlet property="ReturnHomeHighScoreButton" destination="O8r-FJ-bXN" id="S3O-xR-3RC"/>
                         <outlet property="ScoreLabel" destination="5KD-4H-08t" id="np8-Xo-wqd"/>
                         <outlet property="YourScoreLabel" destination="VAH-04-moT" id="a6w-P7-7f3"/>

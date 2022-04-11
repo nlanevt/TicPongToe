@@ -6,10 +6,10 @@
   Copyright © 2018 Nathan Lane. All rights reserved.
 */
 "Play High Score" = "최고점수 도전";
-"Play Duel" = "1:1 대결";
+"Play Game" = "게임 시작";
 "Leaderboard" = "점수판";
 "HIGH SCORE" = "최고점수";
-"GAMES WON" = "이긴게임";
+"TOP LEVEL" = "최상급";
 "YOU WON!" = "YOU WON!";
 "YOU LOSE" = "YOU LOSE";
 "GAME OVER" = "GAME OVER";

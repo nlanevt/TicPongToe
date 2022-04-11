@@ -1,6 +1,6 @@
 
 /* Class = "UIButton"; normalTitle = "Play High Score"; ObjectID = "28u-Yq-jdc"; */
-"28u-Yq-jdc.normalTitle" = "최고점수 도전";
+"28u-Yq-jdc.normalTitle" = "게임 시작";
 
 /* Class = "UILabel"; text = "0"; ObjectID = "5KD-4H-08t"; */
 "5KD-4H-08t.text" = "0";
@@ -28,6 +28,3 @@
 
 /* Class = "UIButton"; normalTitle = "Leaderboard"; ObjectID = "e77-KA-Tc6"; */
 "e77-KA-Tc6.normalTitle" = "점수판";
-
-/* Class = "UIButton"; normalTitle = "Play Duel"; ObjectID = "uvX-Ur-s4A"; */
-"uvX-Ur-s4A.normalTitle" = "1:1 대결";

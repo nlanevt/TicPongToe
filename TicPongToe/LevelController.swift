@@ -56,7 +56,7 @@ class LevelController {
             let wait_time = pu_waves.count != pu_wave_wait_times.count ? 10 : pu_wave_wait_times[pu_wave_iterator];
             power_up.appear(wait_time: wait_time);
         }
-        print("power up: # of waves \(pu_waves.count), power_ups.count \(power_ups.count), wave \(pu_wave_iterator+1)");
+        //print("power up: # of waves \(pu_waves.count), power_ups.count \(power_ups.count), wave \(pu_wave_iterator+1)");
         pu_wave_iterator = pu_wave_iterator + 1;
     }
     
