@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-enum powerUpType {
+enum powerUpType: CaseIterable {
     case health_booster;
     case super_health_booster;
     case full_replenish;
@@ -18,11 +18,6 @@ enum powerUpType {
     case super_fast_ball;
     case big_boy_booster;
     case super_big_boy_booster;
-}
-
-enum obstacleType {
-    case rouge_rookie;
-    case batter_bro;
 }
 
 class PowerUpNode: SKSpriteNode {

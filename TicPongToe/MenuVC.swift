@@ -35,6 +35,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     /* Variables */
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
+    var isProduction = false;
     
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "com.ticpongtoe.highscore"
@@ -335,7 +336,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     public func addScoreToLeaderBoard(score: Int64) {
         
-        if (self.gcEnabled)
+        if (self.gcEnabled && self.isProduction)
         {
             let ScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
             ScoreInt.value = Int64(HighScore)
@@ -417,7 +418,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         if (!homescreen) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
         banner = GADBannerView(adSize: Int(arc4random_uniform(UInt32(2))) > 0 ? GADAdSizeMediumRectangle : GADAdSizeLargeBanner)
         banner.delegate = self;
-        banner.adUnitID = BANNER_TEST_ID;
+        banner.adUnitID = isProduction ? BANNER_AD_ID : BANNER_TEST_ID;
         banner.rootViewController = self;
         banner.load(GADRequest())
     }

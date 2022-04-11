@@ -290,6 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level_controller.clearLevelItems();
         level_controller.setLevelValues();
         level_controller.startPowerUpWave();
+        ai.setLivesAmount();
         
         centerLevelLabel.run(centerFadeAction, completion: {
             completion();
@@ -308,7 +309,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         });
         
         level_controller.increaseLevel();
-        ai.setLivesAmount();
         
         startLevel(completion: {[weak self] in
             self!.pending_round = false;
@@ -364,6 +364,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             enemy.animateRemoval();
         }
+        
+        ball.hideBall(); // Remove ball from stage
 
         // MARK: Deactivate below to ensure no new scores get saved
         if (currentGameType == gameType.high_score)

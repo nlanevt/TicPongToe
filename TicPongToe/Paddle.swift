@@ -97,6 +97,8 @@ class Paddle: SKSpriteNode {
      */
     public func animateRemoval()
     {
+        resetPaddle();
+        isDying = true;
         let deathAction = SKAction.animate(with: paddleDeathFrames, timePerFrame: 0.025);
         self.size.width = 256;
         self.run(deathAction, completion: {
