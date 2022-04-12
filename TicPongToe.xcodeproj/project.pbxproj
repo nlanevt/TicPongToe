@@ -21,8 +21,13 @@
 		97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ABC7DD208D2BD600B12608 /* MenuVC.swift */; };
 		97BAB39920B4FB2400499B93 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BAB39820B4FB2400499B93 /* AI.swift */; };
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
-		97CDC09E27FF2E67001A3D35 /* PowerUpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */; };
-		97CDC0A027FF316C001A3D35 /* BounceSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC09F27FF316C001A3D35 /* BounceSound.wav */; };
+		97CDC0A22805DA2D001A3D35 /* SoundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CDC0A12805DA2D001A3D35 /* SoundController.swift */; };
+		97CDC0B42805E87C001A3D35 /* TouchBoardSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0B32805E87C001A3D35 /* TouchBoardSound.wav */; };
+		97CDC0BA2805F8BA001A3D35 /* BoardWinSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */; };
+		97CDC0BE2805FEBE001A3D35 /* PowerUpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0BD2805FEBE001A3D35 /* PowerUpSound.wav */; };
+		97CDC0C4280605A7001A3D35 /* HitSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0C3280605A7001A3D35 /* HitSound.wav */; };
+		97CDC0CA2806103B001A3D35 /* ButtonSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0C92806103B001A3D35 /* ButtonSound.wav */; };
+		97CDC0CC28061086001A3D35 /* BounceSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0CB28061086001A3D35 /* BounceSound.wav */; };
 		97D29FD12184E18D00982FB8 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D29FD02184E18D00982FB8 /* FloatingButton.swift */; };
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
@@ -77,8 +82,13 @@
 		97ABC7DD208D2BD600B12608 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		97BAB39820B4FB2400499B93 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
-		97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PowerUpSound.wav; sourceTree = "<group>"; };
-		97CDC09F27FF316C001A3D35 /* BounceSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BounceSound.wav; sourceTree = "<group>"; };
+		97CDC0A12805DA2D001A3D35 /* SoundController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundController.swift; sourceTree = "<group>"; };
+		97CDC0B32805E87C001A3D35 /* TouchBoardSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = TouchBoardSound.wav; sourceTree = "<group>"; };
+		97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BoardWinSound.wav; sourceTree = "<group>"; };
+		97CDC0BD2805FEBE001A3D35 /* PowerUpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PowerUpSound.wav; sourceTree = "<group>"; };
+		97CDC0C3280605A7001A3D35 /* HitSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = HitSound.wav; sourceTree = "<group>"; };
+		97CDC0C92806103B001A3D35 /* ButtonSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ButtonSound.wav; sourceTree = "<group>"; };
+		97CDC0CB28061086001A3D35 /* BounceSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BounceSound.wav; sourceTree = "<group>"; };
 		97D29FD02184E18D00982FB8 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -166,8 +176,12 @@
 		97CDC09C27FF2E34001A3D35 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				97CDC09F27FF316C001A3D35 /* BounceSound.wav */,
-				97CDC09D27FF2E67001A3D35 /* PowerUpSound.wav */,
+				97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */,
+				97CDC0CB28061086001A3D35 /* BounceSound.wav */,
+				97CDC0C92806103B001A3D35 /* ButtonSound.wav */,
+				97CDC0C3280605A7001A3D35 /* HitSound.wav */,
+				97CDC0BD2805FEBE001A3D35 /* PowerUpSound.wav */,
+				97CDC0B32805E87C001A3D35 /* TouchBoardSound.wav */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -223,6 +237,7 @@
 				97F6731821AC437A00007018 /* PowerUpNode.swift */,
 				97F6731A21AC499000007018 /* LevelController.swift */,
 				97F6731E21ADE2F300007018 /* Paddle.swift */,
+				97CDC0A12805DA2D001A3D35 /* SoundController.swift */,
 			);
 			path = TicPongToe;
 			sourceTree = "<group>";
@@ -309,7 +324,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "Nathan Lane";
 				TargetAttributes = {
 					97F15CF3203B96520034C113 = {
@@ -367,15 +382,19 @@
 			files = (
 				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
+				97CDC0B42805E87C001A3D35 /* TouchBoardSound.wav in Resources */,
 				97F15D03203B96520034C113 /* Main.storyboard in Resources */,
-				97CDC09E27FF2E67001A3D35 /* PowerUpSound.wav in Resources */,
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
 				97097E6C2118E4B7005CB2EA /* LaunchScreen.storyboard in Resources */,
 				97F15CFA203B96520034C113 /* GameScene.sks in Resources */,
-				97CDC0A027FF316C001A3D35 /* BounceSound.wav in Resources */,
+				97CDC0BA2805F8BA001A3D35 /* BoardWinSound.wav in Resources */,
+				97CDC0BE2805FEBE001A3D35 /* PowerUpSound.wav in Resources */,
 				97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */,
 				978AD0832118BD720017173D /* manaspc.ttf in Resources */,
+				97CDC0CC28061086001A3D35 /* BounceSound.wav in Resources */,
 				978AD0822118BD6F0017173D /* ARCADECLASSIC.TTF in Resources */,
+				97CDC0C4280605A7001A3D35 /* HitSound.wav in Resources */,
+				97CDC0CA2806103B001A3D35 /* ButtonSound.wav in Resources */,
 				97F15CFC203B96520034C113 /* Actions.sks in Resources */,
 				97097E6A2118DFB8005CB2EA /* Assets.xcassets in Resources */,
 				97F6A158219D43F700CAB491 /* RixVideoGame-Bold.ttf in Resources */,
@@ -435,6 +454,7 @@
 				97F15D00203B96520034C113 /* GameViewController.swift in Sources */,
 				97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */,
 				97F6A15A21A2127500CAB491 /* HexColor.swift in Sources */,
+				97CDC0A22805DA2D001A3D35 /* SoundController.swift in Sources */,
 				97263275216AEF1D00C88A38 /* VectorRotation.swift in Sources */,
 				97DC2C6021127E000027A71F /* MenuScene.swift in Sources */,
 				97F6731921AC437A00007018 /* PowerUpNode.swift in Sources */,
@@ -523,6 +543,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -548,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -583,6 +604,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -602,7 +624,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -619,7 +641,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -639,7 +661,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";

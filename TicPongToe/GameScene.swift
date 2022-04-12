@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     public var score: Int64 = 0;
     public var level_controller:LevelController!
     
+    private var sc = SoundController();
+    
     public var life = 6;
     private var max_lives = 6;
     public var player_score_counter:Int64 = 0;
@@ -101,10 +103,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var centerLevelLabel = SKLabelNode();
     private var pending_round = false;
     
-    private let bounceSound = SKAction.playSoundFileNamed("BounceSound", waitForCompletion: false);
-    
     deinit {
-        print("Deinit GameScene")
+        //print("Deinit GameScene")
         self.removeAllActions()
         self.removeAllChildren()
     }
@@ -253,7 +253,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level_controller.setLevelValues();
         level_controller.startPowerUpWave();
         ai.setLivesAmount();
-        
         centerLevelLabel.run(centerFadeAction, completion: {
             completion();
         })
@@ -340,11 +339,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let levels_beaten = level_controller.getLevel()-1;
         if (levels_beaten > 0 && levels_beaten > HighestLevel) {
             HighestLevel = levels_beaten;
-            //MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel); //TODO: highest level Leaderboard not yet enabled.
+            MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel);
         }
         
         MenuViewControl?.ScoreLabel.text = "\(score)";
-        
         MenuViewControl?.deleteCoreData(); // Remove any current core data.
         MenuViewControl?.save(high_score: HighScore, highest_level: HighestLevel) // Save new info to Core Data
         MenuViewControl?.loadScores();
@@ -860,6 +858,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if (check == verification)
             {
+                sc.runBoardWinSound(scene: self);
                 winRoundAnimation(player: temp, winning_squares: boardCombinations[i]);
                 return;
             }
@@ -979,6 +978,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     switchPlayers();
                     checkBoard(paddle: main);
                     level_controller.checkStageSelect(paddle: main, square: squaresArray[i])
+                    sc.runTouchBoardSound(scene: self);
                     return;
                 }
             }
@@ -1005,6 +1005,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self!.switchPlayers();
                         self!.checkBoard(paddle: self!.enemy);
                         self!.level_controller.checkStageSelect(paddle: self!.enemy, square: self!.squaresArray[i])
+                        self!.sc.runTouchBoardSound(scene: self!);
                     })
                     return;
                 }
@@ -1055,9 +1056,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // set the board
                 if (location.y > main_paddle_move_boundary)
                 {
-                    /*if (main.hasItems()) { //TODO: Items not enabled
-                        main.itemsSelected(location: location);
-                    }*/
                     if (players_turn && !self.isPaused) {
                         playerSetBoard(location: location);
                     }
@@ -1112,17 +1110,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // Check to see if ball went past the paddles
                 if (ball.position.y < main_boundary_position) {
-                    
-                    
                     if (ball.position.y <= main.position.y - 70) {
+                        sc.runHitSound(scene: self);
                         animateScoreExplosion();
-                        addScore(playerWhoWon: enemy, type: 0)}
-                    
+                        addScore(playerWhoWon: enemy, type: 0)
+                    }
                 }
                 else if (ball.position.y >= enemy_boundary_position) {
                     if (ball.position.y >= enemy.position.y + 20) {
+                        sc.runHitSound(scene: self);
                         animateScoreExplosion();
-                        addScore(playerWhoWon: main, type: 0)}
+                        addScore(playerWhoWon: main, type: 0)
+                    }
                 }
                 
                 // Manage Tic Tac Toe board
@@ -1219,7 +1218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Prevents excess bouncing sound when ball gets locked beneath the paddles.
             if (ball.position.y > main.position.y && ball.position.y < enemy.position.y) {
-                self.run(bounceSound);
+                sc.runPaddleBounceSound(scene: self);
             }
             
             if (contact.bodyA.node?.name == "main")
@@ -1238,7 +1237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Contact between ball and wall
         else if (contact.bodyA.categoryBitMask == 4) && (contact.bodyB.categoryBitMask == 2)
         {
-            self.run(bounceSound);
+            sc.runWallBounceSound(scene: self);
             animateHitWall(contact_point: contact.contactPoint)
         }
     }

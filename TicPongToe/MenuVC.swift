@@ -24,12 +24,12 @@ var HighestLevel:Int64 = 0;
 weak var GameViewControl:GameViewController? = nil;
 
 class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
-    /* Variables */
+    var isProduction = false; //MARK: Turn this to true before submission
+    var adsEnabled = true; //MARK: Turn this to true before submission. Used to keep ads from showing.
+    
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
-    var isProduction = false;
     
-    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LB_HIGHSCORE_ID = "com.ticpongtoe.highscore"
     let LB_HIGHESTLEVEL_ID = "com.ticpongtoe.highestlevel"
     
@@ -42,6 +42,13 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     private var BANNER_AD_ID = "ca-app-pub-2893925630884266/5717842874";
     private var BANNER_TEST_ID = "ca-app-pub-3940256099942544/2934735716";
     
+    let buttonSound = URL(fileURLWithPath: Bundle.main.path(forResource: "ButtonSound", ofType: "wav")!)
+    var audioPlayer = AVAudioPlayer()
+    
+    //MARK: 736 is the height of the iphone 8 plus, the max height before the constraint should change.
+    private let MAX_HEIGHT_RESTRAINT:CGFloat = 736;
+    private let big_screen_height_constraint:CGFloat = 160;
+    
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
     @IBOutlet weak var GameOverLabel: UILabel!
@@ -53,6 +60,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     @IBOutlet weak var PlayGameButton: FloatingButton!
     @IBOutlet weak var LeaderboardButton: FloatingButton!
+    
+    @IBOutlet weak var MenuTitleTopConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +80,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             MenuViewControl = self;
             loadScores(); // Get the scores from CORE Data
             AnimationFramesManager = AnimationFramesHelper();
+            
             if let view = self.view as! SKView? {
                 // Load the SKScene from 'GameScene.sks'
                 if let scene = SKScene(fileNamed: "MenuScene") {
@@ -83,6 +93,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
                     view.presentScene(scene)
                 }
             }
+            
             MenuViewControl?.PlayGameButton = self.PlayGameButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
             
@@ -91,6 +102,10 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             
             MenuViewControl?.PlayGameButton.setDelay(delay: 0.0);
             MenuViewControl?.LeaderboardButton.setDelay(delay: 0.5);
+            
+            if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {
+                MenuTitleTopConstraint.constant = big_screen_height_constraint;
+            }
         }
         
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
@@ -135,12 +150,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .default;
-        gcVC.leaderboardIdentifier = LB_HIGHSCORE_ID
         present(gcVC, animated: true, completion: nil)
     }
     
     @IBAction func High_Score(_ sender: Any) {
         MenuViewControl?.running = false;
+        runButtonSound();
         moveToGame();
     }
     
@@ -364,7 +379,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     private func createAndLoadBanner() {
         //instantiate the banner with random ad size.
-        if (!homescreen) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
+        if (!homescreen || !adsEnabled) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
         banner = GADBannerView(adSize: Int(arc4random_uniform(UInt32(2))) > 0 ? GADAdSizeMediumRectangle : GADAdSizeLargeBanner)
         banner.delegate = self;
         banner.adUnitID = isProduction ? BANNER_AD_ID : BANNER_TEST_ID;
@@ -399,5 +414,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
       UIView.animate(withDuration: 1, animations: {
         bannerView.alpha = 1
       })
+    }
+    
+    private func runButtonSound() {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: buttonSound)
+            audioPlayer.play()
+        } catch {
+            // couldn't load file :(
+        }
     }
 }

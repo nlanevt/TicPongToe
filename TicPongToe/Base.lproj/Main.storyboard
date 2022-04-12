@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -21,11 +21,11 @@
             <objects>
                 <viewController storyboardIdentifier="gameVC" id="BV1-FR-VrT" customClass="GameViewController" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-aa-bPw">
-                                <rect key="frame" x="3" y="140" width="314" height="212"/>
+                                <rect key="frame" x="57" y="281" width="314" height="212"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <viewLayoutGuide key="safeArea" id="fbd-5L-pNZ"/>
                                 <connections>
@@ -69,18 +69,18 @@
             <objects>
                 <viewController storyboardIdentifier="MenuVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kah-ot-ka5" customClass="MenuVC" customModule="TicPongToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" id="7wj-ju-MeN" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TicPongToeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-wy-OBD">
-                                <rect key="frame" x="12.5" y="103" width="295" height="66"/>
+                                <rect key="frame" x="66.666666666666686" y="174" width="295" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="HK3-DY-coc"/>
                                     <constraint firstAttribute="width" constant="295" id="iNX-B9-3Ze"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="85" y="221" width="150" height="37"/>
+                                <rect key="frame" x="139" y="292" width="150" height="37"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
                                 <state key="normal" title="Play Game"/>
                                 <connections>
@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="68" y="294" width="184" height="37"/>
+                                <rect key="frame" x="122" y="365" width="184" height="37"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
                                 <state key="normal" title="Leaderboard"/>
                                 <connections>
@@ -100,7 +100,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="103" id="85d-v5-QJc"/>
+                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="130" id="85d-v5-QJc"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="52" id="JpF-bl-s2H"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="P36-i1-LuZ"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="36" id="T3W-8r-Caw"/>
@@ -111,6 +111,7 @@
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
                     <connections>
                         <outlet property="LeaderboardButton" destination="e77-KA-Tc6" id="vVm-id-6aa"/>
+                        <outlet property="MenuTitleTopConstraint" destination="85d-v5-QJc" id="ZcH-Ux-PRW"/>
                         <outlet property="PlayGameButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
                     </connections>
                 </viewController>

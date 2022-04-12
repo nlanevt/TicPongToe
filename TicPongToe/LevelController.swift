@@ -205,16 +205,16 @@ class LevelController {
             assignLevelDetails(aiLivesAmount: 3,
                                aiIntensity: [0.10, 0.09],
                                puWaves: [[.fast_ball, .health_booster],
-                                         [.big_boy_booster, .health_booster],
-                                         [.fast_ball, .big_boy_booster, .super_health_booster]],
+                                         [.big_boy_booster, .super_health_booster],
+                                         [.fast_ball, .big_boy_booster, .full_replenish]],
                                puWaveTimes: [10, 10, 10],
                                canSelectPowerUp: false)
         }
         else if (level_counter <= 3) {
             assignLevelDetails(aiLivesAmount: 3,
                                aiIntensity: [0.10, 0.09],
-                               puWaves: [[.big_boy_booster, .health_booster],
-                                         [.fast_ball, .health_booster],
+                               puWaves: [[.big_boy_booster, .full_replenish],
+                                         [.fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball, .health_booster]],
                                puWaveTimes: [10, 10, 10],
                                canSelectPowerUp: false)
@@ -232,11 +232,11 @@ class LevelController {
         else if (level_counter <= 9) {
             assignLevelDetails(aiLivesAmount: 5,
                                aiIntensity: [0.09, 0.08],
-                               puWaves: [[.fast_ball, .big_boy_booster, .super_health_booster],
+                               puWaves: [[.fast_ball, .big_boy_booster, .health_booster],
                                          [.big_boy_booster, .super_fast_ball],
-                                         [.super_big_boy_booster, .fast_ball, .health_booster],
+                                         [.super_big_boy_booster, .fast_ball, .super_health_booster],
                                          [.big_boy_booster],
-                                         [.super_fast_ball, .health_booster]],
+                                         [.super_fast_ball, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10],
                                canSelectPowerUp: false)
         }
