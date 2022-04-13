@@ -16,6 +16,7 @@
 		9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9776C5B3219A38E800C6A1A0 /* Localizable.strings */; };
 		978AD0822118BD6F0017173D /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 978AD0802118BA990017173D /* ARCADECLASSIC.TTF */; };
 		978AD0832118BD720017173D /* manaspc.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 978AD0812118BAAE0017173D /* manaspc.ttf */; };
+		978F42A82806692000A83F1F /* BoardWinSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 978F42A72806692000A83F1F /* BoardWinSound.wav */; };
 		97911262212F6FFB00B697AB /* AnimationFramesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97911261212F6FFB00B697AB /* AnimationFramesHelper.swift */; };
 		9798EC2B2159D51400099502 /* InfiniteScrollingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798EC262159D51300099502 /* InfiniteScrollingBackground.swift */; };
 		97ABC7DE208D2BD600B12608 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ABC7DD208D2BD600B12608 /* MenuVC.swift */; };
@@ -23,7 +24,6 @@
 		97BD9F6C20FBFB20008D8E46 /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */; };
 		97CDC0A22805DA2D001A3D35 /* SoundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CDC0A12805DA2D001A3D35 /* SoundController.swift */; };
 		97CDC0B42805E87C001A3D35 /* TouchBoardSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0B32805E87C001A3D35 /* TouchBoardSound.wav */; };
-		97CDC0BA2805F8BA001A3D35 /* BoardWinSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */; };
 		97CDC0BE2805FEBE001A3D35 /* PowerUpSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0BD2805FEBE001A3D35 /* PowerUpSound.wav */; };
 		97CDC0C4280605A7001A3D35 /* HitSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0C3280605A7001A3D35 /* HitSound.wav */; };
 		97CDC0CA2806103B001A3D35 /* ButtonSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 97CDC0C92806103B001A3D35 /* ButtonSound.wav */; };
@@ -77,6 +77,7 @@
 		9776C5B4219A38FC00C6A1A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		978AD0802118BA990017173D /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
 		978AD0812118BAAE0017173D /* manaspc.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = manaspc.ttf; sourceTree = "<group>"; };
+		978F42A72806692000A83F1F /* BoardWinSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BoardWinSound.wav; sourceTree = "<group>"; };
 		97911261212F6FFB00B697AB /* AnimationFramesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFramesHelper.swift; sourceTree = "<group>"; };
 		9798EC262159D51300099502 /* InfiniteScrollingBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollingBackground.swift; sourceTree = "<group>"; };
 		97ABC7DD208D2BD600B12608 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		97BD9F6B20FBFB20008D8E46 /* ArrayShuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
 		97CDC0A12805DA2D001A3D35 /* SoundController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundController.swift; sourceTree = "<group>"; };
 		97CDC0B32805E87C001A3D35 /* TouchBoardSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = TouchBoardSound.wav; sourceTree = "<group>"; };
-		97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BoardWinSound.wav; sourceTree = "<group>"; };
 		97CDC0BD2805FEBE001A3D35 /* PowerUpSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PowerUpSound.wav; sourceTree = "<group>"; };
 		97CDC0C3280605A7001A3D35 /* HitSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = HitSound.wav; sourceTree = "<group>"; };
 		97CDC0C92806103B001A3D35 /* ButtonSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ButtonSound.wav; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		97CDC09C27FF2E34001A3D35 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				97CDC0B92805F8BA001A3D35 /* BoardWinSound.wav */,
+				978F42A72806692000A83F1F /* BoardWinSound.wav */,
 				97CDC0CB28061086001A3D35 /* BounceSound.wav */,
 				97CDC0C92806103B001A3D35 /* ButtonSound.wav */,
 				97CDC0C3280605A7001A3D35 /* HitSound.wav */,
@@ -383,11 +383,11 @@
 				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
 				97CDC0B42805E87C001A3D35 /* TouchBoardSound.wav in Resources */,
+				978F42A82806692000A83F1F /* BoardWinSound.wav in Resources */,
 				97F15D03203B96520034C113 /* Main.storyboard in Resources */,
 				9776C5B1219A38E800C6A1A0 /* Localizable.strings in Resources */,
 				97097E6C2118E4B7005CB2EA /* LaunchScreen.storyboard in Resources */,
 				97F15CFA203B96520034C113 /* GameScene.sks in Resources */,
-				97CDC0BA2805F8BA001A3D35 /* BoardWinSound.wav in Resources */,
 				97CDC0BE2805FEBE001A3D35 /* PowerUpSound.wav in Resources */,
 				97F6A156219D3F6000CAB491 /* RixVideoGame-3D.ttf in Resources */,
 				978AD0832118BD720017173D /* manaspc.ttf in Resources */,

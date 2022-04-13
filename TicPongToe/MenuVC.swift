@@ -24,7 +24,7 @@ var HighestLevel:Int64 = 0;
 weak var GameViewControl:GameViewController? = nil;
 
 class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
-    var isProduction = false; //MARK: Turn this to true before submission
+    var isProduction = true; //MARK: Turn this to true before submission
     var adsEnabled = true; //MARK: Turn this to true before submission. Used to keep ads from showing.
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
