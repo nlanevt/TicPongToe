@@ -114,7 +114,7 @@ class LevelController {
     public func increaseLevel() {
         level_counter = level_counter + 1;
         // level < 50 doesn't really make sense and may be unnecessary; but leaving it here for now since it might come to use later with new scroller additions
-        if (level_counter < 30 && (scroller?.speed)! <= CGFloat(6.0)) {
+        if (level_counter < 25 && (scroller?.speed)! <= CGFloat(6.0)) {
             scroller?.speed = (scroller?.speed)! + 0.1;
         }
     }
