@@ -11,7 +11,7 @@ import UIKit
 class FloatingButton: UIButton {
 
     private var floating_value:CGFloat = 9;
-    private var original_position:CGFloat = 0.0;
+    public var original_position:CGFloat = 0.0;
     private var delay:CGFloat = 0.0;
     
     override func awakeFromNib() {
@@ -29,6 +29,7 @@ class FloatingButton: UIButton {
        // if UIView.animation
         if (!self.isAnimating) {
             //print("Button Not Animated; Starting Animation...")
+            self.center.y = self.original_position;
             UIView.animate(withDuration: 1.0, delay: TimeInterval(delay),
                            options: [.repeat, .autoreverse, .curveEaseInOut, .allowUserInteraction],
                            animations: {

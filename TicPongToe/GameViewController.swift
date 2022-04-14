@@ -130,7 +130,6 @@ class GameViewController: UIViewController {
         gameScene?.removeAllActions()
         gameScene?.removeAllChildren()
         gameScene?.removeFromParent()
-        gameScene = nil;
     }
     
     //override func applicationD

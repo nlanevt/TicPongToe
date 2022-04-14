@@ -101,11 +101,11 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="130" id="85d-v5-QJc"/>
-                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="52" id="JpF-bl-s2H"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="P36-i1-LuZ"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="36" id="T3W-8r-Caw"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VNQ-6s-C6c"/>
                             <constraint firstItem="28u-Yq-jdc" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VRZ-7p-tyz"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="top" secondItem="Fg3-wy-OBD" secondAttribute="bottom" constant="52" id="bzd-KG-ZOz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
@@ -113,6 +113,7 @@
                         <outlet property="LeaderboardButton" destination="e77-KA-Tc6" id="vVm-id-6aa"/>
                         <outlet property="MenuTitleTopConstraint" destination="85d-v5-QJc" id="ZcH-Ux-PRW"/>
                         <outlet property="PlayGameButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
+                        <outlet property="TitleImage" destination="Fg3-wy-OBD" id="6Ni-zl-fWn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLD-A0-Z3i" userLabel="First Responder" sceneMemberID="firstResponder"/>

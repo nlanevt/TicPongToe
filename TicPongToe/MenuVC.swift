@@ -49,6 +49,9 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     private let MAX_HEIGHT_RESTRAINT:CGFloat = 736;
     private let big_screen_height_constraint:CGFloat = 160;
     
+    private var playGameButtonPosition:CGFloat = 266.5;
+    private var leaderboardButtonPosition:CGFloat =  339.5;
+    
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
     @IBOutlet weak var GameOverLabel: UILabel!
@@ -62,6 +65,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     @IBOutlet weak var LeaderboardButton: FloatingButton!
     
     @IBOutlet weak var MenuTitleTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var TitleImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +79,16 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
                 self,
                 selector: #selector(applicationDidEnterBackground(notification:)),
                 name: NSNotification.Name.UIApplicationDidEnterBackground,
+                object: nil)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(didBecomeActive),
+                name: NSNotification.Name.UIApplicationDidBecomeActive,
+                object: nil)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(willEnterForeground),
+                name: NSNotification.Name.UIApplicationWillEnterForeground,
                 object: nil)
                         
             MenuViewControl = self;
@@ -96,6 +110,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             
             MenuViewControl?.PlayGameButton = self.PlayGameButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
+            MenuViewControl?.TitleImage = self.TitleImage;
+            MenuViewControl?.MenuTitleTopConstraint = self.MenuTitleTopConstraint;
             
             homescreen = true;
             createAndLoadBanner();
@@ -105,6 +121,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             
             if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {
                 MenuTitleTopConstraint.constant = big_screen_height_constraint;
+                MenuViewControl?.playGameButtonPosition = 319.5; //MARK: This does nothing
+                MenuViewControl?.leaderboardButtonPosition = 392.5; //MARK: This does nothing
             }
         }
         
@@ -330,7 +348,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         GameViewControl?.cleanGameScene();
         GameViewControl = nil;
         AnimationFramesManager?.cleanGameSceneAnimations();
-        
         MenuViewControl!.menuScene?.updateLabels()
         MenuViewControl!.menuScene?.startMenuAnimations();
     }
@@ -371,8 +388,24 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         MenuViewControl?.running = false;
     }
     
+    //TODO: THe shit below needs to be replaced with something more efficient.
+    @objc func willEnterForeground() {
+          if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {return}
+          MenuViewControl?.PlayGameButton.center.y = MenuViewControl!.playGameButtonPosition;
+          MenuViewControl?.LeaderboardButton.center.y = MenuViewControl!.leaderboardButtonPosition;
+    }
+    
+    //TODO: THe shit below needs to be replaced with something more efficient.
+    @objc func didBecomeActive() {
+         if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {return}
+            MenuViewControl?.PlayGameButton.center.y = MenuViewControl!.playGameButtonPosition;
+            MenuViewControl?.LeaderboardButton.center.y = MenuViewControl!.leaderboardButtonPosition;
+    }
+    
+    //TODO: THe shit below needs to be replaced with something more efficient.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        MenuViewControl?.PlayGameButton.topAnchor.constraint(equalTo: (MenuViewControl?.TitleImage.bottomAnchor)!, constant: 52).isActive = true
         MenuViewControl?.PlayGameButton.AnimateButton();
         MenuViewControl?.LeaderboardButton.AnimateButton();
     }
