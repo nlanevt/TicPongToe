@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,7 +32,6 @@
 		97DC2C5E21127D810027A71F /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97DC2C5D21127D810027A71F /* MenuScene.sks */; };
 		97DC2C6021127E000027A71F /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C5F21127E000027A71F /* MenuScene.swift */; };
 		97DC2C6321163FB10027A71F /* TicPongToe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97DC2C6121163FB10027A71F /* TicPongToe.xcdatamodeld */; };
-		97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */ = {isa = PBXBuildFile; fileRef = 97E311B621E2CE590000FE6F /* LaunchImagev3 */; };
 		97F15CF8203B96520034C113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F15CF7203B96520034C113 /* AppDelegate.swift */; };
 		97F15CFA203B96520034C113 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CF9203B96520034C113 /* GameScene.sks */; };
 		97F15CFC203B96520034C113 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 97F15CFB203B96520034C113 /* Actions.sks */; };
@@ -93,7 +92,6 @@
 		97DC2C5D21127D810027A71F /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		97DC2C5F21127E000027A71F /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		97DC2C6221163FB10027A71F /* TicPongToe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TicPongToe.xcdatamodel; sourceTree = "<group>"; };
-		97E311B621E2CE590000FE6F /* LaunchImagev3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = LaunchImagev3; sourceTree = "<group>"; };
 		97F15CF4203B96520034C113 /* TicPongToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicPongToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97F15CF7203B96520034C113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97F15CF9203B96520034C113 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -144,14 +142,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		97097E702118F0F6005CB2EA /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				97E311B621E2CE590000FE6F /* LaunchImagev3 */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		97377AF320E024D400271771 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,7 +202,6 @@
 			children = (
 				97CDC09C27FF2E34001A3D35 /* Audio */,
 				9798EC262159D51300099502 /* InfiniteScrollingBackground.swift */,
-				97097E702118F0F6005CB2EA /* Images */,
 				97BD9F6A20FBFAF9008D8E46 /* Extensions */,
 				97377AF320E024D400271771 /* Font */,
 				97F15CF7203B96520034C113 /* AppDelegate.swift */,
@@ -323,12 +312,14 @@
 		97F15CEC203B96520034C113 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Nathan Lane";
 				TargetAttributes = {
 					97F15CF3203B96520034C113 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -380,7 +371,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97E311B721E2CE590000FE6F /* LaunchImagev3 in Resources */,
 				976C64AC215DC46F00B4C322 /* Podfile in Resources */,
 				97CDC0B42805E87C001A3D35 /* TouchBoardSound.wav in Resources */,
 				978F42A82806692000A83F1F /* BoardWinSound.wav in Resources */,
@@ -627,7 +617,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -639,11 +630,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tic Pong Toe!";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -660,11 +656,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tic Pong Toe!";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.NathanALane.TicPongToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -682,7 +683,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = "Tic-Pong-ToeTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "C.Tic-Pong-ToeTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -699,7 +704,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = "Tic-Pong-ToeTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "C.Tic-Pong-ToeTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -716,7 +725,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = "Tic-Pong-ToeUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "C.Tic-Pong-ToeUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -734,7 +747,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = "Tic-Pong-ToeUITests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "C.Tic-Pong-ToeUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
