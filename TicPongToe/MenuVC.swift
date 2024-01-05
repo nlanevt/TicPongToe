@@ -24,7 +24,7 @@ var HighestLevel:Int64 = 0;
 weak var GameViewControl:GameViewController? = nil;
 
 class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
-    var isProduction = true; //MARK: Turn this to true before submission
+    var isProduction = false; //MARK: Turn this to true before submission
     var adsEnabled = true; //MARK: Turn this to true before submission. Used to keep ads from showing.
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
@@ -427,8 +427,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
           [NSLayoutConstraint(item: bannerView,
                               attribute: .bottom,
                               relatedBy: .equal,
-                              toItem: bottomLayoutGuide,
-                              attribute: .top,
+                              toItem: view.safeAreaLayoutGuide,
+                              attribute: .bottom,
                               multiplier: 1,
                               constant: 0),
            NSLayoutConstraint(item: bannerView,

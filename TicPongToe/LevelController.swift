@@ -14,6 +14,10 @@ import GameplayKit
 ** The Level class determines the creation of obstacles and powerups and the increase in scroller speed.
 */
 class LevelController {
+    enum PowerupSelection {
+        case NONE, ALL, HALF, THIRD, QUARTER
+    }
+    
     private weak var game_scene:GameScene!
     private var scroller:InfiniteScrollingBackground? = nil;
     
@@ -21,7 +25,7 @@ class LevelController {
     
     private var ai_lives_amount = 3;
     private var ai_intensity:[Double] = [0.08];
-    private var ai_may_select_powerup = false;
+    private var ai_powerup_selection = PowerupSelection.NONE;
     
     private var power_ups = [PowerUpNode]();
     private var pu_waves = [[powerUpType]]();
@@ -101,7 +105,6 @@ class LevelController {
         return -1;
     }
     
-    
     public func clearLevelItems() {
         if (!power_ups.isEmpty) {
             for power_up in power_ups {power_up.disappear()}
@@ -128,7 +131,18 @@ class LevelController {
     }
     
     public func mayAISelectPowerUp() -> Bool {
-        return ai_may_select_powerup;
+        switch ai_powerup_selection {
+        case .NONE:
+            return false;
+        case .ALL:
+            return true;
+        case .HALF:
+            return Bool.random();
+        case .THIRD:
+            return Int.random(in: 0..<3) == 0;
+        case .QUARTER:
+            return Int.random(in: 0..<4) == 0;
+        }
     }
     
     public func checkStageSelect(paddle: Paddle, square: SKSpriteNode) {
@@ -162,12 +176,12 @@ class LevelController {
         }
     }
     
-    private func assignLevelDetails(aiLivesAmount: Int, aiIntensity: [Double], puWaves: [[powerUpType]], puWaveTimes: [TimeInterval], canSelectPowerUp: Bool) {
+    private func assignLevelDetails(aiLivesAmount: Int, aiIntensity: [Double], puWaves: [[powerUpType]], puWaveTimes: [TimeInterval], powerupSelection: PowerupSelection) {
         ai_lives_amount = aiLivesAmount;
         ai_intensity = aiIntensity;
         pu_waves = puWaves;
         pu_wave_wait_times = puWaveTimes;
-        ai_may_select_powerup = canSelectPowerUp;
+        ai_powerup_selection = powerupSelection;
     }
     
     private func getRandomPowerups(numberOfWaves: Int) -> [[powerUpType]] {
@@ -203,46 +217,46 @@ class LevelController {
         
         if (level_counter == 1) {
             assignLevelDetails(aiLivesAmount: 3,
-                               aiIntensity: [0.10, 0.09],
+                               aiIntensity: [0.13, 0.12],
                                puWaves: [[.fast_ball, .health_booster],
                                          [.big_boy_booster, .super_health_booster],
                                          [.fast_ball, .big_boy_booster, .full_replenish]],
                                puWaveTimes: [10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.NONE)
         }
         else if (level_counter <= 3) {
             assignLevelDetails(aiLivesAmount: 3,
-                               aiIntensity: [0.10, 0.09],
+                               aiIntensity: [0.13, 0.12],
                                puWaves: [[.big_boy_booster, .full_replenish],
                                          [.fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball, .health_booster]],
                                puWaveTimes: [10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter <= 6) {
             assignLevelDetails(aiLivesAmount: 4,
-                               aiIntensity: [0.09, 0.08],
+                               aiIntensity: [0.12, 0.11],
                                puWaves: [[.fast_ball, .full_replenish],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .super_health_booster],
                                          [.fast_ball]],
                                puWaveTimes: [10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.HALF)
         }
         else if (level_counter <= 9) {
             assignLevelDetails(aiLivesAmount: 5,
-                               aiIntensity: [0.09, 0.08],
+                               aiIntensity: [0.12, 0.11],
                                puWaves: [[.fast_ball, .big_boy_booster, .health_booster],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .super_health_booster],
                                          [.big_boy_booster],
                                          [.super_fast_ball, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.HALF)
         }
         else if (level_counter == 10) {
             assignLevelDetails(aiLivesAmount: 6,
-                               aiIntensity: [0.08, 0.07],
+                               aiIntensity: [0.10, 0.09],
                                puWaves: [[.fast_ball, .fast_ball, .big_boy_booster, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball, .super_fast_ball, .fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .big_boy_booster, .super_health_booster],
@@ -250,11 +264,11 @@ class LevelController {
                                          [.fast_ball, .fast_ball, .fast_ball, .fast_ball],
                                          [.super_fast_ball, .super_big_boy_booster, .fast_ball, .big_boy_booster, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
         else if (level_counter <= 15) {
             assignLevelDetails(aiLivesAmount: 6,
-                               aiIntensity: [0.09, 0.07],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .health_booster],
@@ -262,11 +276,11 @@ class LevelController {
                                          [.big_boy_booster, .big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.THIRD)
         }
         else if (level_counter <= 19) {
             assignLevelDetails(aiLivesAmount: 6,
-                               aiIntensity: [0.10, 0.09, 0.08],
+                               aiIntensity: [0.12, 0.11, 0.10],
                                puWaves: [[.fast_ball, .health_booster, .health_booster],
                                          [.big_boy_booster, .health_booster, .health_booster],
                                          [.super_fast_ball, .health_booster, .health_booster],
@@ -274,11 +288,11 @@ class LevelController {
                                          [.fast_ball, .health_booster, .health_booster],
                                          [.super_health_booster, .health_booster, .health_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter == 20) {
             assignLevelDetails(aiLivesAmount: 7,
-                               aiIntensity: [0.08, 0.06],
+                               aiIntensity: [0.09, 0.08],
                                puWaves: [[.fast_ball, .fast_ball, .big_boy_booster, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball, .super_fast_ball, .fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .big_boy_booster, .fast_ball],
@@ -287,11 +301,11 @@ class LevelController {
                                          [.super_fast_ball, .super_big_boy_booster, .fast_ball, .big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_fast_ball]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
         else if (level_counter <= 25) {
             assignLevelDetails(aiLivesAmount: 7,
-                               aiIntensity: [0.08, 0.07],
+                               aiIntensity: [0.10, 0.09],
                                puWaves: [[.super_fast_ball, .fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .super_big_boy_booster],
@@ -300,11 +314,11 @@ class LevelController {
                                          [.super_fast_ball, .super_fast_ball],
                                          [.full_replenish, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.THIRD)
         }
         else if (level_counter <= 29) {
             assignLevelDetails(aiLivesAmount: 7,
-                               aiIntensity: [0.10, 0.08, 0.07],
+                               aiIntensity: [0.11, 0.10, 0.09],
                                puWaves: [[.fast_ball, .fast_ball, .health_booster],
                                          [.big_boy_booster, .big_boy_booster, .health_booster],
                                          [.super_fast_ball, .super_fast_ball, .health_booster],
@@ -313,11 +327,11 @@ class LevelController {
                                          [.super_fast_ball, .super_big_boy_booster, .health_booster],
                                          [.fast_ball, .health_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter == 30) {
             assignLevelDetails(aiLivesAmount: 8,
-                               aiIntensity: [0.07, 0.06],
+                               aiIntensity: [0.09, 0.07],
                                puWaves: [[.fast_ball, .fast_ball, .fast_ball, .fast_ball],
                                          [.big_boy_booster, .big_boy_booster, .super_big_boy_booster],
                                          [.fast_ball, .big_boy_booster, .super_health_booster],
@@ -327,11 +341,11 @@ class LevelController {
                                          [.super_fast_ball, .super_fast_ball, .big_boy_booster, .big_boy_booster],
                                          [.fast_ball, .big_boy_booster, .super_fast_ball, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
         else if (level_counter <= 35) {
             assignLevelDetails(aiLivesAmount: 8,
-                               aiIntensity: [0.08, 0.06],
+                               aiIntensity: [0.10, 0.08],
                                puWaves: [[.super_fast_ball, .super_fast_ball, .super_health_booster],
                                          [.super_big_boy_booster, .super_big_boy_booster, .super_fast_ball],
                                          [.fast_ball, .fast_ball, .fast_ball],
@@ -341,11 +355,11 @@ class LevelController {
                                          [.fast_ball, .super_fast_ball, .super_big_boy_booster, .big_boy_booster],
                                          [.fast_ball, .big_boy_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.HALF)
         }
         else if (level_counter <= 39) {
             assignLevelDetails(aiLivesAmount: 8,
-                               aiIntensity: [0.09, 0.08, 0.06],
+                               aiIntensity: [0.11, 0.10, 0.08],
                                puWaves: [[.big_boy_booster, .fast_ball, .health_booster],
                                          [.super_fast_ball, .super_big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .health_booster],
@@ -355,11 +369,11 @@ class LevelController {
                                          [.big_boy_booster, .health_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter == 40) {
             assignLevelDetails(aiLivesAmount: 9,
-                               aiIntensity: [0.07, 0.06, 0.05],
+                               aiIntensity: [0.08, 0.07],
                                puWaves: [[.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_fast_ball],
                                          [.big_boy_booster, .fast_ball, .super_big_boy_booster, .super_fast_ball],
                                          [.fast_ball, .big_boy_booster, .big_boy_booster, .super_health_booster],
@@ -370,11 +384,11 @@ class LevelController {
                                          [.fast_ball, .fast_ball, .fast_ball, .fast_ball],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
         else if (level_counter <= 45) {
             assignLevelDetails(aiLivesAmount: 9,
-                               aiIntensity: [0.08, 0.05],
+                               aiIntensity: [0.09, 0.07],
                                puWaves: [[.fast_ball, .big_boy_booster, .super_health_booster],
                                          [.super_big_boy_booster, .super_fast_ball, .super_fast_ball],
                                          [.fast_ball, .fast_ball, .fast_ball],
@@ -385,11 +399,11 @@ class LevelController {
                                          [.fast_ball, .fast_ball, .big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_health_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.HALF)
         }
         else if (level_counter <= 49) {
             assignLevelDetails(aiLivesAmount: 9,
-                               aiIntensity: [0.08, 0.07, 0.05],
+                               aiIntensity: [0.10, 0.09, 0.07],
                                puWaves: [[.big_boy_booster, .fast_ball, .fast_ball, .health_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball],
@@ -400,11 +414,11 @@ class LevelController {
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball],
                                          [.fast_ball, .fast_ball, .fast_ball]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter == 50) {
             assignLevelDetails(aiLivesAmount: 10,
-                               aiIntensity: [0.07, 0.05],
+                               aiIntensity: [0.08, 0.06],
                                puWaves: [[.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_health_booster],
                                          [.big_boy_booster, .fast_ball, .super_big_boy_booster, .super_fast_ball],
                                          [.fast_ball, .big_boy_booster, .big_boy_booster, .fast_ball],
@@ -416,11 +430,11 @@ class LevelController {
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_fast_ball],
                                          [.fast_ball, .super_fast_ball, .super_health_booster, .full_replenish]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
         else if (level_counter <= 55) {
             assignLevelDetails(aiLivesAmount: 10,
-                               aiIntensity: [0.08, 0.04],
+                               aiIntensity: [0.09, 0.06],
                                puWaves: [[.fast_ball, .big_boy_booster, .super_health_booster],
                                          [.super_big_boy_booster, .super_fast_ball, .super_fast_ball],
                                          [.fast_ball, .fast_ball, .fast_ball, .health_booster],
@@ -432,11 +446,11 @@ class LevelController {
                                          [.super_fast_ball, .super_fast_ball, .super_health_booster],
                                          [.health_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.HALF)
         }
         else if (level_counter <= 59) {
             assignLevelDetails(aiLivesAmount: 10,
-                               aiIntensity: [0.08, 0.05, 0.04],
+                               aiIntensity: [0.10, 0.09, 0.06],
                                puWaves: [[.big_boy_booster, .fast_ball, .fast_ball, .super_health_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball],
@@ -448,11 +462,11 @@ class LevelController {
                                          [.fast_ball, .fast_ball, .fast_ball],
                                          [.super_fast_ball, .super_health_booster]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: false)
+                               powerupSelection: PowerupSelection.QUARTER)
         }
         else if (level_counter == 60) {
             assignLevelDetails(aiLivesAmount: 11,
-                               aiIntensity: [0.06, 0.05, 0.04],
+                               aiIntensity: [0.08, 0.05],
                                puWaves: [[.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_health_booster],
                                          [.big_boy_booster, .fast_ball, .super_big_boy_booster, .super_fast_ball],
                                          [.fast_ball, .big_boy_booster, .big_boy_booster, .fast_ball],
@@ -465,14 +479,23 @@ class LevelController {
                                          [.fast_ball, .big_boy_booster],
                                          [.super_fast_ball, .super_fast_ball, .super_fast_ball, .super_fast_ball]],
                                puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: true)
+                               powerupSelection: PowerupSelection.ALL)
         }
-        else {
-            assignLevelDetails(aiLivesAmount: 11,
-                               aiIntensity: [0.07, 0.05, 0.04],
-                               puWaves: getRandomPowerups(numberOfWaves: 11),
-                               puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-                               canSelectPowerUp: arc4random_uniform(3) == 1 ? true : false)
+        else { //Beyond level 60
+            if (level_counter % 10 == 0) { //Boss level configuration
+                assignLevelDetails(aiLivesAmount: 11,
+                                   aiIntensity: [0.08, 0.05],
+                                   puWaves: getRandomPowerups(numberOfWaves: 11),
+                                   puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+                                   powerupSelection: PowerupSelection.ALL)
+            }
+            else {
+                assignLevelDetails(aiLivesAmount: 11,
+                                   aiIntensity: [0.09, 0.07, 0.06],
+                                   puWaves: getRandomPowerups(numberOfWaves: 11),
+                                   puWaveTimes: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+                                   powerupSelection: PowerupSelection.HALF)
+            }
         }
     }
 }

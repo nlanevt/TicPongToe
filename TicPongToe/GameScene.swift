@@ -731,8 +731,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life = life - 1; // remove life from player
     }
     
-    public func growLife(amount: Int) -> Bool {
-        if (life >= max_lives) {return false}
+    public func growLife(amount: Int){
+        if (life >= max_lives) {return}
         
         var life_counter = life;
         if (life + amount > max_lives) {
@@ -766,8 +766,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             lives[index].run(SKAction.sequence(growthSequence));
         }
-        
-        return true;
     }
     
     public func getLivesLeft() -> Int {
