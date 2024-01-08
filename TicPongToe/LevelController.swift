@@ -217,7 +217,7 @@ class LevelController {
         
         if (level_counter == 1) {
             assignLevelDetails(aiLivesAmount: 3,
-                               aiIntensity: [0.13, 0.12],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.fast_ball, .health_booster],
                                          [.big_boy_booster, .super_health_booster],
                                          [.fast_ball, .big_boy_booster, .full_replenish]],
@@ -226,7 +226,7 @@ class LevelController {
         }
         else if (level_counter <= 3) {
             assignLevelDetails(aiLivesAmount: 3,
-                               aiIntensity: [0.13, 0.12],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.big_boy_booster, .full_replenish],
                                          [.fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball, .health_booster]],
@@ -235,7 +235,7 @@ class LevelController {
         }
         else if (level_counter <= 6) {
             assignLevelDetails(aiLivesAmount: 4,
-                               aiIntensity: [0.12, 0.11],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.fast_ball, .full_replenish],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .super_health_booster],
@@ -245,7 +245,7 @@ class LevelController {
         }
         else if (level_counter <= 9) {
             assignLevelDetails(aiLivesAmount: 5,
-                               aiIntensity: [0.12, 0.11],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.fast_ball, .big_boy_booster, .health_booster],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .super_health_booster],
@@ -268,7 +268,7 @@ class LevelController {
         }
         else if (level_counter <= 15) {
             assignLevelDetails(aiLivesAmount: 6,
-                               aiIntensity: [0.11, 0.10],
+                               aiIntensity: [0.11, 0.09],
                                puWaves: [[.fast_ball, .super_health_booster],
                                          [.big_boy_booster, .super_fast_ball],
                                          [.super_big_boy_booster, .fast_ball, .health_booster],
@@ -280,7 +280,7 @@ class LevelController {
         }
         else if (level_counter <= 19) {
             assignLevelDetails(aiLivesAmount: 6,
-                               aiIntensity: [0.12, 0.11, 0.10],
+                               aiIntensity: [0.11, 0.10],
                                puWaves: [[.fast_ball, .health_booster, .health_booster],
                                          [.big_boy_booster, .health_booster, .health_booster],
                                          [.super_fast_ball, .health_booster, .health_booster],

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="15d-a6-Qxy">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -72,23 +72,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TicPongToeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-wy-OBD">
-                                <rect key="frame" x="66.666666666666686" y="174" width="295" height="66"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="TicPongToeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-wy-OBD">
+                                <rect key="frame" x="66.666666666666686" y="177" width="295" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="HK3-DY-coc"/>
                                     <constraint firstAttribute="width" constant="295" id="iNX-B9-3Ze"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="28u-Yq-jdc" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="139" y="292" width="150" height="37"/>
+                                <rect key="frame" x="139" y="295" width="150" height="37"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
                                 <state key="normal" title="Play Game"/>
                                 <connections>
                                     <action selector="High_Score:" destination="kah-ot-ka5" eventType="touchUpInside" id="TeB-LC-khh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
-                                <rect key="frame" x="122" y="365" width="184" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e77-KA-Tc6" customClass="FloatingButton" customModule="TicPongToe">
+                                <rect key="frame" x="122" y="368" width="184" height="37"/>
                                 <fontDescription key="fontDescription" name="ManaspaceReg" family="Manaspace" pointSize="25"/>
                                 <state key="normal" title="Leaderboard"/>
                                 <connections>
@@ -100,7 +100,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Fg3-wy-OBD" firstAttribute="top" secondItem="8di-Xp-PQW" secondAttribute="top" constant="130" id="85d-v5-QJc"/>
+                            <constraint firstItem="28u-Yq-jdc" firstAttribute="centerY" secondItem="7wj-ju-MeN" secondAttribute="centerY" id="7U8-fu-eHW"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="P36-i1-LuZ"/>
                             <constraint firstItem="e77-KA-Tc6" firstAttribute="top" secondItem="28u-Yq-jdc" secondAttribute="bottom" constant="36" id="T3W-8r-Caw"/>
                             <constraint firstItem="Fg3-wy-OBD" firstAttribute="centerX" secondItem="7wj-ju-MeN" secondAttribute="centerX" id="VNQ-6s-C6c"/>
@@ -111,7 +111,6 @@
                     <navigationItem key="navigationItem" id="XhQ-uI-BKj"/>
                     <connections>
                         <outlet property="LeaderboardButton" destination="e77-KA-Tc6" id="vVm-id-6aa"/>
-                        <outlet property="MenuTitleTopConstraint" destination="85d-v5-QJc" id="ZcH-Ux-PRW"/>
                         <outlet property="PlayGameButton" destination="28u-Yq-jdc" id="BT1-Kb-yC0"/>
                         <outlet property="TitleImage" destination="Fg3-wy-OBD" id="6Ni-zl-fWn"/>
                     </connections>

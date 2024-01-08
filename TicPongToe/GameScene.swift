@@ -225,9 +225,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func startLevel(completion: @escaping ()->Void) {
-        let centerLabelfadeIn = SKAction.fadeIn(withDuration: 0.25);
-        let centerWait = SKAction.wait(forDuration: 3.0);
-        let fadeOut = SKAction.fadeOut(withDuration: 0.25);
+        let centerLabelfadeIn = SKAction.fadeIn(withDuration: 0.2);
+        let centerWait = SKAction.wait(forDuration: 2.0);
+        let fadeOut = SKAction.fadeOut(withDuration: 0.20);
         
         let centerFadeAction = SKAction.sequence([SKAction.unhide(), centerLabelfadeIn, centerWait, fadeOut, SKAction.hide()])
         
@@ -270,6 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         });
         
         level_controller.increaseLevel();
+        UpdateStats();
         
         startLevel(completion: {[weak self] in
             self!.pending_round = false;
@@ -330,23 +331,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ai.removeAllLives(); // Remove all remaining ai_lives from the screen
         level_controller.clearLevelItems(); //Ensures powerups disappear once the game is over.
         
+        MenuViewControl?.SaveDataAndUpdateLeaderboard();
+        
+        MenuViewControl?.ScoreLabel.text = "\(HighScore)";
+        GameViewControl?.endGame(); // load game over screen
+    }
+    
+    private func UpdateStats() {
         if (score > HighScore)
         {
             HighScore = score;
-            MenuViewControl?.addScoreToLeaderBoard(score: HighScore);
         }
         
         let levels_beaten = level_controller.getLevel()-1;
         if (levels_beaten > 0 && levels_beaten > HighestLevel) {
             HighestLevel = levels_beaten;
-            MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel);
         }
-        
-        MenuViewControl?.ScoreLabel.text = "\(score)";
-        MenuViewControl?.deleteCoreData(); // Remove any current core data.
-        MenuViewControl?.save(high_score: HighScore, highest_level: HighestLevel) // Save new info to Core Data
-        MenuViewControl?.loadScores();
-        GameViewControl?.endGame(); // load game over screen
     }
     
     // Type is the type of game that was scored.
@@ -395,6 +395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             /* End +Score sign animation */
             
             // Decreases the ai's life and checks to see if ai's life is depleted. IF it is we increase the level
+            // next level occurs here
             if (ai.decreaseLife()) {
                 self.increaseLevel();
             }

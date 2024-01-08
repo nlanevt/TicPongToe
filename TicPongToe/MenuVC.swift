@@ -24,8 +24,10 @@ var HighestLevel:Int64 = 0;
 weak var GameViewControl:GameViewController? = nil;
 
 class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
-    var isProduction = true; //MARK: Turn this to true before submission
-    var adsEnabled = true; //MARK: Turn this to true before submission. Used to keep ads from showing.
+    var isLeaderboardEnabled = true; //MARK: turn this to true before submission to enable sending data to Leaderboard
+    var isSavingEnabled = true; //MARK: Turn this to true before submission to enable saving Core Data
+    var areAdsEnabled = true; //MARK: Turn this to true before submission to allow ads to show.
+    var areRealAdsEnabled = true; //MARK: Turn this to true before submission to enable using Real Ads.
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
@@ -45,13 +47,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     let buttonSound = URL(fileURLWithPath: Bundle.main.path(forResource: "ButtonSound", ofType: "wav")!)
     var audioPlayer = AVAudioPlayer()
     
-    //MARK: 736 is the height of the iphone 8 plus, the max height before the constraint should change.
-    private let MAX_HEIGHT_RESTRAINT:CGFloat = 736;
-    private let big_screen_height_constraint:CGFloat = 160;
-    
-    private var playGameButtonPosition:CGFloat = 266.5;
-    private var leaderboardButtonPosition:CGFloat =  339.5;
-    
     @IBOutlet weak var YourScoreLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
     @IBOutlet weak var GameOverLabel: UILabel!
@@ -64,7 +59,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     @IBOutlet weak var PlayGameButton: FloatingButton!
     @IBOutlet weak var LeaderboardButton: FloatingButton!
     
-    @IBOutlet weak var MenuTitleTopConstraint: NSLayoutConstraint!
+   // @IBOutlet weak var MenuTitleTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var TitleImage: UIImageView!
     
     override func viewDidLoad() {
@@ -111,19 +106,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
             MenuViewControl?.PlayGameButton = self.PlayGameButton;
             MenuViewControl?.LeaderboardButton = self.LeaderboardButton;
             MenuViewControl?.TitleImage = self.TitleImage;
-            MenuViewControl?.MenuTitleTopConstraint = self.MenuTitleTopConstraint;
             
             homescreen = true;
             createAndLoadBanner();
             
             MenuViewControl?.PlayGameButton.setDelay(delay: 0.0);
             MenuViewControl?.LeaderboardButton.setDelay(delay: 0.5);
-            
-            if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {
-                MenuTitleTopConstraint.constant = big_screen_height_constraint;
-                MenuViewControl?.playGameButtonPosition = 319.5; //MARK: This does nothing
-                MenuViewControl?.leaderboardButtonPosition = 392.5; //MARK: This does nothing
-            }
         }
         
         MenuViewControl?.YourScoreLabel = self.YourScoreLabel;
@@ -182,6 +170,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     }
     
     @IBAction func QuitGame(_ sender: Any) {
+        MenuViewControl?.SaveDataAndUpdateLeaderboard();
         returnToMenu();
     }
     
@@ -219,6 +208,14 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         MenuViewControl?.ReturnHomeButton.AnimateButton();
         ContinueGameButton.isHidden = true;
         QuitGameButton.isHidden = true;
+    }
+    
+    public func SaveDataAndUpdateLeaderboard() {
+        MenuViewControl?.addScoreToLeaderBoard(score: HighScore)
+        MenuViewControl?.addLevelToLeaderBoard(level: HighestLevel)
+        MenuViewControl?.deleteCoreData(); // Remove any current core data.
+        MenuViewControl?.save(high_score: HighScore, highest_level: HighestLevel) // Save new info to Core Data
+        MenuViewControl?.loadScores();
     }
     
     public func loadScores()
@@ -285,6 +282,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     public func save(high_score: Int64, highest_level: Int64) {
         
+        if (!isSavingEnabled) {return}
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         // 1
@@ -308,7 +307,7 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     }
     
     public func addScoreToLeaderBoard(score: Int64) {
-        if (self.gcEnabled && self.isProduction)
+        if (self.gcEnabled && self.isLeaderboardEnabled)
         {
             let ScoreInt = GKScore(leaderboardIdentifier: LB_HIGHSCORE_ID)
             ScoreInt.value = Int64(HighScore)
@@ -322,11 +321,8 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
         }
     }
     
-    /*
-     TODO: Not in use currently. Had issues making a new leaderboard on appstoreconnect
-     */
     public func addLevelToLeaderBoard(level: Int64) {
-        if (self.gcEnabled && self.isProduction)
+        if (self.gcEnabled && self.isLeaderboardEnabled)
         {
             let ScoreInt = GKScore(leaderboardIdentifier: LB_HIGHESTLEVEL_ID)
             ScoreInt.value = Int64(HighestLevel)
@@ -343,7 +339,6 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     private func returnToMenu()
     {
         self.navigationController?.popViewController(animated: true);
-        
         homescreen = true;
         GameViewControl?.cleanGameScene();
         GameViewControl = nil;
@@ -390,16 +385,12 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     //TODO: THe shit below needs to be replaced with something more efficient.
     @objc func willEnterForeground() {
-          if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {return}
-          MenuViewControl?.PlayGameButton.center.y = MenuViewControl!.playGameButtonPosition;
-          MenuViewControl?.LeaderboardButton.center.y = MenuViewControl!.leaderboardButtonPosition;
+        
     }
     
     //TODO: THe shit below needs to be replaced with something more efficient.
     @objc func didBecomeActive() {
-         if (UIScreen.main.bounds.height >= MAX_HEIGHT_RESTRAINT) {return}
-            MenuViewControl?.PlayGameButton.center.y = MenuViewControl!.playGameButtonPosition;
-            MenuViewControl?.LeaderboardButton.center.y = MenuViewControl!.leaderboardButtonPosition;
+        
     }
     
     //TODO: THe shit below needs to be replaced with something more efficient.
@@ -412,10 +403,10 @@ class MenuVC : UIViewController, GKGameCenterControllerDelegate, GADBannerViewDe
     
     private func createAndLoadBanner() {
         //instantiate the banner with random ad size.
-        if (!homescreen || !adsEnabled) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
+        if (!homescreen || !areAdsEnabled) {return} // here to deal with the banner showing up on the pause view, since pause view is also a MenuVC
         banner = GADBannerView(adSize: Int(arc4random_uniform(UInt32(2))) > 0 ? GADAdSizeMediumRectangle : GADAdSizeLargeBanner)
         banner.delegate = self;
-        banner.adUnitID = isProduction ? BANNER_AD_ID : BANNER_TEST_ID;
+        banner.adUnitID = areRealAdsEnabled ? BANNER_AD_ID : BANNER_TEST_ID;
         banner.rootViewController = self;
         banner.load(GADRequest())
     }

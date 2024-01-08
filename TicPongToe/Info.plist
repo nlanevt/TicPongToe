@@ -240,6 +240,8 @@
 		<string>gamekit</string>
 		<string>gamekit</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

@@ -74,6 +74,7 @@
 		9776C5B0219A382800C6A1A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		9776C5B2219A38E800C6A1A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9776C5B4219A38FC00C6A1A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9777C4882B489E470040AE12 /* TicPongToe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TicPongToe.entitlements; sourceTree = "<group>"; };
 		978AD0802118BA990017173D /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
 		978AD0812118BAAE0017173D /* manaspc.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = manaspc.ttf; sourceTree = "<group>"; };
 		978F42A72806692000A83F1F /* BoardWinSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = BoardWinSound.wav; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 		97F15CF6203B96520034C113 /* TicPongToe */ = {
 			isa = PBXGroup;
 			children = (
+				9777C4882B489E470040AE12 /* TicPongToe.entitlements */,
 				97CDC09C27FF2E34001A3D35 /* Audio */,
 				9798EC262159D51300099502 /* InfiniteScrollingBackground.swift */,
 				97BD9F6A20FBFAF9008D8E46 /* Extensions */,
@@ -629,9 +631,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = TicPongToe/TicPongToe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tic Pong Toe!";
@@ -659,9 +662,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = TicPongToe/TicPongToe.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = A2NY5YXLRN;
 				INFOPLIST_FILE = TicPongToe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Tic Pong Toe!";
